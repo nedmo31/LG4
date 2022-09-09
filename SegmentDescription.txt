@@ -2,13 +2,13 @@ Water :
     Creeks:
         Polygon surrounding creek
     Ponds:
-        Circle
+        Ellipse2D
 
 Sand : 
-    Circle or Polygon
+    Ellipse2D or Polygon
 
 Green : 
-    Circle
+    Ellipse2D
     * Flag location correct
 
 Forest : 
