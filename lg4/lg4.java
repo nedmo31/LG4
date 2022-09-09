@@ -1,8 +1,7 @@
 package lg4;
 
-import java.awt.Color;
-import java.awt.Polygon;
-
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import javax.swing.JFrame;
 
 /**
@@ -36,24 +35,27 @@ public class lg4 {
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         win.setSize(screenWidth, screenHeight);
         win.setVisible(true);
-        win.add(new PixelArt(10));
+        win.add(new PixelArt());
     }
 
     static Hole createTestHole() {
         Polygon fairway = new Polygon();
-        fairway.addPoint(300, 500); fairway.addPoint(350, 570); fairway.addPoint(400, 600); 
-        fairway.addPoint(800, 600); fairway.addPoint(800, 300); fairway.addPoint(400, 300);
-        fairway.addPoint(350, 230); fairway.addPoint(300, 400);
-        Polygon green = new Polygon();
-        green.addPoint(950, 180); green.addPoint(950, 100);
-        green.addPoint(1050, 100);
-        green.addPoint(950, 180);
-        Polygon tees = new Polygon(); tees.addPoint(200, 200);
-        tees.addPoint(260, 200);tees.addPoint(260, 300);tees.addPoint(200, 300);
+        fairway.addPoint(215, 505); fairway.addPoint(272, 505); fairway.addPoint(295, 485);
+        fairway.addPoint(300,315); fairway.addPoint(338, 244); fairway.addPoint(380, 222);
+        fairway.addPoint(381, 157); fairway.addPoint(349, 129); fairway.addPoint(311, 127);
+        fairway.addPoint(266, 144); fairway.addPoint(207, 210); fairway.addPoint(200, 259);
+        fairway.addPoint(200, 485);
+        Polygon tees = new Polygon(); tees.addPoint(190,520);
+        tees.addPoint(260, 520);tees.addPoint(260, 550);tees.addPoint(190, 550);
+        Polygon river = new Polygon(); river.addPoint(0, 394); river.addPoint(218, 357);
+        river.addPoint(283, 358); river.addPoint(615, 401); river.addPoint(615, 428);
+        river.addPoint(280, 390); river.addPoint(222, 389); river.addPoint(0, 422);
+
         Hole testHole = new Hole();
         testHole.segments = new HoleSegment[] {
-            new HoleSegment(fairway, Color.green), new HoleSegment(green, Color.CYAN),
-            new HoleSegment(tees, Color.lightGray)
+            new Green(new Ellipse2D.Double(400, 64, 85, 75)), new HoleSegment(fairway, Color.green, .65),
+            new HoleSegment(tees, Color.lightGray, .8), new Water(river), 
+            new Sand(new Ellipse2D.Double(336, 154, 36, 50))
         };
         return testHole;
     }

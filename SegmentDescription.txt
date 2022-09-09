@@ -1,0 +1,21 @@
+Water : 
+    Creeks:
+        Polygon surrounding creek
+    Ponds:
+        Circle
+
+Sand : 
+    Circle or Polygon
+
+Green : 
+    Circle
+    * Flag location correct
+
+Forest : 
+    Polygon
+
+Anything else (fairway/teebox) :
+    Polygon
+
+*Colors: 
+    make consistent over same types
