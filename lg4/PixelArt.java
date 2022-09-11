@@ -24,6 +24,10 @@ public class PixelArt extends JPanel {
         }
 
         // Ball + Extras
+        g.setColor(Color.DARK_GRAY);
+        g.fillOval(lg4.ball.x(), lg4.ball.y(), 10, 10);
+        g.setColor(lg4.ball.color);
+        g.fillOval(lg4.ball.x() - lg4.ball.z()/4, lg4.ball.y() - lg4.ball.z()/4, 10, 10);
 
     }
 }

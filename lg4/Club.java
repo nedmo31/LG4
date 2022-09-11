@@ -7,4 +7,8 @@ public class Club {
     double angle;
 
     int power;
+
+    public Club(String n, double a, int p) {
+        name = n; angle = a; power = p;
+    }
 }

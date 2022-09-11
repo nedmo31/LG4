@@ -17,14 +17,21 @@ public class lg4 {
     static Hole hole;
     static Course course;
     static Golfer player;
+    static Ball ball;
     static int screenWidth = 1400, screenHeight = 800;
 
     public static void main(String[] args) {
 
+        initTest();
         hole = createTestHole();
+        //hole.windDir = 1;
+        //hole.windSpeed = 1;
         
         initGUI();
+        win.repaint();
 
+        ball.x = 230; ball.y = 530;
+        ball.hit(new Club("test", 1.2, 50), .8, 1.5, 1, 0);
     }
 
     /**
@@ -36,6 +43,11 @@ public class lg4 {
         win.setSize(screenWidth, screenHeight);
         win.setVisible(true);
         win.add(new PixelArt());
+    }
+
+    static void initTest() {
+        player = new Golfer();
+        ball = new Ball(1, 1, .5);
     }
 
     static Hole createTestHole() {
