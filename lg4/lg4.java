@@ -23,16 +23,13 @@ public class lg4 {
     public static void main(String[] args) {
 
         initTest();
-        //hole = createTestHole();
-        hole = new Hole();
-        //hole.windDir = 1;
-        //hole.windSpeed = 1;
+        hole = createTestHole();
         
         initGUI();
         win.repaint();
 
         ball.x = 230; ball.y = 530;
-        //ball.hit(new Club("test", 1.5, 50), .8, 1.5, 0, 0);
+        ball.hit(new Club("test", .8, 65), .8, 1.5, .2, 0);
     }
 
     /**

@@ -16,6 +16,8 @@ public class Ball {
     // These numbers will be multipliers, probably between 0 and 2.
     double weight, spin, bounce;
 
+    int size = 8;
+
     // The color of the ball
     Color color;
 
@@ -35,6 +37,12 @@ public class Ball {
     int x() { return (int)x; }
     int y() { return (int)y; }
     int z() { return (int)z; }
+
+    int xCorrected() { return (int)(x - size/2); }
+    int yCorrected() { return (int)(y - size/2); }
+
+    int xInSky() { return xCorrected() - (int)(z/3);}
+    int yInSky() { return yCorrected() - (int)(z/3);}
 
     /**
      * the fuction that handles the ball being hit.
@@ -66,12 +74,13 @@ public class Ball {
             (.5-Math.random())*((11 - lg4.player.consistency) / 10); // random error based on player's consistency
 
         // Split velocity into components
+        double xyVelocity = Math.abs(Math.cos(club.angle) * velocity);
         if (xyAng < 0) {
-            xVelocity = (-1)*(Math.cos(xyAng))*velocity;
-            yVelocity = (Math.sin(xyAng))*velocity;
+            xVelocity = (-1)*(Math.cos(xyAng))*xyVelocity;
+            yVelocity = (Math.sin(xyAng))*xyVelocity;
         } else {
-            xVelocity = (Math.cos(xyAng))*velocity;
-            yVelocity = (-1)*(Math.sin(xyAng))*velocity;
+            xVelocity = (Math.cos(xyAng))*xyVelocity;
+            yVelocity = (-1)*(Math.sin(xyAng))*xyVelocity;
         }
         zVelocity = Math.sin(club.angle) * velocity;
         
@@ -110,6 +119,7 @@ public class Ball {
                     // To DO!
                     break;
                 } else {
+                    // Averages the bounciness of the ball and the terrain, value < 1
                     double slowDown = (this.bounce + seg.bounce) / 2;
                     slowDown *= 1 + (spinUD / 5); // multiplies it by value in [.8, 1.2]
                     zVelocity *= -1 * slowDown;
@@ -145,46 +155,6 @@ public class Ball {
                 yVelocity += spinLR * 2 * Math.sin(spinLRdir) * loopTime;
             }
             lg4.win.repaint();
-        }
-
-    }
-
-    class Force {
-
-        /*
-         * the maginitude and direction of the force.
-         * dir should be a number [-Math.PI, Math.PI]
-         */
-        double mag, dir;
-
-        public Force(Force[] forces) {
-            double totalX = 0, totalY = 0;
-            for (Force f : forces) {
-                totalX += f.getXComp();
-                totalY += f.getYComp();
-            }
-            mag = Math.sqrt(totalX*totalX + totalY * totalY);
-            dir = Math.atan(totalY / totalX);
-        }
-
-        public Force(double xComp, double yComp, boolean extra) {
-            this(Math.sqrt(xComp*xComp + yComp * yComp), Math.atan(yComp / xComp));
-        }
-
-        public Force(double m, double d) {
-            mag = m; dir = d;
-        }
-
-        double getXComp() {
-            if (dir >= 0 && dir <= Math.PI)
-                return mag * Math.cos(dir);
-            return -1 * mag * Math.cos(-dir);
-        }
-
-        double getYComp() {
-            if (dir >= 0 && dir <= Math.PI)
-                return mag * Math.sin(dir);
-            return -1 * mag * Math.sin(-dir);
         }
 
     }

@@ -1,0 +1,20 @@
+Stages to hitting: 
+    0: Choose options
+        - Pick a club
+        - Pick backspin/topspin
+        - Pick a fast/slow swing speed
+    1: Aim 
+        - Each club will have a small ring around it when selected that shows its range
+        - Select an area in that ring and it will give you a target power
+    2: Swing
+        - A bar will appear
+    Full Power               Center     Full Left spin
+        +-----------------------+-------+
+        |                       |       |
+        +-----------------------+-------+
+                                ^
+                            Starts Here
+        - Whenever the swing start, the bar goes to the left, letting you select your power
+        - Once you do, it goes to the right and you have to click when it's over center or 
+        - Else your ball spins left or right
+    3: Ball goes!
