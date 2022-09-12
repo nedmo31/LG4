@@ -30,7 +30,6 @@ class HoleSegment {
 
     public void paintArea(Graphics g) {
         g.setColor(color);
-        // e.g.
         if (area instanceof Polygon) {
             g.fillPolygon((Polygon)area);
         } else {

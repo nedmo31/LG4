@@ -23,7 +23,8 @@ public class lg4 {
     public static void main(String[] args) {
 
         initTest();
-        hole = createTestHole();
+        //hole = createTestHole();
+        hole = new Hole();
         //hole.windDir = 1;
         //hole.windSpeed = 1;
         
@@ -31,7 +32,7 @@ public class lg4 {
         win.repaint();
 
         ball.x = 230; ball.y = 530;
-        ball.hit(new Club("test", 1.2, 50), .8, 1.5, 1, 0);
+        //ball.hit(new Club("test", 1.5, 50), .8, 1.5, 0, 0);
     }
 
     /**
