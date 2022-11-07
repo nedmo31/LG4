@@ -91,6 +91,7 @@ public class Ball {
 
         // The loop that's gonna start moving the ball. We use the system time to help
         double startTime = System.nanoTime(), loopTime = 0;
+        boolean repaint = true;
         while (true) {
             /*
              * update x y and z with velocity
@@ -154,7 +155,9 @@ public class Ball {
                 xVelocity += spinLR * 2 * Math.cos(spinLRdir) * loopTime;
                 yVelocity += spinLR * 2 * Math.sin(spinLRdir) * loopTime;
             }
-            lg4.win.repaint();
+            if (repaint) 
+                lg4.win.repaint();
+            repaint = !repaint;
         }
 
     }

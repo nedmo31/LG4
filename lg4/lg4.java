@@ -19,17 +19,27 @@ public class lg4 {
     static Golfer player;
     static Ball ball;
     static int screenWidth = 1400, screenHeight = 800;
+    static GraphicsStage gStage;
+    static boolean hit = false;
 
     public static void main(String[] args) {
 
         initTest();
         hole = createTestHole();
         
+        System.out.println(hole.segments[0].area.getBounds2D());
+        System.out.println(hole.segments[0].area instanceof Polygon);
+        
         initGUI();
         win.repaint();
 
         ball.x = 230; ball.y = 530;
-        ball.hit(new Club("test", .8, 65), .8, 1.5, .2, 0);
+        ball.hit(player.clubs[0], .8, 1.5, .2, 0);
+
+        //TODO FOR TESTING
+        while (true) {
+            win.repaint();
+        }
     }
 
     /**
@@ -40,12 +50,13 @@ public class lg4 {
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         win.setSize(screenWidth, screenHeight);
         win.setVisible(true);
-        win.add(new PixelArt());
+        win.add(new Window());
     }
 
     static void initTest() {
         player = new Golfer();
         ball = new Ball(1, 1, .5);
+        gStage = GraphicsStage.mainMenu;
     }
 
     static Hole createTestHole() {

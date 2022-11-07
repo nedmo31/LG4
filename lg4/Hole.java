@@ -1,6 +1,7 @@
 package lg4;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 /**
  * This class represents a playable hole in golf. The image of this
@@ -63,13 +64,48 @@ public class Hole {
          *  make a tree of circles and for each connect it with its children
          * 
          */
-        //int type = (int)(5*Math.random());
-        
+
+        // Randomize the type of hole 
+        int type = (int)(5*Math.random());
+        type = 2;
+        TeeBox teebox = new TeeBox();
+
+        if (type == 2) { 
+            par = 3;
+            segments = new HoleSegment[2];
+            segments[0] = teebox;
+            // randomize the hole location from where the teebox is
+            double holex = teebox.area.getBounds2D().getCenterX() + 250;
+            double holey = teebox.area.getBounds2D().getCenterY() + (int)(50-Math.random()*100);
+            // set the instance variables to our randomized location
+            this.x = (int)holex;
+            this.y = (int)holey;
+            // Add the green to the array
+            segments[1] = new Green(new Ellipse2D.Double(
+                holex, holey,
+                60 + (int)(25-Math.random()*50), 60 + (int)(25-Math.random()*50)
+            ));
+        }
 
     }
 
+    int playHole() {
+        int strokes = 0;
+        // while the ball isn't on the green
+        while (! (whatSegment(lg4.ball) instanceof Green)) {
+
+            while (!lg4.hit) {
+                // wait for the variable to change value, singifying a hit
+            }
+            lg4.ball.hit(null, 0, 0, 0, 0);
+            strokes++;
+        }
+
+        return strokes;
+    }
+
     /**
-     * This class helps in random hole generation. It is actually a LinkedList r
+     * This class helps in random hole generation. It is actually a LinkedList 
      * right now, but it could expand to a tree. Adding ovals to this tree will help
      * create the fairway in a hopefully interesting and good-looking way. 
      */
