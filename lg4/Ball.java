@@ -51,10 +51,10 @@ public class Ball {
      * @param pow value between 0 and 1 for what percentage of power was used
      * @param xyAng the angle in radians in the xy plan that the ball was hit
      */
-    public void hit(Club club, double pow, double xyAng, double targetSpinLR, double targetSpinUD) {
+    public void hit(double pow, double xyAng, double targetSpinLR, double targetSpinUD) {
         // The intitial velocity of the ball
         // uses the club power, player power, power of the shot, and weight of the ball
-        double velocity = club.power * (lg4.player.power / 10) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
+        double velocity = lg4.club.power * ((double)lg4.player.power / 10) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
         // The spin on the ball in [-1, 1], 0 being none, 1 being strong
         // This is just for left/right spin
         double spinLR = targetSpinLR + 
@@ -74,7 +74,7 @@ public class Ball {
             (.5-Math.random())*((11 - lg4.player.consistency) / 10); // random error based on player's consistency
 
         // Split velocity into components
-        double xyVelocity = Math.abs(Math.cos(club.angle) * velocity);
+        double xyVelocity = Math.abs(Math.cos(lg4.club.angle) * velocity);
         if (xyAng < 0) {
             xVelocity = (-1)*(Math.cos(xyAng))*xyVelocity;
             yVelocity = (Math.sin(xyAng))*xyVelocity;
@@ -82,7 +82,7 @@ public class Ball {
             xVelocity = (Math.cos(xyAng))*xyVelocity;
             yVelocity = (-1)*(Math.sin(xyAng))*xyVelocity;
         }
-        zVelocity = Math.sin(club.angle) * velocity;
+        zVelocity = Math.sin(lg4.club.angle) * velocity;
         
         System.out.println("Hitting ball with velocities x: " + xVelocity + 
         ", y: " + yVelocity + ", z: " +zVelocity);
@@ -159,6 +159,6 @@ public class Ball {
                 lg4.win.repaint();
             repaint = !repaint;
         }
-
+        lg4.hit = false;
     }
 }

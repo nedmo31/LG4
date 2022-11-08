@@ -44,22 +44,27 @@ public class GraphicsStage {
     public static GraphicsStage play = new GraphicsStage("Play", new Button[0]) {
         void paintGraphicsStage(java.awt.Graphics g) {
             // This will fill the whole background with dark green to represent the rough
-        g.setColor(new Color(29, 153, 66));
-        g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
+            g.setColor(new Color(29, 153, 66));
+            g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
 
-        for (HoleSegment hs : lg4.hole.segments) {
-            hs.paintArea(g);
-        }
+            for (HoleSegment hs : lg4.hole.segments) {
+                hs.paintArea(g);
+            }
 
-        // Ball + Extras
-        int xInSky = lg4.ball.xInSky();
-        int yInSky = lg4.ball.yInSky();
-        g.setColor(Color.DARK_GRAY);
-        g.fillOval(lg4.ball.xCorrected(), lg4.ball.yCorrected(), lg4.ball.size, lg4.ball.size);
-        g.setColor(lg4.ball.color);
-        g.fillOval(xInSky, yInSky, lg4.ball.size, lg4.ball.size);
-        g.setColor(Color.black);
-        g.drawOval(xInSky, yInSky, lg4.ball.size, lg4.ball.size);
+            if (!lg4.hit) {
+                g.setColor(Color.black);
+                g.drawOval(lg4.ball.x()-lg4.club.radius/2, lg4.ball.y()-lg4.club.radius/2, lg4.club.radius, lg4.club.radius);
+            }
+
+            // Ball + Extras
+            int xInSky = lg4.ball.xInSky();
+            int yInSky = lg4.ball.yInSky();
+            g.setColor(Color.DARK_GRAY);
+            g.fillOval(lg4.ball.xCorrected(), lg4.ball.yCorrected(), lg4.ball.size, lg4.ball.size);
+            g.setColor(lg4.ball.color);
+            g.fillOval(xInSky, yInSky, lg4.ball.size, lg4.ball.size);
+            g.setColor(Color.black);
+            g.drawOval(xInSky, yInSky, lg4.ball.size, lg4.ball.size);
         }
     };
 

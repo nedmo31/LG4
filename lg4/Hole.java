@@ -95,9 +95,9 @@ public class Hole {
         while (! (whatSegment(lg4.ball) instanceof Green)) {
 
             while (!lg4.hit) {
-                // wait for the variable to change value, singifying a hit
+                // wait for the variable to change value, signifying a hit
             }
-            lg4.ball.hit(null, 0, 0, 0, 0);
+            lg4.ball.hit(0, 0, 0, 0);
             strokes++;
         }
 

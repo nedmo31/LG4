@@ -13,14 +13,44 @@ import javax.swing.JFrame;
  */
 public class lg4 {
     
+    /**
+     * The window that the game runs in. JFrame object with an lg4.Window() object as a child
+     */
     static JFrame win;
+    /**
+     * The current hole being played
+     */
     static Hole hole;
+    /**
+     * The current course being player
+     */
     static Course course;
+    /**
+     * The current player playing
+     */
     static Golfer player;
+    /**
+     * The current ball being used
+     */
     static Ball ball;
+    /**
+     * The dimensions of the screen. 
+     */
     static int screenWidth = 1400, screenHeight = 800;
-    static GraphicsStage gStage;
+    /**
+     * The current lg4.GraphicsStage to be displayed, starts at mainMenu
+     */
+    static GraphicsStage gStage = GraphicsStage.mainMenu;
+    /**
+     * This flag is set to true when the ball gets hit, and false when the 
+     * ball is done moving from that hit
+     */
     static boolean hit = false;
+    
+    /**
+     * The current club being used by the Golfer
+     */
+    static Club club;
 
     public static void main(String[] args) {
 
@@ -34,7 +64,12 @@ public class lg4 {
         win.repaint();
 
         ball.x = 230; ball.y = 530;
-        ball.hit(player.clubs[0], .8, 1.5, .2, 0);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ball.hit(1, 1.5, .2, 0);
 
         //TODO FOR TESTING
         while (true) {
@@ -56,7 +91,8 @@ public class lg4 {
     static void initTest() {
         player = new Golfer();
         ball = new Ball(1, 1, .5);
-        gStage = GraphicsStage.mainMenu;
+        //club = player.clubs[0];
+        club = new Club("first", .8, 65);
     }
 
     static Hole createTestHole() {
