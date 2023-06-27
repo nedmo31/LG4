@@ -26,24 +26,43 @@ public class Window extends JPanel {
     public Window() {
         addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-                
+                mx = e.getX();
+                my = e.getY();
+                if (lg4.hitStatus == lg4.AIMING) {
+                    // get distance between ball and click
+                    int xDist = mx - lg4.ball.x();
+                    int yDist = my - lg4.ball.y();
+                    double totalDist = Math.sqrt(xDist*xDist + yDist*yDist);
+                    lg4.hitPower = Math.min(1, 2*totalDist/lg4.club.radius);
+                    // get angle
+                    lg4.xyAngle = -1*Math.atan2(yDist, xDist);
+                    if (yDist > 0) {
+                        lg4.xyAngle -= Math.PI;
+                    }
+                    
+                    lg4.hitStatus = lg4.SWINGING1;
+                } else if (lg4.hitStatus == lg4.SWINGING1) {
+                    // get time and set status to swining 2
+                    lg4.hitStatus = lg4.SWINGING2;
+                } else if (lg4.hitStatus == lg4.SWINGING2) {
+                    // get time and set status to ball moving?
+                    lg4.hitStatus = lg4.BALL_MOVING;
+                }
 			}
-
+            public void mouseReleased(MouseEvent e) {
+                mx = e.getX();
+                my = e.getY();  
+                lg4.gStage.checkButtonClick(e);
+			}
 		});
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
                 mx = e.getX();
                 my = e.getY();
 			}
-
-		});
-		addMouseListener(new MouseAdapter() {
-			public void mouseReleased(MouseEvent e) {
-                lg4.gStage.checkButtonClick(e);
-			}
-		});
-		addMouseMotionListener(new MouseAdapter() {
-			public void mouseDragged(MouseEvent e) {
+            public void mouseDragged(MouseEvent e) {
+                mx = e.getX();
+                my = e.getY();  
 
 			}
 		});
@@ -63,4 +82,17 @@ public class Window extends JPanel {
         lg4.gStage.paintGraphicsStage(g);
 
     }
+
+    // private void handleHitReleased(MouseEvent e) {
+        
+    // }
+
+    // private void handleHitPressed(MouseEvent e) {
+
+    // }
+
+    // private void handlHitDragged(MouseEvent e) {
+        
+    // }
+
 }

@@ -8,10 +8,12 @@ public class GraphicsStage {
     
     Button [] buttons;
     String name;
+    int id;
 
-    public GraphicsStage(String n, Button[] b) {
+    public GraphicsStage(String n, Button[] b, int id) {
         name = n; 
         buttons = b;
+        this.id = id;
     }
 
     void checkButtonClick(MouseEvent e) {
@@ -33,7 +35,7 @@ public class GraphicsStage {
             public void clickAction() {
                 lg4.gStage = GraphicsStage.play;
             }
-        } }) {
+        } }, 0) {
         void paintGraphicsStage(java.awt.Graphics g) {
             play.paintGraphicsStage(g);
             g.setColor(Color.black);
@@ -41,7 +43,7 @@ public class GraphicsStage {
         }
     };
 
-    public static GraphicsStage play = new GraphicsStage("Play", new Button[0]) {
+    public static GraphicsStage play = new GraphicsStage("Play", new Button[0], 1) {
         void paintGraphicsStage(java.awt.Graphics g) {
             // This will fill the whole background with dark green to represent the rough
             g.setColor(new Color(29, 153, 66));
@@ -51,9 +53,13 @@ public class GraphicsStage {
                 hs.paintArea(g);
             }
 
-            if (!lg4.hit) {
+            if (lg4.hitStatus == lg4.AIMING) {
                 g.setColor(Color.black);
                 g.drawOval(lg4.ball.x()-lg4.club.radius/2, lg4.ball.y()-lg4.club.radius/2, lg4.club.radius, lg4.club.radius);
+
+                g.setColor(new Color(180, 100, 100, 160));
+                int offset = (15 - lg4.player.accuracy)* 4;
+                g.fillOval(Window.mx-offset/2, Window.my-offset/2, offset, offset);
             }
 
             // Ball + Extras

@@ -8,10 +8,16 @@ import javax.swing.JFrame;
  * Class that contains the main method.
  * 
  * Linear Golf 4 will be a 2d golf game from birds eye view. 
- * The game will run on a single thread and will be driven by 
- * user inputs. 
  */
 public class lg4 {
+
+    // Constants to keep track of hitting process
+    public static final int NOT_HITTING = 0;
+    public static final int AIMING = 1;
+    public static final int SWINGING1 = 2;
+    public static final int SWINGING2 = 3;
+    public static final int BALL_MOVING = 4;
+    public static final int PUTTING = 5;
     
     /**
      * The window that the game runs in. JFrame object with an lg4.Window() object as a child
@@ -40,36 +46,36 @@ public class lg4 {
     /**
      * The current lg4.GraphicsStage to be displayed, starts at mainMenu
      */
-    static GraphicsStage gStage = GraphicsStage.mainMenu;
+    static GraphicsStage gStage = GraphicsStage.play;
+
     /**
-     * This flag is set to true when the ball gets hit, and false when the 
-     * ball is done moving from that hit
+     * An int to keep track of the stage in the hitting process
      */
-    static boolean hit = false;
+    static int hitStatus = NOT_HITTING;
     
     /**
      * The current club being used by the Golfer
      */
     static Club club;
 
+    // These 4 are the variables for a hit
+    static double hitPower = 0;
+    static double xyAngle = 0;
+    static double hitSpinUpDown = 0;
+    static double hitSpinLeftRight = 0;
+
     public static void main(String[] args) {
 
         initTest();
-        hole = createTestHole();
-        
-        System.out.println(hole.segments[0].area.getBounds2D());
-        System.out.println(hole.segments[0].area instanceof Polygon);
+        //hole = createTestHole();
+        hole = new Hole(); 
         
         initGUI();
         win.repaint();
 
         ball.x = 230; ball.y = 530;
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        ball.hit(1, 1.5, .2, 0);
+
+        System.out.println(hole.playHole());
 
         //TODO FOR TESTING
         while (true) {
@@ -92,7 +98,7 @@ public class lg4 {
         player = new Golfer();
         ball = new Ball(1, 1, .5);
         //club = player.clubs[0];
-        club = new Club("first", .8, 65);
+        club = new Club("first", .8, 100);
     }
 
     static Hole createTestHole() {

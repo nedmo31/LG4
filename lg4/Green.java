@@ -22,4 +22,9 @@ public class Green extends HoleSegment {
         g.fillOval((int)temp.getX(), (int)temp.getY(), (int)temp.getWidth(), (int)temp.getHeight());
     }
 
+    public int playGreen() {
+
+        return 0;
+    }
+
 }

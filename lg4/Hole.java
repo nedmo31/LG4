@@ -9,6 +9,9 @@ import java.awt.geom.Ellipse2D;
  * 
  */
 public class Hole {
+
+    final double FAIRWAY_BOUNCE = .7;
+    final Color FAIRWAY_COLOR = new Color(80, 200, 80);
     
     HoleSegment rough = new HoleSegment(
         new Rectangle(0, 0, lg4.screenWidth, lg4.screenHeight), Color.green, .40);
@@ -67,21 +70,29 @@ public class Hole {
 
         // Randomize the type of hole 
         int type = (int)(5*Math.random());
+        MapCreationTree tree = new MapCreationTree();
         type = 2;
         TeeBox teebox = new TeeBox();
 
-        if (type == 2) { 
+        if (type == 2) {
             par = 3;
-            segments = new HoleSegment[2];
+            segments = new HoleSegment[3];
             segments[0] = teebox;
             // randomize the hole location from where the teebox is
-            double holex = teebox.area.getBounds2D().getCenterX() + 250;
+            double holex = teebox.area.getBounds2D().getCenterX() + 800;
             double holey = teebox.area.getBounds2D().getCenterY() + (int)(50-Math.random()*100);
+
             // set the instance variables to our randomized location
             this.x = (int)holex;
             this.y = (int)holey;
+
+            for (int i = 0; i < 3; i++) {                
+                tree.add(new Oval(this.x - (600 - (i*200)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
+            }
+            segments[1] = new HoleSegment(tree.getPolygonRepresentation(), FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+
             // Add the green to the array
-            segments[1] = new Green(new Ellipse2D.Double(
+            segments[2] = new Green(new Ellipse2D.Double(
                 holex, holey,
                 60 + (int)(25-Math.random()*50), 60 + (int)(25-Math.random()*50)
             ));
@@ -90,14 +101,18 @@ public class Hole {
     }
 
     int playHole() {
+        lg4.ball.x = segments[0].area.getBounds().getCenterX();
+        lg4.ball.y = segments[0].area.getBounds().getCenterY();
+
         int strokes = 0;
         // while the ball isn't on the green
         while (! (whatSegment(lg4.ball) instanceof Green)) {
 
-            while (!lg4.hit) {
-                // wait for the variable to change value, signifying a hit
+            lg4.hitStatus = lg4.AIMING;
+            while (!(lg4.hitStatus == lg4.BALL_MOVING)) {
+                lg4.win.repaint();
             }
-            lg4.ball.hit(0, 0, 0, 0);
+            lg4.ball.hit(lg4.hitPower, lg4.xyAngle, lg4.hitSpinLeftRight, lg4.hitSpinUpDown);
             strokes++;
         }
 

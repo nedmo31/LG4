@@ -52,6 +52,9 @@ public class Ball {
      * @param xyAng the angle in radians in the xy plan that the ball was hit
      */
     public void hit(double pow, double xyAng, double targetSpinLR, double targetSpinUD) {
+        // set the hitStatus
+        lg4.hitStatus = lg4.BALL_MOVING;
+
         // The intitial velocity of the ball
         // uses the club power, player power, power of the shot, and weight of the ball
         double velocity = lg4.club.power * ((double)lg4.player.power / 10) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
@@ -84,10 +87,12 @@ public class Ball {
         }
         zVelocity = Math.sin(lg4.club.angle) * velocity;
         
-        System.out.println("Hitting ball with velocities x: " + xVelocity + 
-        ", y: " + yVelocity + ", z: " +zVelocity);
-        System.out.println("Hitting ball with spin direction: " + spinLRdir);
-        System.out.println("Xcomp: " + Math.cos(spinLRdir) + "\tYcomp: " + Math.sin(spinLRdir));
+        System.out.println("Hitting ball with power: " + pow);
+        // System.out.println("Hitting ball with angle: " + xyAng);
+        // System.out.println("Hitting ball with velocities x: " + xVelocity + 
+        //  ", y: " + yVelocity + ", z: " +zVelocity);
+        // System.out.println("Hitting ball with spin direction: " + spinLRdir);
+        // System.out.println("Xcomp: " + Math.cos(spinLRdir) + "\tYcomp: " + Math.sin(spinLRdir));
 
         // The loop that's gonna start moving the ball. We use the system time to help
         double startTime = System.nanoTime(), loopTime = 0;
@@ -159,6 +164,6 @@ public class Ball {
                 lg4.win.repaint();
             repaint = !repaint;
         }
-        lg4.hit = false;
+        lg4.hitStatus = lg4.NOT_HITTING;
     }
 }
