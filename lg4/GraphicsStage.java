@@ -74,8 +74,33 @@ public class GraphicsStage {
             g.setColor(Color.black);
             g.drawOval(xInSky, yInSky, lg4.ball.size, lg4.ball.size);
 
+            // Show swinging bar. Just gonna fix it to a point, TODO make it based on screen size
+            g.setColor(Color.black);
+            g.drawRect(400, 600, 600, 50);
+            g.fillRect(898, 600, 4, 50);
+            g.fillOval((int)(900-lg4.targetPower*500), 575, 10, 10);
+
+            if (lg4.hitStatus == lg4.SWINGING1) {
+                double percentage = (System.nanoTime() - Window.swingFirst)/(double)(Window.targetFirst-Window.swingFirst);
+                if (percentage > 1) {
+                    g.fillOval((int)(900-(2-percentage)*500), 610, 15, 15);
+                } else {
+                    g.fillOval((int)(900-percentage*500), 610, 15, 15);
+                }
+            }
+            else if (lg4.hitStatus == lg4.SWINGING2) {
+                double percentage = (1-lg4.hitPower) + (System.nanoTime() - Window.swingSecond)/(double)(Window.targetSecond-Window.swingSecond);
+                g.fillOval((int)(400+percentage*500), 610, 15, 15);
+            }
+
+            else if (lg4.hitStatus == lg4.BALL_MOVING) {
+                g.fillOval((int)(900-lg4.hitPower*500), 610, 15, 15);
+                g.fillOval((int)(900+lg4.hitSpinLeftRight*100), 610, 15, 15);
+            }
             
-			if (lg4.hitStatus == lg4.PUTTING) {
+
+            
+			if (lg4.hitStatus == lg4.PUTTING || lg4.hitStatus == lg4.PUTT_ROLL) {
                 Green green = (Green)lg4.hole.segments[lg4.hole.segments.length-1];
 				g.setColor(Color.black);
                 int midX = lg4.screenWidth/2;

@@ -2,6 +2,7 @@ package lg4;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 
 /**
@@ -41,7 +42,11 @@ public class Green extends HoleSegment {
         g.setColor(lg4.ball.color);
         g.fillOval((int)ballX - 6, (int)ballY - 6, 12, 12);
         g.setColor(Color.BLACK);
-        g.drawOval((int)ballX - 6, (int)ballY - 6, 12, 12);   
+        g.drawOval((int)ballX - 6, (int)ballY - 6, 12, 12);
+        
+        for (Point p : puttingTrajectory()) {
+			g.fillOval(p.x-2, p.y-1, 5, 5);
+		}
     }
 
     // ball location and physics vars
@@ -56,7 +61,7 @@ public class Green extends HoleSegment {
         int putts = 0;
 		while (!inHole(ballX, ballY)) {
 			lg4.win.repaint();
-            if (lg4.hitStatus == lg4.BALL_MOVING) {
+            if (lg4.hitStatus == lg4.PUTT_ROLL) {
             	putt(lg4.hitPower, lg4.xyAngle);
             	putts++;
             	lg4.hitStatus = lg4.PUTTING;
@@ -68,6 +73,10 @@ public class Green extends HoleSegment {
     }
 
     public void putt(double pow, double ang) {
+
+        int centerx = lg4.screenWidth/2;
+        int centery = lg4.screenHeight/2;
+
 		double v = pow*.75;
 		System.out.println(ang);
         double yVelocity = -v * Math.sin( ang );
@@ -82,11 +91,11 @@ public class Green extends HoleSegment {
         	time = System.nanoTime();
         	lg4.win.repaint();
         	
-        	if (ballX <= 600 && ballY <= 400) { // top left
+        	if (ballX <= centerx && ballY <= centery) { // top left
         		slopeAcceleration(topLeftSlope);
-        	} else if (ballX <= 600 && ballY > 400) { // bottom left
+        	} else if (ballX <= centerx && ballY > centery) { // bottom left
         		slopeAcceleration(botLeftSlope);
-        	} else if (ballY <= 400) { // top right
+        	} else if (ballY <= centery) { // top right
         		slopeAcceleration(topRightSlope);
         	} else { // bottom right
         		slopeAcceleration(botRightSlope);
@@ -139,6 +148,24 @@ public class Green extends HoleSegment {
 	public boolean reallyInHole(double x, double y) {
 		return Math.abs(holeX - x) < (5 + .4*lg4.player.putting) && 
 				Math.abs(holeY - y) < (5 + .4*lg4.player.putting);
+	}
+
+    public Point[] puttingTrajectory() {
+		int length = (int) (lg4.hitPower / 10);
+		Point[] p = new Point[length];
+
+		double v = lg4.hitPower * 1.5;
+		double initialx = ballX;
+		double initialy = ballY;
+		double yVelocity = v * Math.sin(lg4.xyAngle);
+		double xVelocity = v * Math.cos(lg4.xyAngle);
+
+		for (int i = 0; i < length; i++) {
+			p[i] = new Point((int) (initialx + xVelocity * (.3 * i)), // constant velocity in x-dir
+					(int) (initialy - yVelocity * (.3 * i)));
+		}
+
+		return p;
 	}
 
 }

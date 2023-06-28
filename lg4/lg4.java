@@ -14,10 +14,12 @@ public class lg4 {
     // Constants to keep track of hitting process
     public static final int NOT_HITTING = 0;
     public static final int AIMING = 1;
-    public static final int SWINGING1 = 2;
-    public static final int SWINGING2 = 3;
-    public static final int BALL_MOVING = 4;
-    public static final int PUTTING = 5;
+    public static final int AIMED = 2;
+    public static final int SWINGING1 = 3;
+    public static final int SWINGING2 = 4;
+    public static final int BALL_MOVING = 5;
+    public static final int PUTTING = 6;
+    public static final int PUTT_ROLL = 7;
     
     /**
      * The window that the game runs in. JFrame object with an lg4.Window() object as a child
@@ -58,24 +60,26 @@ public class lg4 {
      */
     static Club club;
 
-    // These 4 are the variables for a hit
-    static double hitPower = 0;
+    // variables for a hit
+    static double hitPower = 0, targetPower = 1;
     static double xyAngle = 0;
     static double hitSpinUpDown = 0;
     static double hitSpinLeftRight = 0;
+    
+    static long swingSpeed = 4;
 
     public static void main(String[] args) {
 
         initTest();
         //hole = createTestHole();
-        hole = new Hole(); 
+        course = new Course();
         
         initGUI();
         win.repaint();
 
         ball.x = 230; ball.y = 530;
 
-        System.out.println(hole.playHole());
+        System.out.println(course.playCourse(3));
 
         //TODO FOR TESTING
         while (true) {
