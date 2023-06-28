@@ -29,12 +29,29 @@ public class Golfer {
     public int putting;
 
     /**
+     * Index into array. weird relationship with lg4.club but whatever
+     */
+    public int clubIndex = 0;
+
+    /**
      * An array of clubs that the player owns
      */
     public Club[] clubs = new Club[]{ new Club("first", .8, 65), new Club("second", .7, 55) };
 
     public Golfer() {
         power = accuracy = consistency = putting = 5;
+    }
+
+    public void clubUp() {
+        if (clubIndex++ >= clubs.length)
+            clubIndex = 0;
+        lg4.club = clubs[clubIndex];
+    }
+
+    public void clubDown() {
+        if (clubIndex-- < 0)
+            clubIndex = clubs.length-1;
+        lg4.club = clubs[clubIndex];
     }
 
 }

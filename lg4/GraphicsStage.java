@@ -56,12 +56,17 @@ public class GraphicsStage {
             }
 
             if (lg4.hitStatus == lg4.AIMING) {
-                g.setColor(Color.black);
-                g.drawOval(lg4.ball.x()-lg4.club.radius/2, lg4.ball.y()-lg4.club.radius/2, lg4.club.radius, lg4.club.radius);
-
+                
                 g.setColor(new Color(180, 100, 100, 160));
                 int offset = (15 - lg4.player.accuracy)* 4;
                 g.fillOval(Window.mx-offset/2, Window.my-offset/2, offset, offset);
+
+                for (Club c : lg4.player.clubs) {
+                    g.setColor(Color.lightGray);
+                    g.drawOval(lg4.ball.x()-c.radius/2, lg4.ball.y()-c.radius/2, c.radius, c.radius);
+                }
+                g.setColor(Color.black);
+                g.drawOval(lg4.ball.x()-lg4.club.radius/2, lg4.ball.y()-lg4.club.radius/2, lg4.club.radius, lg4.club.radius);
             }
 
             // Ball + Extras

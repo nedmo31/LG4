@@ -59,6 +59,17 @@ public class Window extends JPanel {
     public static int mx, my;
 
     public Window() {
+        addMouseWheelListener(
+            new MouseWheelListener() {
+                public void mouseWheelMoved(MouseWheelEvent e) {
+                    if (e.getWheelRotation() < 0) {
+                        lg4.player.clubDown();
+                    } else {   
+                        lg4.player.clubUp();
+                    }
+                }
+            }
+        );
         addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
                 mx = e.getX();

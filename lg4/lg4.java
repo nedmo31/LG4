@@ -80,11 +80,6 @@ public class lg4 {
         ball.x = 230; ball.y = 530;
 
         System.out.println(course.playCourse(3));
-
-        //TODO FOR TESTING
-        while (true) {
-            win.repaint();
-        }
     }
 
     /**
@@ -101,8 +96,7 @@ public class lg4 {
     static void initTest() {
         player = new Golfer();
         ball = new Ball(1, 1, .5);
-        //club = player.clubs[0];
-        club = new Club("first", .8, 100);
+        club = player.clubs[0];
     }
 
     static Hole createTestHole() {
@@ -126,5 +120,7 @@ public class lg4 {
         };
         return testHole;
     }
+
+    
 
 }
