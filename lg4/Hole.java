@@ -115,6 +115,10 @@ public class Hole {
             lg4.ball.hit(lg4.hitPower, lg4.xyAngle, lg4.hitSpinLeftRight, lg4.hitSpinUpDown);
             strokes++;
         }
+        Green g = ((Green)segments[segments.length-1]);
+        int xStartPutt = lg4.screenWidth/2 + lg4.ball.x() - (int)g.area.getBounds2D().getCenterX();
+        int yStartPutt = lg4.screenHeight/2 + lg4.ball.y() - (int)g.area.getBounds2D().getCenterY();
+        strokes += g.playGreen(xStartPutt, yStartPutt);
 
         return strokes;
     }

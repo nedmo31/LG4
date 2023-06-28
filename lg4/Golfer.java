@@ -23,12 +23,18 @@ public class Golfer {
     public int consistency;
 
     /**
+     * How skilled the golfer is with putting. It just makes putting
+     * easier the higher it is.
+     */
+    public int putting;
+
+    /**
      * An array of clubs that the player owns
      */
     public Club[] clubs = new Club[]{ new Club("first", .8, 65), new Club("second", .7, 55) };
 
     public Golfer() {
-        power = accuracy = consistency = 5;
+        power = accuracy = consistency = putting = 5;
     }
 
 }

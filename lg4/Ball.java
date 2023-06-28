@@ -7,6 +7,9 @@ public class Ball {
     // Gravity!
     public static double gravity = 9.8;
 
+    // higher speeds mean the ball moves faster. Makes testing faster
+    final int SPEED = 10;
+
     // x and y correspond to the screen
     // and z is the height
     double x, y, z;
@@ -110,7 +113,7 @@ public class Ball {
              * 
              */
             // Keep track of how long each loop takes 
-            loopTime = (System.nanoTime() - startTime) / 1000000000 * 3;
+            loopTime = (System.nanoTime() - startTime) / 1000000000 * SPEED;
             startTime = System.nanoTime();
             // move the ball
             updateBall(xVelocity, yVelocity, zVelocity, loopTime);
