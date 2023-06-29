@@ -1,0 +1,12 @@
+Players will start with all clubs, but there are upgrades
+
+Clubs:       Angle (rad)        Power sequence (3 upgrade)      RoughPenalty    SandPenalty
+ - Driver      .5                  110     120     130              .4              .2
+ - 3 Wood      .55                 95      105     115              .5              .25  
+ - 5 Iron       .75                 80      90      100             .9              .7
+ - 6 Iron      .8                 75      85      95                .9              .7
+ - 7 Iron      .85                  70      80      90              .9              .7
+ - 8 Iron       .9                 65      75      85               .9              .7
+ - 9 Iron       .95                  60      70      80             .95             .75
+ - Pitching Wedge  1.1              60      70      80              1               .85
+ - Sand Wedge   1.2                 60      70      80              1               1

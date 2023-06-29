@@ -78,7 +78,7 @@ public class lg4 {
         win.repaint();
 
         ball.x = 230; ball.y = 530;
-
+        win.repaint();
         System.out.println(course.playCourse(3));
     }
 
@@ -95,8 +95,12 @@ public class lg4 {
 
     static void initTest() {
         player = new Golfer();
+        player.clubs = clubs;
         ball = new Ball(1, 1, .5);
         club = player.clubs[0];
+        for (Club c : player.clubs) {
+            c.updateRadius();
+        }
     }
 
     static Hole createTestHole() {
@@ -121,6 +125,15 @@ public class lg4 {
         return testHole;
     }
 
-    
+    public static Club[] clubs = new Club[]{ 
+        new Club("Driver", .5, 110, .4, .2), 
+        new Club("3 Wood", .55, 95, .5, .25),
+        new Club("5 Iron", .75, 80, .9, .7),
+        new Club("6 Iron", .8, 75, .9, .7),
+        new Club("7 Iron", .85, 70, .9, .7),
+        new Club("8 Iron", .9, 65, .9, .7),
+        new Club("9 Iron", .95, 60, .9, .7),
+        new Club("P Wedge", 1.1, 60, .9, .7),
+        new Club("S Wedge", 1.2, 60, .9, .7) };
 
 }

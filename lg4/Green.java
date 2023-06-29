@@ -13,14 +13,26 @@ public class Green extends HoleSegment {
 
     // how much bigger to make the greens when putting.
     // should be an even number
-    final int HOLE_SIZEUP = 6;
+    final int HOLE_SIZEUP = 8;
     
     public static Color greensColor = Color.lightGray;
 
+	public int mapHoleX, mapHoleY;
+
+	// ball location and physics vars
+    public double holeX, holeY, ballX, ballY, xAcc, yAcc;
+	public int
+		botLeftSlope = (int)(5*Math.random()), botRightSlope = (int)(5*Math.random()),
+		topLeftSlope = (int)(5*Math.random()), topRightSlope = (int)(5*Math.random());
+
     public Green(Ellipse2D ellipse) {
         super(ellipse, greensColor, .75);
-		holeX = lg4.screenWidth/2 + (2*Math.random()-1) * 100;
-		holeY = lg4.screenHeight/2 + (2*Math.random()-1) * 50;
+		double xOffsetPercentage = (.7-1.4*Math.random());
+		double yOffsetPercentage = (.7-1.4*Math.random());
+		mapHoleX = (int)ellipse.getCenterX() + (int)((ellipse.getMaxX()-ellipse.getCenterX())*xOffsetPercentage);
+		mapHoleY = (int)ellipse.getCenterY() + (int)((ellipse.getMaxY()-ellipse.getCenterY())*yOffsetPercentage);
+		holeX = lg4.screenWidth/2 + xOffsetPercentage * 25 * HOLE_SIZEUP;
+		holeY = lg4.screenHeight/2 + yOffsetPercentage * 25 * HOLE_SIZEUP;
     }
 
 
@@ -28,6 +40,10 @@ public class Green extends HoleSegment {
         g.setColor(color);
         Ellipse2D temp = (Ellipse2D)area;
         g.fillOval((int)temp.getX(), (int)temp.getY(), (int)temp.getWidth(), (int)temp.getHeight());
+		g.setColor(Color.darkGray);
+		g.fillRect(mapHoleX-5, mapHoleY-15, 5, 15);
+		g.setColor(Color.red);
+		g.fillRect(mapHoleX-15, mapHoleY-15, 10, 7);
     }
 
     public void paintAreaPutting(Graphics g) {
@@ -48,12 +64,6 @@ public class Green extends HoleSegment {
 			g.fillOval(p.x-2, p.y-1, 5, 5);
 		}
     }
-
-    // ball location and physics vars
-    public double holeX, holeY, ballX, ballY, xAcc, yAcc;
-	public int
-		botLeftSlope = (int)(5*Math.random()), botRightSlope = (int)(5*Math.random()),
-		topLeftSlope = (int)(5*Math.random()), topRightSlope = (int)(5*Math.random());
 
     public int playGreen(double x, double y) {
         lg4.hitStatus = lg4.PUTTING;

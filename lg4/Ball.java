@@ -8,7 +8,7 @@ public class Ball {
     public static double gravity = 9.8;
 
     // higher speeds mean the ball moves faster. Makes testing faster
-    final int SPEED = 10;
+    final int SPEED = 6;
 
     // x and y correspond to the screen
     // and z is the height
@@ -63,21 +63,19 @@ public class Ball {
         double velocity = lg4.club.power * ((double)lg4.player.power / 10) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
         // The spin on the ball in [-1, 1], 0 being none, 1 being strong
         // This is just for left/right spin
-        double spinLR = targetSpinLR + 
-            (.5-Math.random())*((11 - lg4.player.consistency) / 10); // random error based on player's consistency
+        double spinLR = targetSpinLR;
 
         // This keeps track of the direction of the spin in radians
-        double spinLRdir;
+        double spinLRdir = xyAng + Math.PI/2;
         // If it's to the left, we take the initial angle 90 degrees to the left. Otherwise to the right
-        if (spinLR >= 0) {
-            spinLRdir = xyAng - Math.PI/2;
-        } else {
-            spinLRdir = xyAng + Math.PI/2;
-        }
+        // if (spinLR >= 0) {
+        //     spinLRdir = xyAng - Math.PI/2;
+        // } else {
+        //     spinLRdir = xyAng + Math.PI/2;
+        // }
         //This is the top/back spin on the ball, it will be a bit simpler to keep track of.
         // [-1, 1], positive for top spin
-        double spinUD = targetSpinUD + 
-            (.5-Math.random())*((11 - lg4.player.consistency) / 10); // random error based on player's consistency
+        double spinUD = targetSpinUD;
 
         // Split velocity into components
         double xyVelocity = Math.abs(Math.cos(lg4.club.angle) * velocity);
@@ -87,6 +85,9 @@ public class Ball {
         } else {
             xVelocity = (Math.cos(xyAng))*xyVelocity;
             yVelocity = (-1)*(Math.sin(xyAng))*xyVelocity;
+        }
+        if (yVelocity > 0) {
+            spinLRdir *= -1;
         }
         zVelocity = Math.sin(lg4.club.angle) * velocity;
         

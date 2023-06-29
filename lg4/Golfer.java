@@ -16,11 +16,6 @@ public class Golfer {
      * might not hit it where they wanted to
      */
     public int accuracy;
-    /**
-     * How consistent the golfer is with their spin. Low consitency means 
-     * they may slice it or hook it when they don't want to.
-     */
-    public int consistency;
 
     /**
      * How skilled the golfer is with putting. It just makes putting
@@ -36,20 +31,20 @@ public class Golfer {
     /**
      * An array of clubs that the player owns
      */
-    public Club[] clubs = new Club[]{ new Club("first", .8, 65), new Club("second", .7, 55) };
+    public Club[] clubs;
 
     public Golfer() {
-        power = accuracy = consistency = putting = 5;
+        power = accuracy = putting = 7;
     }
 
     public void clubUp() {
-        if (clubIndex++ >= clubs.length)
+        if (clubIndex++ >= clubs.length-1)
             clubIndex = 0;
         lg4.club = clubs[clubIndex];
     }
 
     public void clubDown() {
-        if (clubIndex-- < 0)
+        if (clubIndex-- <= 0)
             clubIndex = clubs.length-1;
         lg4.club = clubs[clubIndex];
     }

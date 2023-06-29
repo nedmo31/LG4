@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class Forest extends HoleSegment {
     
-    public static Color treetopColor = Color.green;
+    public static Color treetopColor = Color.pink;
 
     public Forest(Polygon a) {
         super(a, treetopColor, .9);

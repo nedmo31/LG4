@@ -21,10 +21,27 @@ public class Club {
     /**
      * The radius of the circle that this club can hit within
      */
-    int radius;
+    int radius = 100;
 
-    public Club(String n, double a, int p) {
+    /**
+     * Number in (0, 1]. Power of shot gets multiplied when hitting
+     * out of the rough. 1 means there is no penalty
+     */
+    double roughPenalty;
+
+    /**
+     * Number in (0, 1]. Power of shot gets multiplied when hitting
+     * out of the sand. 1 means there is no penalty
+     */
+    double sandPenalty;
+
+    public Club(String n, double a, int p, double rP, double sP) {
         name = n; angle = a; power = p;
-        radius = (int) (5 * power * (1- Math.abs(.785 - angle)));
+        roughPenalty = rP; sandPenalty = sP;
+    }
+
+    public void updateRadius() {
+        double velocity = power * ((double)lg4.player.power / 10) * (1 / lg4.ball.weight);
+        radius = (int) (2 * (velocity*velocity * Math.sin(2*angle)) / Ball.gravity);
     }
 }

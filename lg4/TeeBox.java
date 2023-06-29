@@ -9,7 +9,7 @@ public class TeeBox extends HoleSegment {
     public static Color teeBoxColor = Color.lightGray;
 
     public TeeBox() {
-        super(new Rectangle(200 + (int)(Math.random()*100), 300 + (int)(Math.random()*200),
+        super(new Rectangle(250, 300 + (int)(Math.random()*100),
         40, 80), teeBoxColor, .75);
     }
 

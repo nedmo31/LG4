@@ -93,24 +93,22 @@ public class Window extends JPanel {
                     swingFirst = System.nanoTime();
                     targetFirst = swingFirst + 200000000 * lg4.swingSpeed;
                     targetSecond = swingFirst + 400000000 * lg4.swingSpeed;
+                    System.out.println("Targets:\n 1st - "+targetFirst+"\t2nd - "+targetSecond);
                 } else if (lg4.hitStatus == lg4.SWINGING1) {
                     swingSecond = System.nanoTime();
-                    long diff = swingSecond - targetFirst;
                     long diffAbs = Math.abs(swingSecond - targetFirst);
                     lg4.hitPower = Math.max(1 - (diffAbs / (double)(200000000 * lg4.swingSpeed)), .05); // hit's will always be at least .05 power
-                    if (diff < 0) 
-                        targetSecond -= diff;
                     lg4.hitStatus = lg4.SWINGING2;
                 } else if (lg4.hitStatus == lg4.SWINGING2) {
                     swingThird = System.nanoTime();
                     long diff = swingThird - targetSecond;
-                    lg4.hitSpinLeftRight = (diff / (double)(200000000 * lg4.swingSpeed));
+                    lg4.hitSpinLeftRight = (diff / (double)(50000000 * lg4.swingSpeed));
                     if (lg4.hitSpinLeftRight > 1)
                         lg4.hitSpinLeftRight = 1; 
                     if (lg4.hitSpinLeftRight < -1) 
                         lg4.hitSpinLeftRight = -1; 
-                    lg4.hitStatus = lg4.SWINGING2;
                     lg4.hitStatus = lg4.BALL_MOVING;
+                    System.out.println("Swings: 1st - "+swingFirst+"\t2nd - "+swingSecond+"\t3rd - "+swingThird);
                 } else if (lg4.hitStatus == lg4.PUTTING) {
                     firstClick.x = mx;
                     firstClick.y = my;

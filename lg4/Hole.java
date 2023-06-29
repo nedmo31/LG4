@@ -56,7 +56,7 @@ public class Hole {
          * Randomize some values for par, distance, waters, sands, maybe type?
          * Types: 
          *  - 0: short, par 3 with fairway, teebox, green
-         *  - 1: pitch&putt, par 3 just teebox and green
+         *  // NOT FEELING THIS ONE AT THE MOMENT - 1: pitch&putt, par 3 just teebox and green
          *  - 2: Snake, par 4/5 that goes back and forth
          *  - 3: Dog-leg, par 4/5 that makes a sharp turn
          *  - 4: Choice, par 4/5 with left and right option
@@ -74,12 +74,12 @@ public class Hole {
         type = 2;
         TeeBox teebox = new TeeBox();
 
-        if (type == 2) {
+        if (type == 0) {
             par = 3;
             segments = new HoleSegment[3];
             segments[0] = teebox;
             // randomize the hole location from where the teebox is
-            double holex = teebox.area.getBounds2D().getCenterX() + 800;
+            double holex = teebox.area.getBounds2D().getCenterX() + 600;
             double holey = teebox.area.getBounds2D().getCenterY() + (int)(50-Math.random()*100);
 
             // set the instance variables to our randomized location
@@ -87,17 +87,41 @@ public class Hole {
             this.y = (int)holey;
 
             for (int i = 0; i < 3; i++) {                
-                tree.add(new Oval(this.x - (600 - (i*200)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
+                tree.add(new Oval(this.x - (400 - (i*150)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
             }
             segments[1] = new HoleSegment(tree.getPolygonRepresentation(), FAIRWAY_COLOR, FAIRWAY_BOUNCE);
 
             // Add the green to the array
             segments[2] = new Green(new Ellipse2D.Double(
                 holex, holey,
-                60 + (int)(25-Math.random()*50), 60 + (int)(25-Math.random()*50)
+                70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
             ));
-        }
+        } else if (type == 2) { // Snake, par 4/5 that goes back and forth
+            par = 4 + (int)(Math.random() * 2); 
+            int lastx = (int)teebox.area.getBounds2D().getCenterX();
+            int lasty = (int)teebox.area.getBounds2D().getCenterY()-75;
+            boolean up = true;
+            
+            for (int i = 0; i < par; i++) {
+                if (up) {
+                    tree.add(new Oval(lastx = (lastx + (int)(Math.random()*100 + 100)), lasty = (lasty + (int)(Math.random()*100 + 75)), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
+                } else {
+                    tree.add(new Oval(lastx = (lastx + (int)(Math.random()*100 + 100)), lasty = (lasty - (int)(Math.random()*100 + 75)), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
+                } 
+                up = !up;
+            }
 
+            segments = new HoleSegment[3];
+            segments[0] = teebox;
+            segments[1] = new HoleSegment(tree.getPolygonRepresentation(), FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+
+            // Add the green to the array
+            segments[2] = new Green(new Ellipse2D.Double(
+                lastx+75, up?lasty+75:lasty-75,
+                70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
+            ));
+            // make segments array at the end
+        }
     }
 
     int playHole() {
@@ -144,7 +168,8 @@ public class Hole {
         }
         void add(Oval m, MCTreeNode current) {
             if (current.child == null) {
-                current.child = new MCTreeNode(m);
+                current.addChild(new MCTreeNode(m));
+                //current.child = new MCTreeNode(m);
             } else {
                 add(m, current.child);
             }
@@ -177,7 +202,6 @@ public class Hole {
          */
         void addPolygonPoints(Polygon p, MCTreeNode node, int angleIn) {
             if (node.child == null) {
-                System.out.println("last treenode");
                 for (Point point : node.node.getPointsFromSector(270 + angleIn, 450 + angleIn)) {
                     p.addPoint(point.x, point.y);
                 }
@@ -209,9 +233,10 @@ public class Hole {
             void addChild(MCTreeNode mctn) {
                 child = mctn;
                 // Use the Math class to get the right angle to child
-                int y = mctn.node.y - this.node.y;
-                int x = mctn.node.x - this.node.x;
+                int y = mctn.node.y - node.y;
+                int x = mctn.node.x - node.x;
                 angleToChild = (int)Math.toDegrees(Math.atan2(y, x));
+                System.out.println("angletoChild is "+angleToChild);
             }
 
         }

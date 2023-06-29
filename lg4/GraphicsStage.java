@@ -93,14 +93,24 @@ public class GraphicsStage {
                     g.fillOval((int)(900-percentage*500), 610, 15, 15);
                 }
             }
-            else if (lg4.hitStatus == lg4.SWINGING2) {
-                double percentage = (1-lg4.hitPower) + (System.nanoTime() - Window.swingSecond)/(double)(Window.targetSecond-Window.swingSecond);
-                g.fillOval((int)(400+percentage*500), 610, 15, 15);
+            if (lg4.hitStatus == lg4.SWINGING2) {
+                double percentage = (System.nanoTime() - Window.swingFirst)/(double)(Window.targetFirst-Window.swingFirst);
+                if (percentage > 1) {
+                    g.fillOval((int)(900-(2-percentage)*500), 610, 15, 15);
+                } else {
+                    g.fillOval((int)(900-percentage*500), 610, 15, 15);
+                }
             }
 
             else if (lg4.hitStatus == lg4.BALL_MOVING) {
-                g.fillOval((int)(900-lg4.hitPower*500), 610, 15, 15);
-                g.fillOval((int)(900+lg4.hitSpinLeftRight*100), 610, 15, 15);
+                g.fillOval((int)(900-lg4.hitPower*500), 610, 15, 30);
+                g.fillOval((int)(900+lg4.hitSpinLeftRight*100), 610, 15, 30);
+
+                g.setColor(new Color(100, 100, 240, 220));
+                g.fillOval((int)(400), 610, 15, 15);
+                g.fillOval((int)(1000), 610, 15, 15);
+                g.setColor(new Color(240, 100, 100, 220));
+                g.fillOval((int)(800), 610, 15, 15);
             }
             
 
