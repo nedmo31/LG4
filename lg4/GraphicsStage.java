@@ -60,13 +60,14 @@ public class GraphicsStage {
                 g.setColor(new Color(180, 100, 100, 160));
                 int offset = (15 - lg4.player.accuracy)* 4;
                 g.fillOval(Window.mx-offset/2, Window.my-offset/2, offset, offset);
-
-                for (Club c : lg4.player.clubs) {
-                    g.setColor(Color.lightGray);
-                    g.drawOval(lg4.ball.x()-c.radius/2, lg4.ball.y()-c.radius/2, c.radius, c.radius);
-                }
+                
                 g.setColor(Color.black);
                 g.drawOval(lg4.ball.x()-lg4.club.radius/2, lg4.ball.y()-lg4.club.radius/2, lg4.club.radius, lg4.club.radius);
+            } else if (lg4.hitStatus == lg4.AIMED) {
+                
+                g.setColor(new Color(180, 100, 100, 160));
+                int offset = (15 - lg4.player.accuracy)* 4;
+                g.fillOval(Window.mx-offset/2, Window.my-offset/2, offset, offset);
             }
 
             // Ball + Extras
@@ -83,7 +84,7 @@ public class GraphicsStage {
             g.setColor(Color.black);
             g.drawRect(400, 600, 600, 50);
             g.fillRect(898, 600, 4, 50);
-            g.fillOval((int)(900-lg4.targetPower*500), 575, 10, 10);
+            g.fillOval((int)(900-(lg4.targetPower)*500), 575, 10, 10);
 
             if (lg4.hitStatus == lg4.SWINGING1) {
                 double percentage = (System.nanoTime() - Window.swingFirst)/(double)(Window.targetFirst-Window.swingFirst);
@@ -146,6 +147,21 @@ public class GraphicsStage {
 				g.fillPolygon(arrow(green.botRightSlope, midX+30, midY+25));
 				g.fillPolygon(arrow(green.botRightSlope, midX+130, midY+25));
 			}
+
+            // Show clubs on the top left of the frame
+			g.setColor(Color.black);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+			for (int i = 0; i < lg4.player.clubs.length; i++) {
+				Club c = lg4.player.clubs[i];
+				if (c.name.equals(lg4.club.name)) {
+					g.setFont(new Font("TimesRoman", Font.BOLD, 20));
+					g.drawRect(20, 110 + i * 30, 5, 5);
+				}
+				g.drawString(c.name, 35, 120 + i * 30);
+				g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+			}
+            g.fillRect(160, 0, 2, lg4.screenHeight);
+            g.fillRect(0, 400, 160, 2);
         }
     };
 

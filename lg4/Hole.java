@@ -76,7 +76,7 @@ public class Hole {
 
         if (type == 0) {
             par = 3;
-            segments = new HoleSegment[3];
+            segments = new HoleSegment[4];
             segments[0] = teebox;
             // randomize the hole location from where the teebox is
             double holex = teebox.area.getBounds2D().getCenterX() + 600;
@@ -89,7 +89,10 @@ public class Hole {
             for (int i = 0; i < 3; i++) {                
                 tree.add(new Oval(this.x - (400 - (i*150)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
             }
-            segments[1] = new HoleSegment(tree.getPolygonRepresentation(), FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+            Polygon[] fairwayChunks = tree.getPolygonRepresentation();
+            for (int i = 1; i < par; i++) {
+                segments[i] = new HoleSegment(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+            }
 
             // Add the green to the array
             segments[2] = new Green(new Ellipse2D.Double(
@@ -111,12 +114,16 @@ public class Hole {
                 up = !up;
             }
 
-            segments = new HoleSegment[3];
+            segments = new HoleSegment[2+par-1];
             segments[0] = teebox;
-            segments[1] = new HoleSegment(tree.getPolygonRepresentation(), FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+            Polygon[] fairwayChunks = tree.getPolygonRepresentation();
+            for (int i = 1; i < par; i++) {
+                segments[i] = new HoleSegment(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+            }
+            
 
             // Add the green to the array
-            segments[2] = new Green(new Ellipse2D.Double(
+            segments[segments.length-1] = new Green(new Ellipse2D.Double(
                 lastx+75, up?lasty+75:lasty-75,
                 70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
             ));
@@ -158,18 +165,20 @@ public class Hole {
          * The first Node in the tree/list
          */
         MCTreeNode root = null;
+        int size = 0;
 
         void add(Oval m) {
             if (root == null) {
                 root = new MCTreeNode(m);
+                size++;
             } else {
                 add(m, root);
             }
         }
         void add(Oval m, MCTreeNode current) {
             if (current.child == null) {
+                size++;
                 current.addChild(new MCTreeNode(m));
-                //current.child = new MCTreeNode(m);
             } else {
                 add(m, current.child);
             }
@@ -180,17 +189,25 @@ public class Hole {
          * will become the HoleSegment 
          * @return a Polygon representation of the tree
          */
-        Polygon getPolygonRepresentation() {
+        Polygon[] getPolygonRepresentation() {
             // TO DO: Polygon.addpoint is slow, copies the array every single time. Much better to 
             // make an array and create polygon object at the end.
-            Polygon p = new Polygon();
+            Polygon[] p = new Polygon[size-1];
+            System.out.println("made p with size: "+(size-1));
             if (root != null) {
-                for (Point point : root.node.getPointsFromSector(root.angleToChild+90, root.angleToChild + 270)) {
-                    p.addPoint(point.x, point.y);
+                for (int i = 0; i < p.length; i++) {
+                    Polygon pol = new Polygon();
+                    for (Point point : root.node.getPointsFromSector(root.angleToChild+90, root.angleToChild + 270)) {
+                        pol.addPoint(point.x, point.y);
+                    }
+                    if (root.child != null) {
+                        addPolygonPoints(pol, root.child, root.angleToChild);
+                        root = root.child;
+                    }
+                    p[i] = pol;
                 }
-                if (root.child != null)
-                    addPolygonPoints(p, root.child, root.angleToChild);
-            }  else {
+            } 
+            else {
                 System.out.println("Root is null");
             }
             return p;
@@ -201,17 +218,17 @@ public class Hole {
          * that will be returned in getPolygonRepresentation()
          */
         void addPolygonPoints(Polygon p, MCTreeNode node, int angleIn) {
-            if (node.child == null) {
+            // if (node.child == null) {
                 for (Point point : node.node.getPointsFromSector(270 + angleIn, 450 + angleIn)) {
                     p.addPoint(point.x, point.y);
                 }
-            } else {
-                Point temp = node.node.getPointFromAngle(270);
-                p.addPoint(temp.x, temp.y);
-                addPolygonPoints(p, node.child, node.angleToChild);
-                temp = node.node.getPointFromAngle(90);
-                p.addPoint(temp.x, temp.y);
-            }
+            // } else {
+            //     Point temp = node.node.getPointFromAngle(270);
+            //     p.addPoint(temp.x, temp.y);
+            //     addPolygonPoints(p, node.child, node.angleToChild);
+            //     temp = node.node.getPointFromAngle(90);
+            //     p.addPoint(temp.x, temp.y);
+            // }
         }
         /**
          * This is an inner class representing the nodes of the tree.

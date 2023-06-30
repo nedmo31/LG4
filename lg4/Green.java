@@ -15,7 +15,7 @@ public class Green extends HoleSegment {
     // should be an even number
     final int HOLE_SIZEUP = 8;
     
-    public static Color greensColor = Color.lightGray;
+    public static Color greensColor = new Color(110, 230, 110);
 
 	public int mapHoleX, mapHoleY;
 

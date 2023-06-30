@@ -58,6 +58,8 @@ public class Ball {
         // set the hitStatus
         lg4.hitStatus = lg4.BALL_MOVING;
 
+        pow = Math.sqrt(pow); // this is to make the power recommendation more accurate. IDK about it though
+
         // The intitial velocity of the ball
         // uses the club power, player power, power of the shot, and weight of the ball
         double velocity = lg4.club.power * ((double)lg4.player.power / 10) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
