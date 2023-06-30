@@ -7,11 +7,13 @@ import java.awt.*;
  * how we will block off a large portion of the course
  */
 public class Forest extends HoleSegment {
+
+    public int height = 10;
     
     public static Color treetopColor = Color.pink;
 
     public Forest(Polygon a) {
-        super(a, treetopColor, .9);
+        super(a, treetopColor, .9, "forest");
     }
 
     public void paintArea(Graphics g) {

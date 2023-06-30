@@ -1,8 +1,14 @@
 package lg4;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 import javax.swing.JFrame;
+
+import com.google.gson.*;
 
 /**
  * Class that contains the main method.
@@ -73,13 +79,37 @@ public class lg4 {
         initTest();
         //hole = createTestHole();
         course = new Course();
+        hole = course.holes[0];
         
         initGUI();
         win.repaint();
 
         ball.x = 230; ball.y = 530;
         win.repaint();
+
+        jsonStuff();
+
         System.out.println(course.playCourse(3));
+    }
+
+    public static void jsonStuff() {
+        GsonBuilder gb = new GsonBuilder();
+        gb.registerTypeAdapter(Shape.class, new ShapeAdapter());
+        gb.registerTypeAdapter(HoleSegment.class, new SegmentDeserializer());
+        gb.registerTypeAdapter(HoleSegment.class, new SegmentSerializer());
+        Gson gson = gb.create();
+        try {
+            File f = new File("course.json");
+            PrintWriter pw = new PrintWriter(f);
+            pw.write(gson.toJson(course, Course.class));
+            pw.close();
+            Scanner fr = new Scanner(f);
+            String s = fr.next();
+            course = gson.fromJson(s, Course.class);
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -101,28 +131,6 @@ public class lg4 {
         for (Club c : player.clubs) {
             c.updateRadius();
         }
-    }
-
-    static Hole createTestHole() {
-        Polygon fairway = new Polygon();
-        fairway.addPoint(215, 505); fairway.addPoint(272, 505); fairway.addPoint(295, 485);
-        fairway.addPoint(300,315); fairway.addPoint(338, 244); fairway.addPoint(380, 222);
-        fairway.addPoint(381, 157); fairway.addPoint(349, 129); fairway.addPoint(311, 127);
-        fairway.addPoint(266, 144); fairway.addPoint(207, 210); fairway.addPoint(200, 259);
-        fairway.addPoint(200, 485);
-        Polygon tees = new Polygon(); tees.addPoint(190,520);
-        tees.addPoint(260, 520);tees.addPoint(260, 550);tees.addPoint(190, 550);
-        Polygon river = new Polygon(); river.addPoint(0, 394); river.addPoint(218, 357);
-        river.addPoint(283, 358); river.addPoint(615, 401); river.addPoint(615, 428);
-        river.addPoint(280, 390); river.addPoint(222, 389); river.addPoint(0, 422);
-
-        Hole testHole = new Hole();
-        testHole.segments = new HoleSegment[] {
-            new Green(new Ellipse2D.Double(400, 64, 85, 75)), new HoleSegment(fairway, Color.green, .65),
-            new HoleSegment(tees, Color.lightGray, .8), new Water(river), 
-            new Sand(new Ellipse2D.Double(336, 154, 36, 50))
-        };
-        return testHole;
     }
 
     public static Club[] clubs = new Club[]{ 

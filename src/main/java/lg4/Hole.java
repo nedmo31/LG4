@@ -13,7 +13,7 @@ public class Hole {
     final double FAIRWAY_BOUNCE = .7;
     final Color FAIRWAY_COLOR = new Color(80, 200, 80);
     
-    HoleSegment rough = new HoleSegment(
+    HoleSegment rough = new Rough(
         new Rectangle(0, 0, lg4.screenWidth, lg4.screenHeight), Color.green, .40);
     
     /**
@@ -45,6 +45,10 @@ public class Hole {
                 return segments[i];
         }
         return rough;
+    }
+
+    public Hole(HoleSegment[] segments, int x, int y, int par, int windDir, int windSpeed) {
+        this.segments = segments; this.x = x; this.y = y; this.par = par; this.windDir = windDir; this.windSpeed = windSpeed;
     }
 
     /** 
@@ -91,11 +95,11 @@ public class Hole {
             }
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
-                segments[i] = new HoleSegment(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
             }
 
             // Add the green to the array
-            segments[2] = new Green(new Ellipse2D.Double(
+            segments[3] = new Green(new Ellipse2D.Double(
                 holex, holey,
                 70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
             ));
@@ -118,7 +122,7 @@ public class Hole {
             segments[0] = teebox;
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
-                segments[i] = new HoleSegment(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
             }
             
 
@@ -152,6 +156,14 @@ public class Hole {
         strokes += g.playGreen(xStartPutt, yStartPutt);
 
         return strokes;
+    }
+
+    public void holeInfo() {
+        System.out.println("Hole with "+segments.length+" segments");
+        for (int i = 0; i < segments.length; i++) {
+            System.out.println("Segment "+i+": "+segments[i].getClass().getSimpleName());
+            System.out.println(segments[i].area.getClass().getSimpleName());
+        }
     }
 
     /**
@@ -273,7 +285,7 @@ public class Hole {
         int y;
         int width, height;
 
-        static int degreesPerPoint = 10;
+        final static int degreesPerPoint = 10;
 
         public Oval(int x, int y, int w, int h) {
             this.x = x; this.y = y;

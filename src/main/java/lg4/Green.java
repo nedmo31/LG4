@@ -13,7 +13,7 @@ public class Green extends HoleSegment {
 
     // how much bigger to make the greens when putting.
     // should be an even number
-    final int HOLE_SIZEUP = 8;
+    final static int HOLE_SIZEUP = 8;
     
     public static Color greensColor = new Color(110, 230, 110);
 
@@ -26,7 +26,7 @@ public class Green extends HoleSegment {
 		topLeftSlope = (int)(5*Math.random()), topRightSlope = (int)(5*Math.random());
 
     public Green(Ellipse2D ellipse) {
-        super(ellipse, greensColor, .75);
+        super(ellipse, greensColor, .75, "green");
 		double xOffsetPercentage = (.7-1.4*Math.random());
 		double yOffsetPercentage = (.7-1.4*Math.random());
 		mapHoleX = (int)ellipse.getCenterX() + (int)((ellipse.getMaxX()-ellipse.getCenterX())*xOffsetPercentage);
@@ -35,6 +35,10 @@ public class Green extends HoleSegment {
 		holeY = lg4.screenHeight/2 + yOffsetPercentage * 25 * HOLE_SIZEUP;
     }
 
+	public Green(int mapHoleX, int mapHoleY, double holeX, double holeY, double xAcc, double yAcc, Ellipse2D ellipse) {
+		super(ellipse, greensColor, .75, "green");
+		this.mapHoleX = mapHoleX; this.mapHoleY = mapHoleY; this.holeY = holeY; this.holeX = holeX; this.xAcc = xAcc; this.yAcc = yAcc;
+	}
 
     public void paintArea(Graphics g) {
         g.setColor(color);

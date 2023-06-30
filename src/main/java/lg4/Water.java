@@ -8,12 +8,12 @@ public class Water extends HoleSegment {
     public static Color shallowWaterColor = Color.blue, deepWaterColor;
 
     public Water(Polygon p) {
-        super(p, shallowWaterColor, 0);
+        super(p, shallowWaterColor, 0, "water");
         oob = true;
     }
 
     public Water(Ellipse2D ellipse) {
-        super(ellipse, shallowWaterColor, 0);
+        super(ellipse, shallowWaterColor, 0, "water");
         oob = true;
     }
 

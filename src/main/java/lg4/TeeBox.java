@@ -10,7 +10,7 @@ public class TeeBox extends HoleSegment {
 
     public TeeBox() {
         super(new Rectangle(250, 300 + (int)(Math.random()*100),
-        40, 80), teeBoxColor, .75);
+        40, 80), teeBoxColor, .75, "teebox");
     }
 
     public void paintArea(Graphics g) {

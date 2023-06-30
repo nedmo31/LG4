@@ -11,12 +11,12 @@ public class Sand extends HoleSegment {
     public static Color shallowSandColor = Color.yellow, deepSandColor;
 
     public Sand(Polygon p) {
-        super(p, shallowSandColor, 0);
+        super(p, shallowSandColor, 0, "sand");
         oob = false;
     }
 
     public Sand(Ellipse2D ellipse) {
-        super(ellipse, shallowSandColor, 0);
+        super(ellipse, shallowSandColor, 0, "sand");
         oob = false;
     }
 

@@ -72,6 +72,8 @@ public class Window extends JPanel {
         );
         addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+                //TODO DEBUG DELETE
+                lg4.hole.holeInfo();
                 mx = e.getX();
                 my = e.getY();
                 if (lg4.hitStatus == lg4.AIMING) {

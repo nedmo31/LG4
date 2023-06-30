@@ -2,9 +2,13 @@ package lg4;
 
 import java.awt.*;
 
-class HoleSegment {
+abstract class HoleSegment {
 
-    // Circle or Polygon, nothing else
+    // The type of subclass the segment is. Stupid way to help
+    // me do serialization
+    String type;
+
+    // Ellipse or Polygon or Rectangle, nothing else
     Shape area;
 
     // Color of area
@@ -18,10 +22,11 @@ class HoleSegment {
     // How much the ball bounces off the segment
     double bounce;
 
-    public HoleSegment(Shape p, Color c, double b) {
+    public HoleSegment(Shape p, Color c, double b, String t) {
         area = p;
         color = c;
         bounce = b;
+        type = t;
     }
 
     public boolean contains(int x, int y) {
