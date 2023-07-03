@@ -87,9 +87,43 @@ public class lg4 {
         ball.x = 230; ball.y = 530;
         win.repaint();
 
-        jsonStuff();
+        //jsonStuff();
+        //readCourse();
 
         System.out.println(course.playCourse(3));
+    }
+
+    public static void saveCourse() {
+        GsonBuilder gb = new GsonBuilder();
+        gb.registerTypeAdapter(Shape.class, new ShapeAdapter());
+        gb.registerTypeAdapter(HoleSegment.class, new SegmentDeserializer());
+        gb.registerTypeAdapter(HoleSegment.class, new SegmentSerializer());
+        Gson gson = gb.create();
+        try {
+            File f = new File("course.json");
+            PrintWriter pw = new PrintWriter(f);
+            pw.write(gson.toJson(course, Course.class));
+            pw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void readCourse() {
+        GsonBuilder gb = new GsonBuilder();
+        gb.registerTypeAdapter(Shape.class, new ShapeAdapter());
+        gb.registerTypeAdapter(HoleSegment.class, new SegmentDeserializer());
+        gb.registerTypeAdapter(HoleSegment.class, new SegmentSerializer());
+        Gson gson = gb.create();
+        try {
+            File f = new File("course.json");
+            Scanner fr = new Scanner(f);
+            String s = fr.next();
+            course = gson.fromJson(s, Course.class);
+            fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void jsonStuff() {

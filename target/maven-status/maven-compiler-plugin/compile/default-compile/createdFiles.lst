@@ -7,7 +7,6 @@ lg4\Window.class
 lg4\Hole$Oval.class
 lg4\Club.class
 lg4\Hole.class
-lg4\SegmentAdapter.class
 lg4\Hole$MapCreationTree.class
 lg4\lg4.class
 lg4\TextButton.class

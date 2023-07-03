@@ -151,8 +151,8 @@ public class Hole {
             strokes++;
         }
         Green g = ((Green)segments[segments.length-1]);
-        int xStartPutt = lg4.screenWidth/2 + lg4.ball.x() - (int)g.area.getBounds2D().getCenterX();
-        int yStartPutt = lg4.screenHeight/2 + lg4.ball.y() - (int)g.area.getBounds2D().getCenterY();
+        int xStartPutt = lg4.screenWidth/2 + Green.HOLE_SIZEUP*(lg4.ball.x() - g.mapHoleX);
+        int yStartPutt = lg4.screenHeight/2 + Green.HOLE_SIZEUP*(lg4.ball.y() - g.mapHoleY);
         strokes += g.playGreen(xStartPutt, yStartPutt);
 
         return strokes;
