@@ -33,6 +33,7 @@ public class Ball {
     }
 
     void updateBall(double xv, double yv, double zv, double time) {
+        System.out.println("Updating ball with xv,yv,zv,time:"+xv+","+yv+","+zv+","+time);
         this.x += xv * time; this.y += yv * time; this.z += zv * time;
     }
 
@@ -57,6 +58,7 @@ public class Ball {
     public void hit(double pow, double xyAng, double targetSpinLR, double targetSpinUD) {
         // set the hitStatus
         lg4.hitStatus = lg4.BALL_MOVING;
+        this.z = 0;
 
         pow = Math.sqrt(pow); // this is to make the power recommendation more accurate. IDK about it though
 
@@ -93,7 +95,7 @@ public class Ball {
         }
         zVelocity = Math.sin(lg4.club.angle) * velocity;
         
-        System.out.println("Hitting ball with power: " + pow);
+        // System.out.println("Hitting ball with power: " + pow);
         // System.out.println("Hitting ball with angle: " + xyAng);
         // System.out.println("Hitting ball with velocities x: " + xVelocity + 
         //  ", y: " + yVelocity + ", z: " +zVelocity);
@@ -102,6 +104,7 @@ public class Ball {
 
         // The loop that's gonna start moving the ball. We use the system time to help
         double startTime = System.nanoTime(), loopTime = 0;
+
         boolean repaint = true;
         while (true) {
             /*
@@ -130,14 +133,14 @@ public class Ball {
                 } else if (seg instanceof Sand) {
                     // To DO!
                     break;
-                } else {
+                } else if (zVelocity < 0) {
                     // Averages the bounciness of the ball and the terrain, value < 1
                     double slowDown = (this.bounce + seg.bounce) / 2;
                     slowDown *= 1 + (spinUD / 5); // multiplies it by value in [.8, 1.2]
                     zVelocity *= -1 * slowDown;
                     xVelocity *= slowDown;
                     yVelocity *= slowDown;
-                    if (xVelocity < .01)
+                    if (Math.abs(xVelocity) < .01)
                         break;
                 }
                 

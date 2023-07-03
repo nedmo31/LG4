@@ -72,13 +72,11 @@ public class Window extends JPanel {
         );
         addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    System.out.println("saving course");
-                    lg4.saveCourse();
-                    return;
-                }
-                //TODO DEBUG DELETE
-                lg4.hole.holeInfo();
+                // if (e.getButton() == MouseEvent.BUTTON3) {
+                //     System.out.println("saving course");
+                //     lg4.saveCourse();
+                //     return;
+                // }
                 mx = e.getX();
                 my = e.getY();
                 if (lg4.hitStatus == lg4.AIMING) {
