@@ -7,8 +7,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -18,7 +16,7 @@ public class ServerConnect {
 
     Gson gson;
 
-    final String SERVER_URL = "http://localhost:4567";
+    final String SERVER_URL = "https://lg4-c9a630827645.herokuapp.com/";
     
     public ServerConnect() {
         GsonBuilder gb = new GsonBuilder();
