@@ -39,6 +39,8 @@ public class lg4 {
      * The current course being player
      */
     static Course course;
+
+    static CourseList courseList;
     /**
      * The current player playing
      */
@@ -60,6 +62,8 @@ public class lg4 {
      * An int to keep track of the stage in the hitting process
      */
     static int hitStatus = NOT_HITTING;
+
+    static ServerConnect server;
     
     /**
      * The current club being used by the Golfer
@@ -76,9 +80,13 @@ public class lg4 {
 
     public static void main(String[] args) {
 
+        server = new ServerConnect();
+
         initTest();
         //hole = createTestHole();
         course = new Course();
+        course.id=1;
+        course.name="test-course";
         hole = course.holes[0];
         
         initGUI();
@@ -87,10 +95,19 @@ public class lg4 {
         ball.x = 230; ball.y = 530;
         win.repaint();
 
+        try {
+            player = server.getGolfer("Nedmo");
+            //server.saveCourse(course);
+            courseList = server.getCourses();
+            course = courseList.courses.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         //jsonStuff();
         //readCourse();
 
-        System.out.println(course.playCourse(3));
+        System.out.println(course.playCourse(6));
     }
 
     public static void saveCourse() {
@@ -175,7 +192,7 @@ public class lg4 {
         new Club("7 Iron", .85, 70, .9, .7),
         new Club("8 Iron", .9, 65, .9, .7),
         new Club("9 Iron", .95, 60, .9, .7),
-        new Club("P Wedge", 1.1, 60, .9, .7),
-        new Club("S Wedge", 1.2, 60, .9, .7) };
+        new Club("P Wedge", 1.1, 60, 1, .9),
+        new Club("S Wedge", 1.2, 60, 1, 1) };
 
 }

@@ -23,6 +23,10 @@ public class Golfer {
      */
     public int putting;
 
+    public int money;
+
+    public int golfbag;
+
     /**
      * Index into array. weird relationship with lg4.club but whatever
      */
@@ -34,7 +38,20 @@ public class Golfer {
     public Club[] clubs;
 
     public Golfer() {
-        power = accuracy = putting = 7;
+        power = accuracy = putting = 5;
+    }
+
+    public void initClubs() {
+        clubs = lg4.clubs;
+        clubs[0].power += (golfbag & 0b11) * 10;
+        clubs[1].power += (golfbag & 0b1100 >> 2) * 10;
+        clubs[2].power += (golfbag & 0b110000 >> 4) * 10;
+        clubs[3].power += (golfbag & 0b11000000 >> 6) * 10;
+        clubs[4].power += (golfbag & 0b1100000000 >> 8) * 10;
+        clubs[5].power += (golfbag & 0b110000000000 >> 10) * 10;
+        clubs[6].power += (golfbag & 0b11000000000000 >> 12) * 10;
+        clubs[7].power += (golfbag & 0b1100000000000000 >> 14) * 10;
+        clubs[8].power += (golfbag & 0b110000000000000000 >> 16) * 10;
     }
 
     public void clubUp() {

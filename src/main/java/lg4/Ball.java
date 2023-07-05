@@ -33,7 +33,6 @@ public class Ball {
     }
 
     void updateBall(double xv, double yv, double zv, double time) {
-        System.out.println("Updating ball with xv,yv,zv,time:"+xv+","+yv+","+zv+","+time);
         this.x += xv * time; this.y += yv * time; this.z += zv * time;
     }
 
@@ -64,7 +63,7 @@ public class Ball {
 
         // The intitial velocity of the ball
         // uses the club power, player power, power of the shot, and weight of the ball
-        double velocity = lg4.club.power * ((double)lg4.player.power / 10) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
+        double velocity = lg4.club.power * ((20+(double)lg4.player.power) / 40) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
         // The spin on the ball in [-1, 1], 0 being none, 1 being strong
         // This is just for left/right spin
         double spinLR = targetSpinLR;
