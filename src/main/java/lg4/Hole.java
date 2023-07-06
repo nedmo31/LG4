@@ -60,10 +60,9 @@ public class Hole {
          * Randomize some values for par, distance, waters, sands, maybe type?
          * Types: 
          *  - 0: short, par 3 with fairway, teebox, green
-         *  // NOT FEELING THIS ONE AT THE MOMENT - 1: pitch&putt, par 3 just teebox and green
+         *  - 1: narrow forest, par 4/5 straight with trees
          *  - 2: Snake, par 4/5 that goes back and forth
          *  - 3: Dog-leg, par 4/5 that makes a sharp turn
-         *  - 4: Choice, par 4/5 with left and right option
          * 
          * Make a teebox on some set range near the left side of screen
          * 
@@ -75,15 +74,18 @@ public class Hole {
         // Randomize the type of hole 
         int type = (int)(5*Math.random());
         MapCreationTree tree = new MapCreationTree();
-        type = 2;
+        type = 1; //TODO remove
         TeeBox teebox = new TeeBox();
+
+        windSpeed = (int)(11*Math.random());
+        windDir = (int)(4*Math.random());
 
         if (type == 0) {
             par = 3;
             segments = new HoleSegment[4];
             segments[0] = teebox;
             // randomize the hole location from where the teebox is
-            double holex = teebox.area.getBounds2D().getCenterX() + 600;
+            double holex = teebox.area.getBounds2D().getCenterX() + 400;
             double holey = teebox.area.getBounds2D().getCenterY() + (int)(50-Math.random()*100);
 
             // set the instance variables to our randomized location
@@ -91,7 +93,7 @@ public class Hole {
             this.y = (int)holey;
 
             for (int i = 0; i < 3; i++) {                
-                tree.add(new Oval(this.x - (400 - (i*150)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
+                tree.add(new Oval(this.x - (350 - (i*150)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
             }
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
@@ -103,6 +105,32 @@ public class Hole {
                 holex, holey,
                 70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
             ));
+        } else if (type == 1) { // Narrow forest, par 4/5
+            par = 4 + (int)(Math.random() * 2);
+            int lastx = (int)teebox.area.getBounds2D().getCenterX() + 50;
+            int lasty = (int)teebox.area.getBounds2D().getCenterY();
+            int roughStartX = lastx + 25;
+            
+            for (int i = 0; i < par; i++) {
+                tree.add(new Oval(lastx = (lastx + (int)(Math.random()*100 + 75)), lasty = (lasty + (int)(20-Math.random()*10)), (int)(50+Math.random()*50), (int)(30+Math.random()*20)));
+            }
+
+            segments = new HoleSegment[3+par];
+            segments[0] = teebox;
+            Polygon[] fairwayChunks = tree.getPolygonRepresentation();
+            for (int i = 1; i < par; i++) {
+                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+            }
+            // Add forest above and below
+            segments[par] = getForest(fairwayChunks, roughStartX, roughStartX+par*140, true);
+            segments[par+1] = getForest(fairwayChunks, roughStartX, roughStartX+par*140, false);
+
+            // Add the green to the array
+            segments[segments.length-1] = new Green(new Ellipse2D.Double(
+                lastx+75, lasty,
+                70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
+            ));
+            // make segments array at the end
         } else if (type == 2) { // Snake, par 4/5 that goes back and forth
             par = 4 + (int)(Math.random() * 2); 
             int lastx = (int)teebox.area.getBounds2D().getCenterX();
@@ -151,8 +179,8 @@ public class Hole {
             strokes++;
         }
         Green g = ((Green)segments[segments.length-1]);
-        int xStartPutt = lg4.screenWidth/2 + Green.HOLE_SIZEUP*(lg4.ball.x() - g.mapHoleX);
-        int yStartPutt = lg4.screenHeight/2 + Green.HOLE_SIZEUP*(lg4.ball.y() - g.mapHoleY);
+        int xStartPutt = lg4.screenWidth/2 + Green.HOLE_SIZEUP*(lg4.ball.x() - (int)g.area.getBounds2D().getCenterX());
+        int yStartPutt = lg4.screenHeight/2 + Green.HOLE_SIZEUP*(lg4.ball.y() - (int)g.area.getBounds2D().getCenterY());
         strokes += g.playGreen(xStartPutt, yStartPutt);
 
         return strokes;
@@ -164,6 +192,19 @@ public class Hole {
             System.out.println("Segment "+i+": "+segments[i].getClass().getSimpleName());
             System.out.println(segments[i].area.getClass().getSimpleName());
         }
+    }
+
+    private Forest getForest(Polygon[] fairway, int startX, int endX, boolean above) {
+        int yOffset = 80;
+        Polygon fPoly = new Polygon();
+        for (Polygon p : fairway) {
+            fPoly.addPoint(p.getBounds().x+10, above ? p.getBounds().y - yOffset + 25: p.getBounds().y + yOffset + 25);
+        }
+        int len = fPoly.npoints;
+        for (int i = 0; i < len; i++) {
+            fPoly.addPoint(fPoly.xpoints[i], above ? fPoly.ypoints[i] - 75 : fPoly.ypoints[i] + 75);
+        }
+        return new Forest(fPoly);
     }
 
     /**

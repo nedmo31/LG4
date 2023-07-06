@@ -71,7 +71,11 @@ public class ServerConnect {
         con.setReadTimeout(5000);
 
         Scanner in = new Scanner(new InputStreamReader(con.getInputStream()));
-        Golfer g = gson.fromJson(in.next(), Golfer.class);
+        String next = in.next();
+        System.out.println(next);
+        Golfer g = gson.fromJson(next, Golfer.class);
+        lg4.player = g;
+        System.out.println(g.name);
         g.initClubs();
         con.disconnect();
         in.close();

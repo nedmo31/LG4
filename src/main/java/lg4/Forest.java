@@ -16,9 +16,18 @@ public class Forest extends HoleSegment {
         super(a, treetopColor, .9, "forest");
     }
 
+    public Forest(Rectangle a) {
+        super(a, treetopColor, .9, "forest");
+    }
+
     public void paintArea(Graphics g) {
         g.setColor(color);
-        g.fillPolygon((Polygon)area);
+        if (area instanceof Polygon) {
+            g.fillPolygon((Polygon)area);
+        } else {
+            Rectangle r = (Rectangle)area;
+            g.fillRect(r.x, r.y, r.width, r.height);
+        }
     }
 
 }

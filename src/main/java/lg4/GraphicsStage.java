@@ -3,7 +3,6 @@ package lg4;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Polygon;
 
 public class GraphicsStage {
@@ -32,20 +31,70 @@ public class GraphicsStage {
         }
     }
 
+    public static GraphicsStage loginPage = new GraphicsStage("LoginPage", new Button[]{ 
+        new TextButton(new Rectangle(200,350,150,100), "Continue", Color.black){
+            public void clickAction() {
+                try {
+                    lg4.player = lg4.server.getGolfer(lg4.toName);
+                    lg4.gStage = GraphicsStage.mainMenu;
+                } catch (Exception e) {
+                    System.out.println("That's not a registered golfer");
+                    e.printStackTrace();
+                }
+            }
+        }, new TextButton(new Rectangle(450,350,150,100), "New Golfer", Color.black){
+            public void clickAction() {
+                try {
+                    lg4.player = lg4.server.getGolfer(lg4.toName);
+                } catch (Exception e) {
+                    lg4.player = new Golfer(lg4.toName);
+                }
+                lg4.gStage = GraphicsStage.mainMenu;
+            } }, new TextButton(new Rectangle(700, 350,150,100), "Anonymous", Color.black){
+            public void clickAction() {
+                lg4.player = new Golfer(true);
+                lg4.gStage = GraphicsStage.mainMenu;
+            } } }, 0) {
+            
+        void paintGraphicsStage(java.awt.Graphics g) {
+            g.setColor(new Color(80, 220, 80));
+            g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
+            super.paintGraphicsStage(g);
+            g.setColor(Color.black);
+            g.setFont(Window.f2);
+            g.drawString("Type username: "+lg4.toName, 300, 100);
+        }
+    };
+
     public static GraphicsStage mainMenu = new GraphicsStage("Menu", new Button[]{ 
         new TextButton(new Rectangle(100,100,100,100), "Play", Color.black){
             public void clickAction() {
                 lg4.gStage = GraphicsStage.play;
+                new Thread(() -> {
+                    lg4.course.playCourse(Course.DEFAULT_HOLES);
+                }).start();
+                
             }
-        } }, 0) {
+        }, new TextButton(new Rectangle(100,250,100,100), "Next Course", Color.black){
+            public void clickAction() {
+                lg4.courseList.nextCourse();
+            }
+        } }, 1) {
         void paintGraphicsStage(java.awt.Graphics g) {
-            play.paintGraphicsStage(g);
+            g.setColor(new Color(29, 153, 66));
+            g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
+            for (HoleSegment hs : lg4.hole.segments) {
+                hs.paintArea(g);
+            }
             g.setColor(Color.black);
             super.paintGraphicsStage(g);
+            g.setColor(Color.black);
+            g.setFont(Window.f1);
+            g.drawString(lg4.course.name, 700, 100);
         }
     };
 
-    public static GraphicsStage play = new GraphicsStage("Play", new Button[0], 1) {
+    public static GraphicsStage play = new GraphicsStage("Play", new Button[0], 2) {
         void paintGraphicsStage(java.awt.Graphics g) {
             // This will fill the whole background with dark green to represent the rough
             g.setColor(new Color(29, 153, 66));
@@ -62,7 +111,8 @@ public class GraphicsStage {
                 g.fillOval(Window.mx-offset/2, Window.my-offset/2, offset, offset);
                 
                 g.setColor(Color.black);
-                g.drawOval(lg4.ball.x()-lg4.club.radius/2, lg4.ball.y()-lg4.club.radius/2, lg4.club.radius, lg4.club.radius);
+                int radius = lg4.club.getRadius();
+                g.drawOval(lg4.ball.x()-radius/2, lg4.ball.y()-radius/2, radius, radius);
             } else if (lg4.hitStatus == lg4.AIMED) {
                 
                 g.setColor(new Color(180, 100, 100, 160));
@@ -127,73 +177,102 @@ public class GraphicsStage {
 				g.setColor(new Color(50, 250, 50));
 				g.fillRect(topCornerX, topCornerY, 600, 450);
 				green.paintAreaPutting(g);
-				g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 
 				// Draw arrows for green slope :(
 				g.setColor(new Color(5, 5, 5, 100));
-				g.fillPolygon(arrow(green.topLeftSlope, midX-130, midY-25));
-				g.fillPolygon(arrow(green.topLeftSlope, midX-30, midY-125));
-				g.fillPolygon(arrow(green.topLeftSlope, midX-30, midY-25));
+				g.fillPolygon(arrow(green.topLeftSlope, midX-130, midY-25, 8));
+				g.fillPolygon(arrow(green.topLeftSlope, midX-30, midY-125, 8));
+				g.fillPolygon(arrow(green.topLeftSlope, midX-30, midY-25, 8));
 
-				g.fillPolygon(arrow(green.topRightSlope, midX+30, midY-25));
-				g.fillPolygon(arrow(green.topRightSlope, midX+30, midY-125));
-				g.fillPolygon(arrow(green.topRightSlope, midX+130, midY-25));
+				g.fillPolygon(arrow(green.topRightSlope, midX+30, midY-25, 8));
+				g.fillPolygon(arrow(green.topRightSlope, midX+30, midY-125, 8));
+				g.fillPolygon(arrow(green.topRightSlope, midX+130, midY-25, 8));
 
-				g.fillPolygon(arrow(green.botLeftSlope, midX-130, midY+25));
-				g.fillPolygon(arrow(green.botLeftSlope, midX-30, midY+125));
-				g.fillPolygon(arrow(green.botLeftSlope, midX-30, midY+25));
+				g.fillPolygon(arrow(green.botLeftSlope, midX-130, midY+25, 8));
+				g.fillPolygon(arrow(green.botLeftSlope, midX-30, midY+125, 8));
+				g.fillPolygon(arrow(green.botLeftSlope, midX-30, midY+25, 8));
 
-				g.fillPolygon(arrow(green.botRightSlope, midX+30, midY+125));
-				g.fillPolygon(arrow(green.botRightSlope, midX+30, midY+25));
-				g.fillPolygon(arrow(green.botRightSlope, midX+130, midY+25));
+				g.fillPolygon(arrow(green.botRightSlope, midX+30, midY+125, 8));
+				g.fillPolygon(arrow(green.botRightSlope, midX+30, midY+25, 8));
+				g.fillPolygon(arrow(green.botRightSlope, midX+130, midY+25, 8));
 			}
 
             // Show clubs on the top left of the frame
 			g.setColor(Color.black);
-            g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+            g.setFont(Window.f4);
 			for (int i = 0; i < lg4.player.clubs.length; i++) {
 				Club c = lg4.player.clubs[i];
 				if (c.name.equals(lg4.club.name)) {
-					g.setFont(new Font("TimesRoman", Font.BOLD, 20));
+					g.setFont(Window.f4b);
 					g.drawRect(20, 110 + i * 30, 5, 5);
 				}
 				g.drawString(c.name, 35, 120 + i * 30);
-				g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+				g.setFont(Window.f4);
 			}
             g.fillRect(160, 0, 2, lg4.screenHeight);
             g.fillRect(0, 400, 160, 2);
+
+            // Show swing speed and ball spin
+            g.setColor(Color.black);
+            g.drawOval(30, 500, 51, 51);
+            g.setColor(Color.white);
+            g.fillOval(30, 500, 50, 50);
+            g.setColor(Color.red);
+            g.fillOval(52, 525 - (int)(15*lg4.hitSpinUpDown), 7, 7);
+
+            g.setColor(Color.black);
+            g.drawString("Swing speed:"+lg4.swingSpeed, 30, 600);
+
+            // Draw wind arrow 
+            // TO DO: improve upon wind. 0 north, 1 east, 2 south, 3 west for windDir
+            g.setColor(Color.black);
+            switch (lg4.hole.windDir) {
+                case 0:
+                    g.fillPolygon(arrow(3, 500, 40, 14));
+                    break;
+                case 1: 
+                    g.fillPolygon(arrow(1, 500, 40, 14));
+                    break;
+                case 2:
+                    g.fillPolygon(arrow(4, 500, 40, 14));
+                    break;
+                case 3: 
+                    g.fillPolygon(arrow(2, 500, 40, 14));
+                    break; 
+            }
+            g.drawString(lg4.hole.windSpeed+"m/s", 530, 50);
         }
     };
 
-    public Polygon arrow(int dir, int x, int y) {
-		return new Polygon(triangleX(dir, x, y), triangleY(dir, x, y), 3);
+    public Polygon arrow(int dir, int x, int y, int size) {
+		return new Polygon(triangleX(dir, x, y, size), triangleY(dir, x, y, size), 3);
 	}
 
-	public int[] triangleX(int dir, int x, int y) {
+	public int[] triangleX(int dir, int x, int y, int size) {
 		if (dir == 0)
 			return new int[] { 0, 0, 0 };
 		if (dir == 1) { // right
-			return new int[] { x, x, x + 8 };
+			return new int[] { x, x, x + size };
 		} else if (dir == 2) { // left
-			return new int[] { x - 8, x, x };
+			return new int[] { x - size, x, x };
 		} else if (dir == 3) { // up
-			return new int[] { x, x + 8, x + 16 };
+			return new int[] { x, x + size, x + size*2 };
 		} else { // down
-			return new int[] { x, x + 8, x + 16 };
+			return new int[] { x, x + size, x + size*2 };
 		}
 	}
 
-	public int[] triangleY(int dir, int x, int y) {
+	public int[] triangleY(int dir, int x, int y, int size) {
 		if (dir == 0)
 			return new int[] { 0, 0, 0 };
 		if (dir == 1) { // right
-			return new int[] { y, y + 16, y + 8 };
+			return new int[] { y, y + size*2, y + size};
 		} else if (dir == 2) { // left
-			return new int[] { y + 8, y, y + 16 };
+			return new int[] { y + size, y, y + size*2 };
 		} else if (dir == 3) { // up
-			return new int[] { y + 8, y, y + 8 };
+			return new int[] { y + size, y, y + size };
 		} else { // down
-			return new int[] { y, y + 8, y };
+			return new int[] { y, y + size, y };
 		}
 	}
 

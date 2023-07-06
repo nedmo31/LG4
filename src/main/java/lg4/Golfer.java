@@ -37,12 +37,23 @@ public class Golfer {
      */
     public Club[] clubs;
 
-    public Golfer() {
+    public Golfer(boolean ugh) {
         power = accuracy = putting = 5;
+        money = golfbag = 0;
+        name = "Anon";
+        initClubs();
+    }
+
+    public Golfer(String n) {
+        power = accuracy = putting = 5;
+        money = golfbag = 0;
+        name = n; 
+        initClubs();
     }
 
     public void initClubs() {
         clubs = lg4.clubs;
+        lg4.player = this;
         clubs[0].power += (golfbag & 0b11) * 10;
         clubs[1].power += (golfbag & 0b1100 >> 2) * 10;
         clubs[2].power += (golfbag & 0b110000 >> 4) * 10;
@@ -52,6 +63,10 @@ public class Golfer {
         clubs[6].power += (golfbag & 0b11000000000000 >> 12) * 10;
         clubs[7].power += (golfbag & 0b1100000000000000 >> 14) * 10;
         clubs[8].power += (golfbag & 0b110000000000000000 >> 16) * 10;
+        for (int i = 0; i < clubs.length; i++) {
+            clubs[i].updateRadius();
+        }
+        lg4.club = clubs[0];
     }
 
     public void clubUp() {

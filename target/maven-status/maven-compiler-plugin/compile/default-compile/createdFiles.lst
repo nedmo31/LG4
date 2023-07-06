@@ -1,3 +1,4 @@
+lg4\GraphicsStage$8.class
 lg4\Score.class
 lg4\SegmentDeserializer.class
 lg4\GraphicsStage$1.class
@@ -6,8 +7,10 @@ lg4\GraphicsStage.class
 lg4\Rough.class
 lg4\CourseFormat.class
 lg4\Window.class
+lg4\GraphicsStage$6.class
 lg4\Hole$Oval.class
 lg4\ServerConnect$CourseFormatList.class
+lg4\GraphicsStage$5.class
 lg4\Club.class
 lg4\Hole.class
 lg4\Hole$MapCreationTree.class
@@ -18,6 +21,7 @@ lg4\SegmentSerializer.class
 lg4\GraphicsStage$2.class
 lg4\ShapeAdapter.class
 lg4\Window$1.class
+lg4\GraphicsStage$7.class
 lg4\Green.class
 lg4\Hole$MapCreationTree$MCTreeNode.class
 lg4\ServerConnect.class
@@ -34,3 +38,4 @@ lg4\Window$3.class
 lg4\Golfer.class
 lg4\Button.class
 lg4\Ball.class
+lg4\GraphicsStage$4.class

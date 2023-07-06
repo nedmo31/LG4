@@ -21,7 +21,7 @@ public class Club {
     /**
      * The radius of the circle that this club can hit within
      */
-    int radius = 100;
+    int radius;
 
     /**
      * Number in (0, 1]. Power of shot gets multiplied when hitting
@@ -40,8 +40,20 @@ public class Club {
         roughPenalty = rP; sandPenalty = sP;
     }
 
+    public double getPenalty() {
+        HoleSegment hs = lg4.hole.whatSegment(lg4.ball);
+        if (hs instanceof Sand) { return sandPenalty; }
+        if (hs instanceof Rough) { return roughPenalty; }
+        return 1.0;
+    }
+
     public void updateRadius() {
-        double velocity = power * ((double)lg4.player.power / 10) * (1 / lg4.ball.weight);
+        double velocity = power * ((20+(double)lg4.player.power) / 40) * (1 / lg4.ball.weight) * ((14 - lg4.swingSpeed)/10.0);
         radius = (int) (2 * (velocity*velocity * Math.sin(2*angle)) / Ball.gravity);
+    }
+    
+    public int getRadius() {
+        updateRadius();
+        return radius;
     }
 }

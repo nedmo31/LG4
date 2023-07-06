@@ -4,6 +4,10 @@ import java.awt.Color;
 
 public class Ball {
 
+    public static Ball defaultBall = new Ball(1, 1, .5);
+
+    public final double WIND_MULTIPLIER = .12;
+
     // Gravity!
     public static double gravity = 9.8;
 
@@ -63,7 +67,8 @@ public class Ball {
 
         // The intitial velocity of the ball
         // uses the club power, player power, power of the shot, and weight of the ball
-        double velocity = lg4.club.power * ((20+(double)lg4.player.power) / 40) * pow * (1 / weight), xVelocity, yVelocity, zVelocity;
+        double velocity = lg4.club.power * ((20+(double)lg4.player.power) / 40) * pow * (1 / weight) * lg4.club.getPenalty()  * ((14 - lg4.swingSpeed)/10.0)
+        , xVelocity, yVelocity, zVelocity;
         // The spin on the ball in [-1, 1], 0 being none, 1 being strong
         // This is just for left/right spin
         double spinLR = targetSpinLR;
@@ -78,7 +83,7 @@ public class Ball {
         // }
         //This is the top/back spin on the ball, it will be a bit simpler to keep track of.
         // [-1, 1], positive for top spin
-        double spinUD = targetSpinUD;
+        double spinUD = targetSpinUD / 2;
 
         // Split velocity into components
         double xyVelocity = Math.abs(Math.cos(lg4.club.angle) * velocity);
@@ -148,21 +153,21 @@ public class Ball {
                 // apply acceleration onto the ball in the z-direction
                 // TO DO: make weight matter for spin?
                 zVelocity -= gravity * loopTime;
-                zVelocity += spinUD * loopTime;
+                zVelocity -= spinUD * loopTime;
 
                 // apply other accelerations for x and y directions
                 switch (lg4.hole.windDir) {
                     case 0:
-                        yVelocity += lg4.hole.windSpeed * loopTime;
+                        yVelocity -= lg4.hole.windSpeed * loopTime * WIND_MULTIPLIER;
                         break;
                     case 1: 
-                        xVelocity += lg4.hole.windSpeed * loopTime;
+                        xVelocity += lg4.hole.windSpeed * loopTime * WIND_MULTIPLIER;
                         break;
                     case 2:
-                        yVelocity -= lg4.hole.windSpeed * loopTime;
+                        yVelocity += lg4.hole.windSpeed * loopTime * WIND_MULTIPLIER;
                         break;
                     case 3: 
-                        xVelocity -= lg4.hole.windSpeed * loopTime;
+                        xVelocity -= lg4.hole.windSpeed * loopTime * WIND_MULTIPLIER;
                         break; 
                 }
                 xVelocity += spinLR * 2 * Math.cos(spinLRdir) * loopTime;

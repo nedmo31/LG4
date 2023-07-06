@@ -26,7 +26,6 @@ public class TextButton extends Button {
             if (this.area.contains(Window.mx, Window.my)) {
                 g.setFont(Window.f3b);
             } 
-            g.drawRect(area.x, area.y, area.width, area.height); //TODO remove hitbox
             g.drawString(text, this.area.x+10, this.area.y+area.height/2);
         }
 

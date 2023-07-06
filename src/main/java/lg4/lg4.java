@@ -40,6 +40,19 @@ public class lg4 {
      */
     static Course course;
 
+    /**
+     * The index into the courseList array of the current course
+     */
+    static int courseNum;
+
+    /**
+     * The index into the holes array of the current hole
+     */
+    static int holeNum;
+
+    /**
+     * The list of courses for the player to play
+     */
     static CourseList courseList;
     /**
      * The current player playing
@@ -48,7 +61,7 @@ public class lg4 {
     /**
      * The current ball being used
      */
-    static Ball ball;
+    static Ball ball = Ball.defaultBall;
     /**
      * The dimensions of the screen. 
      */
@@ -56,7 +69,9 @@ public class lg4 {
     /**
      * The current lg4.GraphicsStage to be displayed, starts at mainMenu
      */
-    static GraphicsStage gStage = GraphicsStage.play;
+    static GraphicsStage gStage = GraphicsStage.loginPage;
+
+    public static String toName = "";
 
     /**
      * An int to keep track of the stage in the hitting process
@@ -64,11 +79,6 @@ public class lg4 {
     static int hitStatus = NOT_HITTING;
 
     static ServerConnect server;
-    
-    /**
-     * The current club being used by the Golfer
-     */
-    static Club club;
 
     // variables for a hit
     static double hitPower = 0, targetPower = 1;
@@ -79,35 +89,27 @@ public class lg4 {
     static long swingSpeed = 4;
 
     public static void main(String[] args) {
+        cleanStart();
+        //System.out.println(course.playCourse(6));
+        while(true) { 
+            win.repaint();
+        }
+    }
 
+    public static void cleanStart() {
+        
         server = new ServerConnect();
 
-        initTest();
-        //hole = createTestHole();
-        course = new Course();
-        course.id=1;
-        course.name="test-course";
+        try {
+            courseList = server.getCourses();
+        } catch (Exception e) {
+            courseList = new CourseList();
+        }
+        course = courseList.courses.get(0);
         hole = course.holes[0];
-        
+
         initGUI();
         win.repaint();
-
-        ball.x = 230; ball.y = 530;
-        win.repaint();
-
-        try {
-            player = server.getGolfer("Nedmo");
-            //server.saveCourse(course);
-            courseList = server.getCourses();
-            course = courseList.courses.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //jsonStuff();
-        //readCourse();
-
-        System.out.println(course.playCourse(6));
     }
 
     public static void saveCourse() {
@@ -175,7 +177,7 @@ public class lg4 {
     }
 
     static void initTest() {
-        player = new Golfer();
+        player = new Golfer(true);
         player.clubs = clubs;
         ball = new Ball(1, 1, .5);
         club = player.clubs[0];
@@ -194,5 +196,10 @@ public class lg4 {
         new Club("9 Iron", .95, 60, .9, .7),
         new Club("P Wedge", 1.1, 60, 1, .9),
         new Club("S Wedge", 1.2, 60, 1, 1) };
+
+    /**
+     * The current club being used by the Golfer
+     */
+    static Club club = clubs[0];
 
 }

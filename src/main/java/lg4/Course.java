@@ -29,6 +29,7 @@ class Course {
             lg4.hole = holes[i];
             strokes += holes[i].playHole();
         }
+        if (id == -1) { return strokes; }
         Score results = new Score(lg4.player.name, id, strokes);
         try {
             lg4.server.uploadScore(results);
