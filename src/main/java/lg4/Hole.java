@@ -72,9 +72,8 @@ public class Hole {
          */
 
         // Randomize the type of hole 
-        int type = (int)(5*Math.random());
+        int type = (int)(4*Math.random());
         MapCreationTree tree = new MapCreationTree();
-        type = 1; //TODO remove
         TeeBox teebox = new TeeBox();
 
         windSpeed = (int)(11*Math.random());
@@ -160,6 +159,38 @@ public class Hole {
                 70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
             ));
             // make segments array at the end
+        } else {
+            par = 4;
+            boolean up = ((int)(Math.random()*2)) == 1;
+            if (up) {
+                teebox = new TeeBox(200);
+            } else {
+                teebox = new TeeBox(-150);
+            }
+            int lastx = (int)teebox.area.getBounds2D().getCenterX() + 50;
+            int lasty = (int)teebox.area.getBounds2D().getCenterY();
+            
+            for (int i = 0; i < 3; i++) {
+                tree.add(new Oval(lastx = (lastx + (int)(Math.random()*100 + 125)),
+                     lasty = (lasty + (int)(20-Math.random()*10)), (int)(50+Math.random()*50), (int)(30+Math.random()*20)));
+            } for (int i = 0; i < 2; i++) {
+                tree.add(new Oval(lastx = (lastx + (int)(Math.random()*10 + 10)),
+                    lasty = up ? (lasty - (int)(Math.random()*50+100)) : (lasty + (int)(Math.random()*50+100)), 
+                    (int)(50+Math.random()*50), (int)(30+Math.random()*20)));
+            }
+
+            segments = new HoleSegment[5];
+            segments[0] = teebox;
+            Polygon[] fairwayChunks = tree.getPolygonRepresentation();
+            for (int i = 1; i < 4; i++) {
+                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+            }
+
+            // Add the green to the array
+            segments[segments.length-1] = new Green(new Ellipse2D.Double(
+                lastx, up ? lasty - 70 : lasty + 70,
+                70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
+            ));
         }
     }
 
@@ -205,6 +236,16 @@ public class Hole {
             fPoly.addPoint(fPoly.xpoints[i], above ? fPoly.ypoints[i] - 75 : fPoly.ypoints[i] + 75);
         }
         return new Forest(fPoly);
+    }
+
+    public void addSegment(HoleSegment hs) {
+        HoleSegment[] newSegs = new HoleSegment[segments.length+1];
+        for (int i = 0; i < segments.length-1; i++) {
+            newSegs[i] = segments[i];
+        }
+        newSegs[segments.length] = segments[segments.length-1];
+        newSegs[segments.length-1] = hs;
+        segments = newSegs;
     }
 
     /**

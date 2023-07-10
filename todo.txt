@@ -28,3 +28,10 @@ server
 web
  - Get leaderboards to show nicely
  - Get golfers to show nicely
+
+
+
+ possible hole creator:
+  Make basic holes without hazards randomly. Easy enough
+  Add trees, water, and sand with mouse
+  

@@ -91,6 +91,14 @@ public class lg4 {
     public static void main(String[] args) {
         cleanStart();
         //System.out.println(course.playCourse(6));
+        //hole.addSegment(new Forest(new Polygon(new int[]{439, 740, 780, 439}, new int[]{350, 375, 460, 440}, 4)));
+        //course.name = "Little Creek";
+        //course.id = 2;
+        try {
+            //server.saveCourse(course);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         while(true) { 
             win.repaint();
         }
@@ -104,7 +112,9 @@ public class lg4 {
             courseList = server.getCourses();
         } catch (Exception e) {
             courseList = new CourseList();
+            e.printStackTrace();
         }
+        //courseList = new CourseList();
         course = courseList.courses.get(0);
         hole = course.holes[0];
 

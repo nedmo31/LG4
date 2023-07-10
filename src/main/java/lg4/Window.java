@@ -73,11 +73,15 @@ public class Window extends JPanel {
         );
         addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-                // if (e.getButton() == MouseEvent.BUTTON3) {
-                //     System.out.println("saving course");
-                //     lg4.saveCourse();
-                //     return;
-                // }
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    System.out.println("saving course...");
+                    try {
+                        lg4.server.updateCourse(lg4.course);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                    return;
+                }
                 repaint();
                 mx = e.getX();
                 my = e.getY();
@@ -142,6 +146,7 @@ public class Window extends JPanel {
 			public void mouseMoved(MouseEvent e) {
                 mx = e.getX();
                 my = e.getY();
+                // System.out.println("(x,y) : ("+mx+","+my+")");
                 if (lg4.hitStatus == lg4.AIMING) {
                     // get distance between ball and click
                     int xDist = mx - lg4.ball.x();

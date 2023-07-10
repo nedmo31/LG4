@@ -34,8 +34,10 @@ lg4\TeeBox.class
 lg4\Course.class
 lg4\Fairway.class
 lg4\Sand.class
+lg4\ServerConnect$1.class
 lg4\Window$3.class
 lg4\Golfer.class
 lg4\Button.class
+lg4\ScoreList.class
 lg4\Ball.class
 lg4\GraphicsStage$4.class

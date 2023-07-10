@@ -26,6 +26,7 @@ public class GraphicsStage {
     }
 
     void paintGraphicsStage(java.awt.Graphics g) {
+        g.drawString("("+Window.mx+","+Window.my+")", Window.mx, Window.my);
         for (Button b : buttons) {
             b.paintButton(g);
         }
@@ -87,6 +88,14 @@ public class GraphicsStage {
                 hs.paintArea(g);
             }
             g.setColor(Color.black);
+            g.setFont(Window.f2);
+            g.drawString("Scoreboard", lg4.screenWidth-400, 75);
+            g.fillRect(lg4.screenWidth-410, 110, 350, 3);
+            int i = 1; g.setFont(Window.f4);
+            for (Score s : lg4.course.scores) {
+                g.drawString(i+": "+s.score+" ~ "+s.name, lg4.screenWidth-380, 120 + 30 * i++);
+            }
+
             super.paintGraphicsStage(g);
             g.setColor(Color.black);
             g.setFont(Window.f1);

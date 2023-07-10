@@ -13,6 +13,11 @@ public class TeeBox extends HoleSegment {
         40, 80), teeBoxColor, .75, "teebox");
     }
 
+    public TeeBox(int updown) {
+        super(new Rectangle(250, 300 + (int)(Math.random()*100) + updown,
+        40, 80), teeBoxColor, .75, "teebox");
+    }
+
     public void paintArea(Graphics g) {
         if (area instanceof Rectangle) {
             int x = ((Rectangle)area).x;

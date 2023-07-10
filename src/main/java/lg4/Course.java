@@ -1,10 +1,13 @@
 package lg4;
 
+import java.util.ArrayList;
+
 class Course {
 
     Hole[] holes;
     String name;
     int id;
+    ArrayList<Score> scores;
 
     public static final int DEFAULT_HOLES = 6;
 
@@ -15,10 +18,12 @@ class Course {
         }
         name = "auto-generated";
         id = -1;
+        scores = new ArrayList<>(0);
     }
 
     public Course(Hole[] h, String n, int i) {
         holes = h; name = n; id = i;
+        scores = new ArrayList<>(); 
     }
 
     public int playCourse(int holesToPlay) {
