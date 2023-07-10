@@ -33,9 +33,7 @@
                 <descriptorRef>jar-with-dependencies</descriptorRef>
             </descriptorRefs>
             <archive>
-                <manifest>
-                    <mainClass>lg4.lg4</mainClass>
-                </manifest>
+              <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
             </archive>
         </configuration>
     </plugin>
