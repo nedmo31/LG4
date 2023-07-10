@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -26,6 +27,14 @@ public class lg4 {
     public static final int BALL_MOVING = 5;
     public static final int PUTTING = 6;
     public static final int PUTT_ROLL = 7;
+
+    //TODO REMOVE
+    static boolean editor = false;
+    static ArrayList<Point> points = new ArrayList<>();
+    public static final int SAND = 0;
+    public static final int FOREST = 1;
+    public static final int WATER = 2;
+    static int makerStatus = 1;
     
     /**
      * The window that the game runs in. JFrame object with an lg4.Window() object as a child
@@ -65,7 +74,7 @@ public class lg4 {
     /**
      * The dimensions of the screen. 
      */
-    static int screenWidth = 1400, screenHeight = 800;
+    static int screenWidth = 1380, screenHeight = 780;
     /**
      * The current lg4.GraphicsStage to be displayed, starts at mainMenu
      */
@@ -73,7 +82,7 @@ public class lg4 {
 
     public static String toName = "";
 
-    /**
+      /**
      * An int to keep track of the stage in the hitting process
      */
     static int hitStatus = NOT_HITTING;
@@ -90,15 +99,7 @@ public class lg4 {
 
     public static void main(String[] args) {
         cleanStart();
-        //System.out.println(course.playCourse(6));
-        //hole.addSegment(new Forest(new Polygon(new int[]{439, 740, 780, 439}, new int[]{350, 375, 460, 440}, 4)));
-        //course.name = "Little Creek";
-        //course.id = 2;
-        try {
-            //server.saveCourse(course);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         while(true) { 
             win.repaint();
         }
@@ -110,16 +111,15 @@ public class lg4 {
 
         try {
             courseList = server.getCourses();
+            server.getScores();
         } catch (Exception e) {
             courseList = new CourseList();
             e.printStackTrace();
         }
-        //courseList = new CourseList();
         course = courseList.courses.get(0);
         hole = course.holes[0];
 
         initGUI();
-        win.repaint();
     }
 
     public static void saveCourse() {

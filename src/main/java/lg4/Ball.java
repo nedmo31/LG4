@@ -6,13 +6,13 @@ public class Ball {
 
     public static Ball defaultBall = new Ball(1, 1, .5);
 
-    public final double WIND_MULTIPLIER = .12;
+    public final double WIND_MULTIPLIER = .1;
 
     // Gravity!
     public static double gravity = 9.8;
 
     // higher speeds mean the ball moves faster. Makes testing faster
-    final int SPEED = 6;
+    final int SPEED = 5;
 
     // x and y correspond to the screen
     // and z is the height
@@ -63,6 +63,9 @@ public class Ball {
         lg4.hitStatus = lg4.BALL_MOVING;
         this.z = 0;
 
+        double initialX = this.x;
+        double initialY = this.y;
+
         pow = Math.sqrt(pow); // this is to make the power recommendation more accurate. IDK about it though
 
         // The intitial velocity of the ball
@@ -71,7 +74,7 @@ public class Ball {
         , xVelocity, yVelocity, zVelocity;
         // The spin on the ball in [-1, 1], 0 being none, 1 being strong
         // This is just for left/right spin
-        double spinLR = targetSpinLR;
+        double spinLR = targetSpinLR * pow;
 
         // This keeps track of the direction of the spin in radians
         double spinLRdir = xyAng + Math.PI/2;
@@ -109,7 +112,6 @@ public class Ball {
         // The loop that's gonna start moving the ball. We use the system time to help
         double startTime = System.nanoTime(), loopTime = 0;
 
-        boolean repaint = true;
         while (true) {
             /*
              * update x y and z with velocity
@@ -127,12 +129,21 @@ public class Ball {
             startTime = System.nanoTime();
             // move the ball
             updateBall(xVelocity, yVelocity, zVelocity, loopTime);
-
+            // FOR NOW, I think i'll treat the forest as just Out of bounds, so check at end
+            // if (z <= Forest.height) {
+            //     HoleSegment seg = lg4.hole.whatSegment(this);
+            //     if (seg instanceof Forest) {
+            //         this.x = initialX;
+            //         this.y = initialY;
+            //         break;
+            //     }
+            // }
             if (z <= 0) {
                 // Ball is bouncing!
                 HoleSegment seg = lg4.hole.whatSegment(this);
                 if (seg instanceof Water) {
-                    // To DO!
+                    this.x = initialX;
+                    this.y = initialY;
                     break;
                 } else if (seg instanceof Sand) {
                     // To DO!
@@ -173,9 +184,13 @@ public class Ball {
                 xVelocity += spinLR * 2 * Math.cos(spinLRdir) * loopTime;
                 yVelocity += spinLR * 2 * Math.sin(spinLRdir) * loopTime;
             }
-            if (repaint) 
-                lg4.win.repaint();
-            repaint = !repaint;
+            lg4.win.repaint(x()-5, y()-25, 10, 30);
+        }
+        HoleSegment seg = lg4.hole.whatSegment(this);
+        if (seg instanceof Forest) {
+            this.x = initialX;
+            this.y = initialY;
+            System.out.println("Out of bounds!");
         }
         lg4.hitStatus = lg4.NOT_HITTING;
     }

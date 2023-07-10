@@ -92,7 +92,7 @@ public class Hole {
             this.y = (int)holey;
 
             for (int i = 0; i < 3; i++) {                
-                tree.add(new Oval(this.x - (350 - (i*150)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
+                tree.add(new Oval(this.x - (200 - (i*75)), this.y + (int)(50-Math.random()*100), (int)(50+Math.random()*50), (int)(50+Math.random()*50)));
             }
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
@@ -114,15 +114,15 @@ public class Hole {
                 tree.add(new Oval(lastx = (lastx + (int)(Math.random()*100 + 75)), lasty = (lasty + (int)(20-Math.random()*10)), (int)(50+Math.random()*50), (int)(30+Math.random()*20)));
             }
 
-            segments = new HoleSegment[3+par];
+            segments = new HoleSegment[1+par];
             segments[0] = teebox;
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
                 segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
             }
-            // Add forest above and below
-            segments[par] = getForest(fairwayChunks, roughStartX, roughStartX+par*140, true);
-            segments[par+1] = getForest(fairwayChunks, roughStartX, roughStartX+par*140, false);
+            // // Add forest above and below
+            // segments[par] = getForest(fairwayChunks, roughStartX, roughStartX+par*140, true);
+            // segments[par+1] = getForest(fairwayChunks, roughStartX, roughStartX+par*140, false);
 
             // Add the green to the array
             segments[segments.length-1] = new Green(new Ellipse2D.Double(

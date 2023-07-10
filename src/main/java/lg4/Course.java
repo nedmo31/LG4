@@ -30,9 +30,11 @@ class Course {
         holesToPlay = holesToPlay > DEFAULT_HOLES ? DEFAULT_HOLES : holesToPlay;
         lg4.course = this;
         int strokes = 0;
+        lg4.win.repaint();
         for (int i = 0; i < holesToPlay; i++) {
             lg4.hole = holes[i];
             strokes += holes[i].playHole();
+            lg4.courseNum++;
         }
         if (id == -1) { return strokes; }
         Score results = new Score(lg4.player.name, id, strokes);

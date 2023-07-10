@@ -73,7 +73,6 @@ public class ServerConnect {
 
         Scanner in = new Scanner(new InputStreamReader(con.getInputStream()));
         String next = in.next();
-        System.out.println(next);
         Golfer g = gson.fromJson(next, Golfer.class);
         lg4.player = g;
         System.out.println(g.name);
@@ -95,10 +94,9 @@ public class ServerConnect {
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
 
-        Scanner in = new Scanner(new InputStreamReader(con.getInputStream()));
-        CourseFormatList cl = gson.fromJson(in.next(), CourseFormatList.class);
+        String back = getFullResponse(con);
+        CourseFormatList cl = gson.fromJson(back, CourseFormatList.class);
         con.disconnect();
-        in.close();
         return cl.getCourseList(gson);
     }
 
@@ -224,6 +222,9 @@ public class ServerConnect {
         ScoreList cl = gson.fromJson(in.next(), ScoreList.class);
         con.disconnect();
         in.close();
+        for (Course c : lg4.courseList.courses) {
+            c.scores.clear();
+        }
         for (Score s : cl.scores) {
             for (Course c : lg4.courseList.courses) {
                 if (s.cid == c.id) {
@@ -255,5 +256,16 @@ public class ServerConnect {
             }
             return new CourseList(cs);
         }
+    }
+
+    // TODO make other requests use this method
+    public String getFullResponse(HttpURLConnection con) throws Exception {
+        Scanner in = new Scanner(new InputStreamReader(con.getInputStream()));
+        StringBuilder sb = new StringBuilder();
+        while (in.hasNext()) {
+            sb.append(in.next());
+        }
+        in.close();
+        return sb.toString();
     }
 }

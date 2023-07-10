@@ -8,9 +8,11 @@ import java.awt.*;
  */
 public class Forest extends HoleSegment {
 
-    public int height = 10;
+    public static int xDensity = 60, yDensity = 60;
+
+    public static int height = 10;
     
-    public static Color treetopColor = Color.pink;
+    public static Color treetopColor = new Color(30, 130, 30);
 
     public Forest(Polygon a) {
         super(a, treetopColor, .9, "forest");
@@ -21,9 +23,14 @@ public class Forest extends HoleSegment {
     }
 
     public void paintArea(Graphics g) {
-        g.setColor(color);
+        g.setColor(treetopColor);
         if (area instanceof Polygon) {
-            g.fillPolygon((Polygon)area);
+            Polygon p = (Polygon)area;
+            g.fillPolygon(p);
+            g.setColor(Color.white);
+            for (int i = 0; i < p.npoints; i++) {
+                g.fillRect(p.xpoints[i]-2, p.ypoints[i]-2, 4, 4);
+            }
         } else {
             Rectangle r = (Rectangle)area;
             g.fillRect(r.x, r.y, r.width, r.height);

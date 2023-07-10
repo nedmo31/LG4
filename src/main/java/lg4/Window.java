@@ -4,7 +4,9 @@ import javax.swing.JPanel;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.*;
+import java.awt.Color;
 import java.awt.Font;
 
 /**
@@ -57,7 +59,7 @@ public class Window extends JPanel {
      */
     public static long targetSecond = 0;
 
-    public static int mx, my;
+    public static int mx, my, aimedX, aimedY;
 
     public Window() {
         addMouseWheelListener(
@@ -73,16 +75,16 @@ public class Window extends JPanel {
         );
         addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    System.out.println("saving course...");
-                    try {
-                        lg4.server.updateCourse(lg4.course);
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                    return;
+                if (e.getButton() == MouseEvent.BUTTON3 && lg4.editor) {
+                    lg4.points.add(new Point(e.getX(), e.getY()));
+                    // System.out.println("saving course...");
+                    // try {
+                    //     lg4.server.updateCourse(lg4.course);
+                    // } catch (Exception e1) {
+                    //     e1.printStackTrace();
+                    // }
+                    // return;
                 }
-                repaint();
                 mx = e.getX();
                 my = e.getY();
                 if (lg4.gStage == GraphicsStage.play) {
@@ -97,7 +99,9 @@ public class Window extends JPanel {
                         if (yDist > 0) {
                             lg4.xyAngle -= Math.PI;
                         }
-                        
+                        aimedX = mx;
+                        aimedY = my;
+
                         lg4.hitStatus = lg4.AIMED;
 
                     } else if (lg4.hitStatus == lg4.AIMED) {
@@ -171,6 +175,50 @@ public class Window extends JPanel {
 		lg4.win.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
+                if (lg4.editor) {
+                if (keyCode == KeyEvent.VK_ENTER) {
+                        int nps = lg4.points.size();
+                        int[] xps = new int[nps];
+                        int[] yps = new int[nps];
+                        for (int i = 0; i < nps; i++) {
+                            Point p = lg4.points.get(i);
+                            xps[i] = p.x; yps[i] = p.y;
+                        }
+                        if (lg4.makerStatus == lg4.SAND) {
+                            lg4.hole.addSegment(new Sand(new Polygon(xps, yps, nps)));
+                        } else if (lg4.makerStatus == lg4.WATER) {
+                            lg4.hole.addSegment(new Water(new Polygon(xps, yps, nps)));
+                        } else if (lg4.makerStatus == lg4.FOREST) {
+                            lg4.hole.addSegment(new Forest(new Polygon(xps, yps, nps)));
+                        }
+                        System.out.println("ADDED SEGMENT. CLEARING LIST");
+                        lg4.points.clear();
+                    }
+                    else if (keyCode == KeyEvent.VK_PERIOD) {
+                        try {
+                            lg4.server.saveCourse(lg4.course);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                    else if (keyCode == KeyEvent.VK_SPACE) {
+                        try {
+                            lg4.server.updateCourse(lg4.course);
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    } else if (keyCode == KeyEvent.VK_0) { lg4.makerStatus = 0; } 
+                     else if (keyCode == KeyEvent.VK_1) { lg4.makerStatus = 1; } 
+                      else if (keyCode == KeyEvent.VK_2) { lg4.makerStatus = 2; } 
+                      else if (keyCode == KeyEvent.VK_RIGHT) { // right arrow
+						lg4.holeNum++;
+                        lg4.hole = lg4.course.holes[lg4.holeNum];
+					} else if (keyCode == KeyEvent.VK_LEFT) { // left arrow
+						lg4.holeNum--;
+                        lg4.hole = lg4.course.holes[lg4.holeNum];
+					}
+                    return;
+                }
 				//System.out.println("KEY PRESSED - "+keyCode);
 				if (lg4.gStage == GraphicsStage.play) {
 					if (keyCode == KeyEvent.VK_UP) { // up arrow
@@ -184,6 +232,9 @@ public class Window extends JPanel {
 					} else if (keyCode == KeyEvent.VK_SPACE) {
                         lg4.swingSpeed = 4;
                         lg4.hitSpinUpDown = 0;
+                    } 
+                    else if (keyCode == KeyEvent.VK_ESCAPE && lg4.hitStatus == lg4.AIMED) {
+                        lg4.hitStatus = lg4.AIMING;
                     }
                     
 				}
@@ -245,7 +296,7 @@ public class Window extends JPanel {
 						lg4.toName += "z";
 					}
 				}
-            repaint(); }
+            }
 		});
     }
 
@@ -253,10 +304,18 @@ public class Window extends JPanel {
      * The method that paints the screen
      */
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        //super.paintComponent(g);
+        System.out.println(System.currentTimeMillis());
 
         lg4.gStage.paintGraphicsStage(g);
 
+        if (lg4.editor) {
+            g.setColor(Color.black);
+            for (Point p : lg4.points) {
+                g.fillOval(p.x, p.y, 3, 3);
+            }
+            g.drawString("Hole #"+lg4.holeNum, 100, 100);
+        }
     }
 
     // private void handleHitReleased(MouseEvent e) {

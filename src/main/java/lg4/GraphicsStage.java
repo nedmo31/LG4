@@ -26,7 +26,6 @@ public class GraphicsStage {
     }
 
     void paintGraphicsStage(java.awt.Graphics g) {
-        g.drawString("("+Window.mx+","+Window.my+")", Window.mx, Window.my);
         for (Button b : buttons) {
             b.paintButton(g);
         }
@@ -68,7 +67,7 @@ public class GraphicsStage {
     };
 
     public static GraphicsStage mainMenu = new GraphicsStage("Menu", new Button[]{ 
-        new TextButton(new Rectangle(100,100,100,100), "Play", Color.black){
+        new TextButton(new Rectangle(50,100,100,100), "Play", Color.black){
             public void clickAction() {
                 lg4.gStage = GraphicsStage.play;
                 new Thread(() -> {
@@ -76,7 +75,7 @@ public class GraphicsStage {
                 }).start();
                 
             }
-        }, new TextButton(new Rectangle(100,250,100,100), "Next Course", Color.black){
+        }, new TextButton(new Rectangle(50,250,100,100), "Next Course", Color.black){
             public void clickAction() {
                 lg4.courseList.nextCourse();
             }
@@ -89,7 +88,7 @@ public class GraphicsStage {
             }
             g.setColor(Color.black);
             g.setFont(Window.f2);
-            g.drawString("Scoreboard", lg4.screenWidth-400, 75);
+            g.drawString("Scoreboard", lg4.screenWidth-400, 90);
             g.fillRect(lg4.screenWidth-410, 110, 350, 3);
             int i = 1; g.setFont(Window.f4);
             for (Score s : lg4.course.scores) {
@@ -99,12 +98,23 @@ public class GraphicsStage {
             super.paintGraphicsStage(g);
             g.setColor(Color.black);
             g.setFont(Window.f1);
-            g.drawString(lg4.course.name, 700, 100);
+            g.drawString(lg4.course.name, 350, 100);
         }
     };
 
     public static GraphicsStage play = new GraphicsStage("Play", new Button[0], 2) {
+
+        Polygon leftArrowSwing = arrow(2, 60, 560, 10),
+                rightArrowSwing = arrow(1, 80, 560, 10),
+                upArrowSpin =  arrow(3, 100, 472, 10),
+                downArrowSpin = arrow(4, 100, 487, 10),
+                windArrowUp = arrow(3, 500, 40, 14),
+                windArrowLeft = arrow(2, 500, 40, 14),
+                windArrowRight = arrow(1, 500, 40, 14), 
+                windArrowDown = arrow(4, 500, 40, 14); 
+
         void paintGraphicsStage(java.awt.Graphics g) {
+            
             // This will fill the whole background with dark green to represent the rough
             g.setColor(new Color(29, 153, 66));
             g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
@@ -115,18 +125,20 @@ public class GraphicsStage {
 
             if (lg4.hitStatus == lg4.AIMING) {
                 
-                g.setColor(new Color(180, 100, 100, 160));
-                int offset = (15 - lg4.player.accuracy)* 4;
-                g.fillOval(Window.mx-offset/2, Window.my-offset/2, offset, offset);
+                g.setColor(Color.RED);
+                g.drawOval(Window.mx-20, Window.my-20, 40, 40);
+                g.fillRect(Window.mx-1, Window.my-20, 2, 40);
+                g.fillRect(Window.mx-20, Window.my-1, 40, 2);
                 
                 g.setColor(Color.black);
                 int radius = lg4.club.getRadius();
                 g.drawOval(lg4.ball.x()-radius/2, lg4.ball.y()-radius/2, radius, radius);
             } else if (lg4.hitStatus == lg4.AIMED) {
                 
-                g.setColor(new Color(180, 100, 100, 160));
-                int offset = (15 - lg4.player.accuracy)* 4;
-                g.fillOval(Window.mx-offset/2, Window.my-offset/2, offset, offset);
+                g.setColor(Color.RED);
+                g.drawOval(Window.aimedX-20, Window.aimedY-20, 40, 40);
+                g.fillRect(Window.aimedX-1, Window.aimedY-20, 2, 40);
+                g.fillRect(Window.aimedX-20, Window.aimedY-1, 40, 2);
             }
 
             // Ball + Extras
@@ -143,34 +155,40 @@ public class GraphicsStage {
             g.setColor(Color.black);
             g.drawRect(400, 600, 600, 50);
             g.fillRect(898, 600, 4, 50);
-            g.fillOval((int)(900-(lg4.targetPower)*500), 575, 10, 10);
-
+            
+            g.setColor(Color.RED);
+            g.drawOval((int)(900-(lg4.targetPower)*500), 605, 40, 40);
+            g.fillRect((int)(920-(lg4.targetPower)*500), 605, 2, 40);
+            g.fillRect((int)(900-(lg4.targetPower)*500), 624, 40, 2);
+            
+            g.setColor(Color.BLACK);
             if (lg4.hitStatus == lg4.SWINGING1) {
                 double percentage = (System.nanoTime() - Window.swingFirst)/(double)(Window.targetFirst-Window.swingFirst);
                 if (percentage > 1) {
-                    g.fillOval((int)(900-(2-percentage)*500), 610, 15, 15);
+                    g.fillOval((int)(900-(2-percentage)*500), 610, 30, 30);
                 } else {
-                    g.fillOval((int)(900-percentage*500), 610, 15, 15);
+                    g.fillOval((int)(900-percentage*500), 610, 30, 30);
                 }
             }
             if (lg4.hitStatus == lg4.SWINGING2) {
+                g.fillOval((int)(900-lg4.hitPower*500), 610, 30, 30);
                 double percentage = (System.nanoTime() - Window.swingFirst)/(double)(Window.targetFirst-Window.swingFirst);
                 if (percentage > 1) {
-                    g.fillOval((int)(900-(2-percentage)*500), 610, 15, 15);
+                    g.fillOval((int)(900-(2-percentage)*500), 610, 30, 30);
                 } else {
-                    g.fillOval((int)(900-percentage*500), 610, 15, 15);
+                    g.fillOval((int)(900-percentage*500), 610, 30, 30);
                 }
             }
 
             else if (lg4.hitStatus == lg4.BALL_MOVING) {
-                g.fillOval((int)(900-lg4.hitPower*500), 610, 15, 30);
-                g.fillOval((int)(900+lg4.hitSpinLeftRight*100), 610, 15, 30);
+                g.fillOval((int)(900-lg4.hitPower*500), 610, 30, 30);
+                g.fillOval((int)(900+lg4.hitSpinLeftRight*100), 610, 30, 30);
 
-                g.setColor(new Color(100, 100, 240, 220));
-                g.fillOval((int)(400), 610, 15, 15);
-                g.fillOval((int)(1000), 610, 15, 15);
-                g.setColor(new Color(240, 100, 100, 220));
-                g.fillOval((int)(800), 610, 15, 15);
+                // g.setColor(new Color(100, 100, 240, 220));
+                // g.fillOval((int)(400), 610, 15, 15);
+                // g.fillOval((int)(1000), 610, 15, 15);
+                // g.setColor(new Color(240, 100, 100, 220));
+                // g.fillOval((int)(800), 610, 15, 15);
             }
             
 
@@ -223,33 +241,51 @@ public class GraphicsStage {
 
             // Show swing speed and ball spin
             g.setColor(Color.black);
-            g.drawOval(30, 500, 51, 51);
+            g.drawOval(40, 460, 51, 51);
+            g.drawPolygon(upArrowSpin);
+            g.drawPolygon(downArrowSpin);
+
             g.setColor(Color.white);
-            g.fillOval(30, 500, 50, 50);
+            g.fillOval(40, 460, 50, 50);
             g.setColor(Color.red);
-            g.fillOval(52, 525 - (int)(15*lg4.hitSpinUpDown), 7, 7);
+            g.fillOval(62, 485 - (int)(15*lg4.hitSpinUpDown), 7, 7);
 
             g.setColor(Color.black);
-            g.drawString("Swing speed:"+lg4.swingSpeed, 30, 600);
+            g.setFont(Window.f5);
+            if (lg4.swingSpeed <= 3) {
+                g.drawString("Fast Swing", 15, 550);
+                g.drawPolygon(leftArrowSwing);
+            } else if (lg4.swingSpeed == 4) {
+                g.drawString("Medium Swing", 15, 550);
+                g.drawPolygon(leftArrowSwing);
+                g.drawPolygon(rightArrowSwing);
+            } else {
+                g.drawString("Slow Swing", 15, 550);
+                g.drawPolygon(rightArrowSwing);
+            }
+            
 
             // Draw wind arrow 
             // TO DO: improve upon wind. 0 north, 1 east, 2 south, 3 west for windDir
             g.setColor(Color.black);
             switch (lg4.hole.windDir) {
                 case 0:
-                    g.fillPolygon(arrow(3, 500, 40, 14));
+                    g.fillPolygon(windArrowUp);
                     break;
                 case 1: 
-                    g.fillPolygon(arrow(1, 500, 40, 14));
+                    g.fillPolygon(windArrowRight);
                     break;
                 case 2:
-                    g.fillPolygon(arrow(4, 500, 40, 14));
+                    g.fillPolygon(windArrowDown);
                     break;
                 case 3: 
-                    g.fillPolygon(arrow(2, 500, 40, 14));
+                    g.fillPolygon(windArrowLeft);
                     break; 
             }
-            g.drawString(lg4.hole.windSpeed+"m/s", 530, 50);
+            g.drawString("Wind " +lg4.hole.windSpeed+"m/s", 530, 50);
+
+            g.setFont(Window.f2);
+            g.drawString("Hole #"+lg4.holeNum+1, 800, 50);
         }
     };
 
