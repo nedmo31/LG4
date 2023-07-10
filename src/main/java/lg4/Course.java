@@ -40,6 +40,7 @@ class Course {
         Score results = new Score(lg4.player.name, id, strokes);
         try {
             lg4.server.uploadScore(results);
+            lg4.server.saveGolfer(lg4.player);
             System.out.println("Uploaded results to server.");
         } catch(Exception e) {
             System.out.println("Couldn't upload results to server.");
