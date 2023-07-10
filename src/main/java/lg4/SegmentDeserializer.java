@@ -11,7 +11,6 @@ public class SegmentDeserializer implements JsonDeserializer<HoleSegment>{
             throws JsonParseException {
 
         String name = json.getAsJsonObject().get("type").toString();
-        System.out.println("Looking at segment with type "+name);
         if (name.equals("\"fairway\"")) {
             return context.deserialize(json, Fairway.class); 
         } 

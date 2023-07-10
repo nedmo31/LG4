@@ -109,7 +109,6 @@ public class Window extends JPanel {
                         swingFirst = System.nanoTime();
                         targetFirst = swingFirst + 200000000 * lg4.swingSpeed;
                         targetSecond = swingFirst + 400000000 * lg4.swingSpeed;
-                        System.out.println("Targets:\n 1st - "+targetFirst+"\t2nd - "+targetSecond);
                     } else if (lg4.hitStatus == lg4.SWINGING1) {
                         swingSecond = System.nanoTime();
                         long diffAbs = Math.abs(swingSecond - targetFirst);
@@ -124,7 +123,6 @@ public class Window extends JPanel {
                         if (lg4.hitSpinLeftRight < -1) 
                             lg4.hitSpinLeftRight = -1; 
                         lg4.hitStatus = lg4.BALL_MOVING;
-                        System.out.println("Swings: 1st - "+swingFirst+"\t2nd - "+swingSecond+"\t3rd - "+swingThird);
                     } else if (lg4.hitStatus == lg4.PUTTING) {
                         firstClick.x = mx;
                         firstClick.y = my;
@@ -191,7 +189,6 @@ public class Window extends JPanel {
                         } else if (lg4.makerStatus == lg4.FOREST) {
                             lg4.hole.addSegment(new Forest(new Polygon(xps, yps, nps)));
                         }
-                        System.out.println("ADDED SEGMENT. CLEARING LIST");
                         lg4.points.clear();
                     }
                     else if (keyCode == KeyEvent.VK_PERIOD) {

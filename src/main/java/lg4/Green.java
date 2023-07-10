@@ -96,7 +96,6 @@ public class Green extends HoleSegment {
         int centery = lg4.screenHeight/2;
 
 		double v = pow*.75;
-		System.out.println(ang);
         double yVelocity = -v * Math.sin( ang );
         double xVelocity = v * Math.cos( ang ); 
         //ballX += xVelocity; 
@@ -123,7 +122,6 @@ public class Green extends HoleSegment {
         	ballY += (yVelocity * looptime);
         	//v = Math.sqrt(xVelocity*xVelocity + yVelocity*yVelocity);
         	ang = -Math.atan2(yVelocity, xVelocity);
-        	//System.out.println(ang);
         	if (v > 0)
         		v -= 6*looptime;
         	else

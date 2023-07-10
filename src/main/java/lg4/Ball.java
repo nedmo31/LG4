@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Ball {
 
-    public static Ball defaultBall = new Ball(1, 1, .5);
+    public static Ball defaultBall = new Ball(1, 1, .4);
 
     public final double WIND_MULTIPLIER = .1;
 
@@ -145,8 +145,7 @@ public class Ball {
                     this.x = initialX;
                     this.y = initialY;
                     break;
-                } else if (seg instanceof Sand) {
-                    // To DO!
+                } else if ((seg instanceof Sand) && zVelocity < 0) {
                     break;
                 } else if (zVelocity < 0) {
                     // Averages the bounciness of the ball and the terrain, value < 1
@@ -190,7 +189,7 @@ public class Ball {
         if (seg instanceof Forest) {
             this.x = initialX;
             this.y = initialY;
-            System.out.println("Out of bounds!");
+            System.out.println("Ball went out of bounds.");
         }
         lg4.hitStatus = lg4.NOT_HITTING;
     }

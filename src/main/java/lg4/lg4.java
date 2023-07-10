@@ -57,7 +57,7 @@ public class lg4 {
     /**
      * The index into the holes array of the current hole
      */
-    static int holeNum;
+    static int holeNum = 0;
 
     /**
      * The list of courses for the player to play

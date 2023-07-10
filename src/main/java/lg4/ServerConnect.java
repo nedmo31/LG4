@@ -54,7 +54,6 @@ public class ServerConnect {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
         }
         System.out.println("Uploaded score");
     }
@@ -75,7 +74,6 @@ public class ServerConnect {
         String next = in.next();
         Golfer g = gson.fromJson(next, Golfer.class);
         lg4.player = g;
-        System.out.println(g.name);
         g.initClubs();
         con.disconnect();
         in.close();
@@ -128,9 +126,8 @@ public class ServerConnect {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
         }
-        System.out.println("Added course?");
+        System.out.println("Added course");
 
     }
 
@@ -162,9 +159,8 @@ public class ServerConnect {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
         }
-        System.out.println("Added course?");
+        System.out.println("Updated course");
 
     }
 
@@ -196,7 +192,6 @@ public class ServerConnect {
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
         }
 
     }

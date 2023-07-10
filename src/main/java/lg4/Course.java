@@ -34,14 +34,15 @@ class Course {
         for (int i = 0; i < holesToPlay; i++) {
             lg4.hole = holes[i];
             strokes += holes[i].playHole();
-            lg4.courseNum++;
+            lg4.courseNum += 1;
         }
         if (id == -1) { return strokes; }
         Score results = new Score(lg4.player.name, id, strokes);
         try {
             lg4.server.uploadScore(results);
+            System.out.println("Uploaded results to server.");
         } catch(Exception e) {
-            System.out.println("Couldn't upload results :(");
+            System.out.println("Couldn't upload results to server.");
         }
         return strokes;
     }

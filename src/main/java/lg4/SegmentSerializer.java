@@ -9,7 +9,6 @@ public class SegmentSerializer implements JsonSerializer<HoleSegment>{
     @Override
     public JsonElement serialize(HoleSegment src, Type typeOfSrc, JsonSerializationContext context) {
         String name = src.type;
-        System.out.println("Looking at segment with type "+name);
         if (name.equals("fairway")) {
             return context.serialize(src, Fairway.class); 
         } 

@@ -108,7 +108,6 @@ public class Hole {
             par = 4 + (int)(Math.random() * 2);
             int lastx = (int)teebox.area.getBounds2D().getCenterX() + 50;
             int lasty = (int)teebox.area.getBounds2D().getCenterY();
-            int roughStartX = lastx + 25;
             
             for (int i = 0; i < par; i++) {
                 tree.add(new Oval(lastx = (lastx + (int)(Math.random()*100 + 75)), lasty = (lasty + (int)(20-Math.random()*10)), (int)(50+Math.random()*50), (int)(30+Math.random()*20)));
@@ -219,6 +218,7 @@ public class Hole {
         int yStartPutt = lg4.screenHeight/2 + Green.HOLE_SIZEUP*(lg4.ball.y() - (int)g.area.getBounds2D().getCenterY());
         strokes += g.playGreen(xStartPutt, yStartPutt);
 
+        System.out.println("Finished hole with "+strokes+" strokes");
         return strokes;
     }
 
@@ -228,19 +228,6 @@ public class Hole {
             System.out.println("Segment "+i+": "+segments[i].getClass().getSimpleName());
             System.out.println(segments[i].area.getClass().getSimpleName());
         }
-    }
-
-    private Forest getForest(Polygon[] fairway, int startX, int endX, boolean above) {
-        int yOffset = 80;
-        Polygon fPoly = new Polygon();
-        for (Polygon p : fairway) {
-            fPoly.addPoint(p.getBounds().x+10, above ? p.getBounds().y - yOffset + 25: p.getBounds().y + yOffset + 25);
-        }
-        int len = fPoly.npoints;
-        for (int i = 0; i < len; i++) {
-            fPoly.addPoint(fPoly.xpoints[i], above ? fPoly.ypoints[i] - 75 : fPoly.ypoints[i] + 75);
-        }
-        return new Forest(fPoly);
     }
 
     public void addSegment(HoleSegment hs) {
@@ -292,7 +279,6 @@ public class Hole {
             // TO DO: Polygon.addpoint is slow, copies the array every single time. Much better to 
             // make an array and create polygon object at the end.
             Polygon[] p = new Polygon[size-1];
-            System.out.println("made p with size: "+(size-1));
             if (root != null) {
                 for (int i = 0; i < p.length; i++) {
                     Polygon pol = new Polygon();
@@ -352,7 +338,6 @@ public class Hole {
                 int y = mctn.node.y - node.y;
                 int x = mctn.node.x - node.x;
                 angleToChild = (int)Math.toDegrees(Math.atan2(y, x));
-                System.out.println("angletoChild is "+angleToChild);
             }
 
         }

@@ -18,7 +18,7 @@ public class GraphicsStage {
     }
 
     void checkButtonClick(MouseEvent e) {
-        System.out.println("Checking button click ("+e.getX()+","+e.getY()+") on "+this.name);
+        //System.out.println("Checking button click ("+e.getX()+","+e.getY()+") on "+this.name);
         for (Button b : buttons) {
             if (b.area.contains(e.getX(), e.getY()))
                 b.clickAction();
@@ -37,6 +37,7 @@ public class GraphicsStage {
                 try {
                     lg4.player = lg4.server.getGolfer(lg4.toName);
                     lg4.gStage = GraphicsStage.mainMenu;
+                    System.out.println("Started golfing as "+lg4.toName);
                 } catch (Exception e) {
                     System.out.println("That's not a registered golfer");
                     e.printStackTrace();
@@ -48,6 +49,7 @@ public class GraphicsStage {
                     lg4.player = lg4.server.getGolfer(lg4.toName);
                 } catch (Exception e) {
                     lg4.player = new Golfer(lg4.toName);
+                    System.out.println("Registered new golfer: "+lg4.toName);
                 }
                 lg4.gStage = GraphicsStage.mainMenu;
             } }, new TextButton(new Rectangle(700, 350,150,100), "Anonymous", Color.black){
