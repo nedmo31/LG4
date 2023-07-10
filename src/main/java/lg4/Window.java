@@ -305,7 +305,6 @@ public class Window extends JPanel {
      */
     public void paintComponent(Graphics g) {
         //super.paintComponent(g);
-        System.out.println(System.currentTimeMillis());
 
         lg4.gStage.paintGraphicsStage(g);
 

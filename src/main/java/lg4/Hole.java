@@ -204,7 +204,12 @@ public class Hole {
 
             lg4.hitStatus = lg4.AIMING;
             while (!(lg4.hitStatus == lg4.BALL_MOVING)) {
-                lg4.win.repaint();
+                //lg4.win.repaint();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             lg4.ball.hit(lg4.hitPower, lg4.xyAngle, lg4.hitSpinLeftRight, lg4.hitSpinUpDown);
             strokes++;

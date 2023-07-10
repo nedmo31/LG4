@@ -184,7 +184,7 @@ public class Ball {
                 xVelocity += spinLR * 2 * Math.cos(spinLRdir) * loopTime;
                 yVelocity += spinLR * 2 * Math.sin(spinLRdir) * loopTime;
             }
-            lg4.win.repaint(x()-5, y()-25, 10, 30);
+            //lg4.win.repaint();
         }
         HoleSegment seg = lg4.hole.whatSegment(this);
         if (seg instanceof Forest) {

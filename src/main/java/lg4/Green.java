@@ -74,7 +74,11 @@ public class Green extends HoleSegment {
         ballX = x; ballY = y;
         int putts = 0;
 		while (!inHole(ballX, ballY)) {
-			lg4.win.repaint();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
             if (lg4.hitStatus == lg4.PUTT_ROLL) {
             	putt(lg4.hitPower, lg4.xyAngle);
             	putts++;
@@ -103,7 +107,7 @@ public class Green extends HoleSegment {
         	
         	looptime = (System.nanoTime() - time)  / Math.pow(10, 9) * 6;
         	time = System.nanoTime();
-        	lg4.win.repaint();
+        	//lg4.win.repaint();
         	
         	if (ballX <= centerx && ballY <= centery) { // top left
         		slopeAcceleration(topLeftSlope);

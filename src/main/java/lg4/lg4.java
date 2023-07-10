@@ -100,9 +100,16 @@ public class lg4 {
     public static void main(String[] args) {
         cleanStart();
 
-        while(true) { 
-            win.repaint();
-        }
+        new Thread() {
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(11);
+                        win.repaint();
+                    } catch (Exception e) { }
+                }
+            }
+        }.run();
     }
 
     public static void cleanStart() {
