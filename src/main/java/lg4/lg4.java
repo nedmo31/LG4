@@ -99,7 +99,6 @@ public class lg4 {
 
     public static void main(String[] args) {
         cleanStart();
-
         new Thread() {
             public void run() {
                 while (true) {
@@ -188,9 +187,9 @@ public class lg4 {
     static void initGUI() {
         win = new JFrame();
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        win.setSize(screenWidth, screenHeight);
-        win.setVisible(true);
         win.add(new Window());
+        win.setVisible(true);
+        win.setSize(screenWidth, screenHeight);
     }
 
     static void initTest() {

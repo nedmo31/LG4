@@ -45,6 +45,7 @@ class Course {
         } catch(Exception e) {
             System.out.println("Couldn't upload results to server.");
         }
+        lg4.gStage = GraphicsStage.mainMenu;
         return strokes;
     }
 

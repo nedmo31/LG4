@@ -34,6 +34,9 @@ public class GraphicsStage {
     public static GraphicsStage loginPage = new GraphicsStage("LoginPage", new Button[]{ 
         new TextButton(new Rectangle(200,350,150,100), "Continue", Color.black){
             public void clickAction() {
+                if (lg4.toName.contains("delete") || lg4.toName.length() > 15) {
+                    return;
+                }
                 try {
                     lg4.player = lg4.server.getGolfer(lg4.toName);
                     lg4.gStage = GraphicsStage.mainMenu;
@@ -45,6 +48,9 @@ public class GraphicsStage {
             }
         }, new TextButton(new Rectangle(450,350,150,100), "New Golfer", Color.black){
             public void clickAction() {
+                if (lg4.toName.contains("delete") || lg4.toName.length() > 15) {
+                    return;
+                }
                 try {
                     lg4.player = lg4.server.getGolfer(lg4.toName);
                 } catch (Exception e) {
@@ -63,8 +69,10 @@ public class GraphicsStage {
             g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
             super.paintGraphicsStage(g);
             g.setColor(Color.black);
-            g.setFont(Window.f2);
-            g.drawString("Type username: "+lg4.toName, 300, 100);
+            g.setFont(Window.f1);
+            g.drawString("Welcome to Golf!", 300, 100);
+            g.setFont(Window.f4);
+            g.drawString("Type username: "+lg4.toName, 300, 600);
         }
     };
 
@@ -288,6 +296,63 @@ public class GraphicsStage {
 
             g.setFont(Window.f2);
             g.drawString("Hole #"+lg4.holeNum+1, 800, 50);
+        }
+    };
+
+    public static GraphicsStage playerCard = new GraphicsStage("PlayerCard", new Button[0], 1) {
+        void paintGraphicsStage(java.awt.Graphics g) {
+            g.setColor(new Color(29, 153, 66));
+            g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
+            for (HoleSegment hs : lg4.hole.segments) {
+                hs.paintArea(g);
+            }
+            g.setColor(new Color(160, 160, 80));
+			g.fillRect(295, 145, 810, 510);
+			g.setColor(new Color(204, 204, 102));
+			g.fillRect(300, 150, 800, 500);
+
+			g.setColor(Color.black);
+			g.setFont(Window.f2);
+			g.drawString(lg4.player.name, 350, 210);
+			g.drawString("$ " + lg4.player.money, 700, 210);
+
+			g.setColor(Color.black);
+			g.setFont(Window.f3);
+			g.drawString("Clubs", 350, 285);
+            //g.drawString("Stats", 575, 285);
+			g.drawString("Golf Balls (coming soon)", 800, 285);
+
+			g.setFont(Window.f4);
+			g.drawString("Power", 580, 340);
+			g.drawString("Accuracy", 580, 465);
+			g.drawString("Putting", 580, 590);
+            g.fillRect(503, 350, 256, 14);
+            g.fillRect(503, 475, 256, 14);
+            g.fillRect(503, 600, 256, 14);
+            g.setColor(Color.red);
+            for (int i = 0; i < lg4.player.power; i++) {
+                g.fillRect(505+i*25, 352, 23, 10);
+            }
+            for (int i = 0; i < lg4.player.accuracy; i++) {
+                g.fillRect(505+i*25, 477, 23, 10);
+            }
+            for (int i = 0; i < lg4.player.putting; i++) {
+                g.fillRect(505+i*25, 602, 23, 10);
+            }
+
+			// Clubs on player card
+			for (int i = 0; i < lg4.player.clubs.length; i++) {
+				g.setColor(Color.black);
+				g.fillRect(340, 300 + i * 38, 4, 8);
+				g.setColor(Color.gray);
+				g.fillRect(340, 308 + i * 38, 4, 12);
+				g.fillRect(344, 316 + i * 38, 6, 4);
+			}
+			for (int i = 0; i < lg4.player.clubs.length; i++) {
+				g.setColor(Color.black);
+				g.setFont(Window.f5);
+				g.drawString(lg4.player.clubs[i].name, 360, 315 + i * 38);
+			}
         }
     };
 

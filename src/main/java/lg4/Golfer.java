@@ -54,19 +54,21 @@ public class Golfer {
     public void initClubs() {
         clubs = lg4.clubs;
         lg4.player = this;
-        clubs[0].power += (golfbag & 0b11) * 10;
-        clubs[1].power += (golfbag & 0b1100 >> 2) * 10;
-        clubs[2].power += (golfbag & 0b110000 >> 4) * 10;
-        clubs[3].power += (golfbag & 0b11000000 >> 6) * 10;
-        clubs[4].power += (golfbag & 0b1100000000 >> 8) * 10;
-        clubs[5].power += (golfbag & 0b110000000000 >> 10) * 10;
-        clubs[6].power += (golfbag & 0b11000000000000 >> 12) * 10;
-        clubs[7].power += (golfbag & 0b1100000000000000 >> 14) * 10;
-        clubs[8].power += (golfbag & 0b110000000000000000 >> 16) * 10;
         for (int i = 0; i < clubs.length; i++) {
-            clubs[i].updateRadius();
+            checkClubUpgrade(i);
         }
         lg4.club = clubs[0];
+    }
+
+    public void checkClubUpgrade(int index) {
+        int powerup = (golfbag & (0b11 << (index<<1))) >> (index<<1);
+        clubs[index].power += powerup * 4;
+        if (powerup > 1) { 
+            clubs[index].name += "++";
+        } else if (powerup > 0) {
+            clubs[index].name += "+";
+        } 
+        clubs[index].updateRadius();
     }
 
     public void clubUp() {

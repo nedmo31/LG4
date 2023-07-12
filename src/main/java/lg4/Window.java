@@ -218,13 +218,13 @@ public class Window extends JPanel {
                 }
 				//System.out.println("KEY PRESSED - "+keyCode);
 				if (lg4.gStage == GraphicsStage.play) {
-					if (keyCode == KeyEvent.VK_UP) { // up arrow
+					if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W) { // up arrow
                         lg4.hitSpinUpDown = 1;
-					} else if (keyCode == KeyEvent.VK_DOWN) { // down arrow
+					} else if (keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S) { // down arrow
 						lg4.hitSpinUpDown = -1;
-					} else if (keyCode == KeyEvent.VK_RIGHT) { // right arrow
+					} else if (keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_D) { // right arrow
 						lg4.swingSpeed = 3;
-					} else if (keyCode == KeyEvent.VK_LEFT) { // left arrow
+					} else if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_A) { // left arrow
 						lg4.swingSpeed = 5;
 					} else if (keyCode == KeyEvent.VK_SPACE) {
                         lg4.swingSpeed = 4;
@@ -233,9 +233,16 @@ public class Window extends JPanel {
                     else if (keyCode == KeyEvent.VK_ESCAPE && lg4.hitStatus == lg4.AIMED) {
                         lg4.hitStatus = lg4.AIMING;
                     }
+                    else if (keyCode == KeyEvent.VK_E) { // show inventory
+                        lg4.gStage = GraphicsStage.playerCard;
+                    }
                     
+				} else if (lg4.gStage == GraphicsStage.playerCard) {
+                    if (keyCode == KeyEvent.VK_ESCAPE || keyCode == KeyEvent.VK_E) {
+                        lg4.gStage = GraphicsStage.play;
+                    }
 				}
-				if (lg4.gStage == GraphicsStage.loginPage) {
+				else if (lg4.gStage == GraphicsStage.loginPage) {
 					if (keyCode == 8) { // BACKSPACE
 						if (lg4.toName.length() > 0)
 							lg4.toName = lg4.toName.substring(0, lg4.toName.length() - 1);

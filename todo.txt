@@ -1,25 +1,22 @@
 game
  - How to run jar without flags?
  
- - HoleGeneration
-    - Other hole types
-    - Adding in hazards
-        - Trees
-        - Water
-        - Sand
  - Main menu
     - 
  - Hitting
  - Graphics
     - Adding hole info
     - Hitting graphics to be more intuitive
-    - treetops
  - Gameplay
  - Extra features
     - Shop
         - new balls
         - upgrade clubs
     - Scorecard
+    - Player card 
+      - show stats
+      - show clubs + upgrades
+      - ball selection
 
 
 server
