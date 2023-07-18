@@ -128,6 +128,27 @@ public class lg4 {
         initGUI();
     }
 
+    public static void creatorStart() {
+
+        server = new ServerConnect();
+
+        editor = true;
+        try {
+            courseList = server.getCourses();
+            server.getScores();
+        } catch (Exception e) {
+            courseList = new CourseList();
+            e.printStackTrace();
+        }
+        //courseList = new CourseList();
+        course = courseList.courses.get(1);
+        hole = course.holes[0];
+        course.name = "Gettysburg Links";
+        course.id = 2;
+
+        initGUI();
+    }
+
     public static void saveCourse() {
         GsonBuilder gb = new GsonBuilder();
         gb.registerTypeAdapter(Shape.class, new ShapeAdapter());

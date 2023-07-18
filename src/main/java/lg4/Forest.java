@@ -15,11 +15,11 @@ public class Forest extends HoleSegment {
     public static Color treetopColor = new Color(30, 130, 30);
 
     public Forest(Polygon a) {
-        super(a, treetopColor, .9, "forest");
+        super(a, treetopColor, .3, "forest");
     }
 
     public Forest(Rectangle a) {
-        super(a, treetopColor, .9, "forest");
+        super(a, treetopColor, .3, "forest");
     }
 
     public void paintArea(Graphics g) {

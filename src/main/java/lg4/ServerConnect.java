@@ -100,6 +100,8 @@ public class ServerConnect {
 
     // https://www.baeldung.com/httpurlconnection-post
     public void saveCourse(Course c) throws Exception {
+        c.id = 39;
+        c.name = "editme";
         System.out.println("saving course: "+c.name);
         URL url = new URL(SERVER_URL+"/addCourse");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
