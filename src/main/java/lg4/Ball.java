@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class Ball {
 
-    public static Ball defaultBall = new Ball(1, 1, .4);
+    public static Ball defaultBall = new Ball(1, 1, .4, "default");
 
     public final double WIND_MULTIPLIER = .1;
 
@@ -28,11 +28,23 @@ public class Ball {
     // The color of the ball
     Color color;
 
-    public Ball(double w, double s, double b) {
+    String name;
+
+    public Ball(double w, double s, double b, String n) {
         weight = w; 
         spin = s;
         bounce = b;
         color = Color.white;
+        name = n;
+        x = y = z = 0;
+    }
+
+    public Ball(double w, double s, double b, String n, Color c) {
+        weight = w; 
+        spin = s;
+        bounce = b;
+        color = c;
+        name = n;
         x = y = z = 0;
     }
 
@@ -70,11 +82,13 @@ public class Ball {
 
         // The intitial velocity of the ball
         // uses the club power, player power, power of the shot, and weight of the ball
-        double velocity = lg4.club.power * ((20+(double)lg4.player.power) / 40) * pow * (1 / weight) * lg4.club.getPenalty()  * ((14 - lg4.swingSpeed)/10.0)
+        double velocity = lg4.club.power * ((28+(double)lg4.player.power) / 60) * pow * (1 / weight) * lg4.club.getPenalty()  * ((14 - lg4.swingSpeed)/10.0)
         , xVelocity, yVelocity, zVelocity;
         // The spin on the ball in [-1, 1], 0 being none, 1 being strong
         // This is just for left/right spin
         double spinLR = targetSpinLR * pow;
+
+        xyAng += (.5 - Math.random())*((10-lg4.player.accuracy)/20.0);
 
         // This keeps track of the direction of the spin in radians
         double spinLRdir = xyAng + Math.PI/2;

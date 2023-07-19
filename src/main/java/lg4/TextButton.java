@@ -26,7 +26,7 @@ public class TextButton extends Button {
             if (this.area.contains(Window.mx, Window.my)) {
                 g.setFont(Window.f3b);
             } 
-            g.drawString(text, this.area.x+10, this.area.y+area.height/2);
+            g.drawString(text, area.x+10, area.y+area.height/2);
         }
 
     }

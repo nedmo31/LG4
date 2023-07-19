@@ -38,14 +38,14 @@ public class Golfer {
     public Club[] clubs;
 
     public Golfer(boolean ugh) {
-        power = accuracy = putting = 5;
+        power = accuracy = putting = 4;
         money = golfbag = 0;
         name = "Anon";
         initClubs();
     }
 
     public Golfer(String n) {
-        power = accuracy = putting = 5;
+        power = accuracy = putting = 4;
         money = golfbag = 0;
         name = n; 
         initClubs();
@@ -81,6 +81,12 @@ public class Golfer {
         if (clubIndex-- <= 0)
             clubIndex = clubs.length-1;
         lg4.club = clubs[clubIndex];
+    }
+
+    public void fixShopCosts() {
+        ((TextButtonWithMessage)GraphicsStage.playerCard.buttons[5]).onHover = "$" + power*10;
+        ((TextButtonWithMessage)GraphicsStage.playerCard.buttons[6]).onHover = "$" + accuracy*10;
+        ((TextButtonWithMessage)GraphicsStage.playerCard.buttons[7]).onHover = "$" + putting*10;
     }
 
 }

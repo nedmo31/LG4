@@ -188,6 +188,8 @@ public class Window extends JPanel {
                             lg4.hole.addSegment(new Water(new Polygon(xps, yps, nps)));
                         } else if (lg4.makerStatus == lg4.FOREST) {
                             lg4.hole.addSegment(new Forest(new Polygon(xps, yps, nps)));
+                        } else if (lg4.makerStatus == lg4.FAIRWAY) {
+                            lg4.hole.addSegment(new Fairway(new Polygon(xps, yps, nps)));
                         }
                         lg4.points.clear();
                     }
@@ -207,6 +209,7 @@ public class Window extends JPanel {
                     } else if (keyCode == KeyEvent.VK_0) { lg4.makerStatus = 0; } 
                      else if (keyCode == KeyEvent.VK_1) { lg4.makerStatus = 1; } 
                       else if (keyCode == KeyEvent.VK_2) { lg4.makerStatus = 2; } 
+                      else if (keyCode == KeyEvent.VK_3) { lg4.makerStatus = 3; } 
                       else if (keyCode == KeyEvent.VK_RIGHT) { // right arrow
 						lg4.holeNum++;
                         lg4.hole = lg4.course.holes[lg4.holeNum];

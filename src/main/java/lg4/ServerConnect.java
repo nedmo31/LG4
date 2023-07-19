@@ -75,6 +75,7 @@ public class ServerConnect {
         Golfer g = gson.fromJson(next, Golfer.class);
         lg4.player = g;
         g.initClubs();
+        g.fixShopCosts();
         con.disconnect();
         in.close();
         return g;

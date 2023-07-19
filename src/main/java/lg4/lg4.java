@@ -34,6 +34,7 @@ public class lg4 {
     public static final int SAND = 0;
     public static final int FOREST = 1;
     public static final int WATER = 2;
+    public static final int FAIRWAY = 3;
     static int makerStatus = 1;
     
     /**
@@ -125,6 +126,8 @@ public class lg4 {
         course = courseList.courses.get(0);
         hole = course.holes[0];
 
+        ball = balls[0];
+
         initGUI();
     }
 
@@ -141,10 +144,10 @@ public class lg4 {
             e.printStackTrace();
         }
         //courseList = new CourseList();
-        course = courseList.courses.get(1);
+        course = courseList.courses.get(2);
         hole = course.holes[0];
-        course.name = "Gettysburg Links";
-        course.id = 2;
+        course.name = "Littler Creek";
+        course.id = 3;
 
         initGUI();
     }
@@ -216,12 +219,19 @@ public class lg4 {
     static void initTest() {
         player = new Golfer(true);
         player.clubs = clubs;
-        ball = new Ball(1, 1, .5);
+        ball = new Ball(1, 1, .4, "test");
         club = player.clubs[0];
         for (Club c : player.clubs) {
             c.updateRadius();
         }
     }
+
+    public static Ball[] balls = new Ball[]{
+        new Ball(1,1,.25,"Bridgerock"),
+        new Ball(.99,1.1,.2,"Subtitleist", Color.MAGENTA),
+        new Ball(1.01,.9,.3,"Tailormake", Color.blue),
+        new Ball(1.2,0,.02,"Lead Ball", Color.gray),
+        new Ball(1.15,1.5,.5,"Rubber Ball", Color.yellow) };
 
     public static Club[] clubs = new Club[]{ 
         new Club("Driver", .5, 110, .4, .2), 

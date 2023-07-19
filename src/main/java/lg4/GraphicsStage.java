@@ -299,7 +299,59 @@ public class GraphicsStage {
         }
     };
 
-    public static GraphicsStage playerCard = new GraphicsStage("PlayerCard", new Button[0], 1) {
+    public static GraphicsStage playerCard = new GraphicsStage("PlayerCard", new Button[]{ 
+        new TextButton(new Rectangle(920,320,30,30), "", Color.black){ // 0
+            public void clickAction() {
+                double x = lg4.ball.x, y = lg4.ball.y;
+                lg4.ball = lg4.balls[0];
+                lg4.ball.x = x; lg4.ball.y = y;
+            }
+        }, new TextButton(new Rectangle(920,380,30,30), "", Color.black){ // 1
+            public void clickAction() {
+                double x = lg4.ball.x, y = lg4.ball.y;
+                lg4.ball = lg4.balls[1];
+                lg4.ball.x = x; lg4.ball.y = y;
+            }
+        }, new TextButton(new Rectangle(920,440,30,30), "", Color.black){ // 2
+            public void clickAction() {
+                double x = lg4.ball.x, y = lg4.ball.y;
+                lg4.ball = lg4.balls[2];
+                lg4.ball.x = x; lg4.ball.y = y;
+            }
+        }, new TextButton(new Rectangle(920,500,30,30), "", Color.black){ // 3
+            public void clickAction() {
+                double x = lg4.ball.x, y = lg4.ball.y;
+                lg4.ball = lg4.balls[3];
+                lg4.ball.x = x; lg4.ball.y = y;
+            }
+        }, new TextButton(new Rectangle(920,560,30,30), "", Color.black){ // 4
+            public void clickAction() {
+                double x = lg4.ball.x, y = lg4.ball.y;
+                lg4.ball = lg4.balls[4];
+                lg4.ball.x = x; lg4.ball.y = y;
+            }
+        }, new TextButtonWithMessage(new Rectangle(640,323,50,40), "++", Color.black, "$50"){ // 5
+            public void clickAction() {
+                if (lg4.player.money >= lg4.player.power*10 && lg4.player.power < 10) {
+                    lg4.player.money -= lg4.player.power++*10;
+                    lg4.player.fixShopCosts();
+                }
+            }
+        }, new TextButtonWithMessage(new Rectangle(665,448,50,40), "++", Color.black, "$50"){ // 6
+            public void clickAction() {
+                if (lg4.player.money >= lg4.player.accuracy*10 && lg4.player.accuracy < 10) {
+                    lg4.player.money -= lg4.player.accuracy++*10;
+                    lg4.player.fixShopCosts();
+                }
+            }
+        }, new TextButtonWithMessage(new Rectangle(645,573,50,40), "++", Color.black, "$50"){ // 7
+            public void clickAction() {
+                if (lg4.player.money >= lg4.player.putting*10 && lg4.player.putting < 10) {
+                    lg4.player.money -= lg4.player.putting++*10;
+                    lg4.player.fixShopCosts();
+                }
+            }
+        }, }, 1) {
         void paintGraphicsStage(java.awt.Graphics g) {
             g.setColor(new Color(29, 153, 66));
             g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
@@ -320,7 +372,20 @@ public class GraphicsStage {
 			g.setFont(Window.f3);
 			g.drawString("Clubs", 350, 285);
             //g.drawString("Stats", 575, 285);
-			g.drawString("Golf Balls (coming soon)", 800, 285);
+			g.drawString("Golf Balls:", 800, 285);
+            g.setFont(Window.f5);
+			for (int i = 0; i < lg4.balls.length; i++) {
+                g.setColor(Color.black);
+                if (lg4.ball.name.equals(lg4.balls[i].name)) {
+                    g.fillRect(795, 322 + i *60, 10, 10);
+                }
+                g.setColor(Color.black);
+				g.drawString(lg4.balls[i].name, 810, 335 + i * 60);
+                g.drawOval(920, 320+i*60, 30, 30);
+                g.setColor(lg4.balls[i].color);
+                g.fillOval(920, 320+i*60, 30, 30);
+                //g.fillOval(i, i, i, i);
+			} g.setColor(Color.black);
 
 			g.setFont(Window.f4);
 			g.drawString("Power", 580, 340);
@@ -348,11 +413,12 @@ public class GraphicsStage {
 				g.fillRect(340, 308 + i * 38, 4, 12);
 				g.fillRect(344, 316 + i * 38, 6, 4);
 			}
+            g.setColor(Color.black);
+			g.setFont(Window.f5);
 			for (int i = 0; i < lg4.player.clubs.length; i++) {
-				g.setColor(Color.black);
-				g.setFont(Window.f5);
 				g.drawString(lg4.player.clubs[i].name, 360, 315 + i * 38);
 			}
+            super.paintGraphicsStage(g);
         }
     };
 

@@ -34,7 +34,7 @@ class Course {
         for (int i = 0; i < holesToPlay; i++) {
             lg4.hole = holes[i];
             strokes += holes[i].playHole();
-            lg4.courseNum += 1;
+            lg4.holeNum++;
         }
         if (id == -1) { return strokes; }
         Score results = new Score(lg4.player.name, id, strokes);

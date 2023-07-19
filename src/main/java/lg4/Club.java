@@ -48,7 +48,7 @@ public class Club {
     }
 
     public void updateRadius() {
-        double velocity = power * ((20+(double)lg4.player.power) / 40) * (1 / lg4.ball.weight) * ((14 - lg4.swingSpeed)/10.0);
+        double velocity = power * ((28+(double)lg4.player.power) / 60) * (1 / lg4.ball.weight) * ((14 - lg4.swingSpeed)/10.0);
         radius = (int) (2 * (velocity*velocity * Math.sin(2*angle)) / Ball.gravity);
     }
     

@@ -9,9 +9,6 @@ import java.awt.geom.Ellipse2D;
  * 
  */
 public class Hole {
-
-    final double FAIRWAY_BOUNCE = .7;
-    final Color FAIRWAY_COLOR = new Color(80, 200, 80);
     
     HoleSegment rough = new Rough(
         new Rectangle(0, 0, lg4.screenWidth, lg4.screenHeight), Color.green, .40);
@@ -73,6 +70,7 @@ public class Hole {
 
         // Randomize the type of hole 
         int type = (int)(4*Math.random());
+        if (lg4.editor) { type = -1; }
         MapCreationTree tree = new MapCreationTree();
         TeeBox teebox = new TeeBox();
 
@@ -96,7 +94,7 @@ public class Hole {
             }
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
-                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+                segments[i] = new Fairway(fairwayChunks[i-1]);
             }
 
             // Add the green to the array
@@ -117,7 +115,7 @@ public class Hole {
             segments[0] = teebox;
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
-                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+                segments[i] = new Fairway(fairwayChunks[i-1]);
             }
             // // Add forest above and below
             // segments[par] = getForest(fairwayChunks, roughStartX, roughStartX+par*140, true);
@@ -148,7 +146,7 @@ public class Hole {
             segments[0] = teebox;
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < par; i++) {
-                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+                segments[i] = new Fairway(fairwayChunks[i-1]);
             }
             
 
@@ -158,7 +156,7 @@ public class Hole {
                 70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
             ));
             // make segments array at the end
-        } else {
+        } else if (type==3) {
             par = 4;
             boolean up = ((int)(Math.random()*2)) == 1;
             if (up) {
@@ -182,12 +180,30 @@ public class Hole {
             segments[0] = teebox;
             Polygon[] fairwayChunks = tree.getPolygonRepresentation();
             for (int i = 1; i < 4; i++) {
-                segments[i] = new Fairway(fairwayChunks[i-1], FAIRWAY_COLOR, FAIRWAY_BOUNCE);
+                segments[i] = new Fairway(fairwayChunks[i-1]);
             }
 
             // Add the green to the array
             segments[segments.length-1] = new Green(new Ellipse2D.Double(
                 lastx, up ? lasty - 70 : lasty + 70,
+                70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
+            ));
+        } else if (type == -1) {
+            par = 3;
+            segments = new HoleSegment[2];
+            teebox = new TeeBox((int)(150-Math.random()*75));
+            segments[0] = teebox;
+            // randomize the hole location from where the teebox is
+            double holex = teebox.area.getBounds2D().getCenterX() + 700 + (int)(100-Math.random()*200);
+            double holey = teebox.area.getBounds2D().getCenterY() + (int)(100-Math.random()*200);
+
+            // set the instance variables to our randomized location
+            this.x = (int)holex;
+            this.y = (int)holey;
+
+            // Add the green to the array
+            segments[1] = new Green(new Ellipse2D.Double(
+                holex, holey,
                 70 + (int)(25-Math.random()*50), 70 + (int)(25-Math.random()*50)
             ));
         }
@@ -217,6 +233,8 @@ public class Hole {
         int xStartPutt = lg4.screenWidth/2 + Green.HOLE_SIZEUP*(lg4.ball.x() - (int)g.area.getBounds2D().getCenterX());
         int yStartPutt = lg4.screenHeight/2 + Green.HOLE_SIZEUP*(lg4.ball.y() - (int)g.area.getBounds2D().getCenterY());
         strokes += g.playGreen(xStartPutt, yStartPutt);
+
+        lg4.player.money += 12-strokes;
 
         System.out.println("Finished hole with "+strokes+" strokes");
         return strokes;
