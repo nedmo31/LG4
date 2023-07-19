@@ -194,8 +194,8 @@ public class Hole {
             teebox = new TeeBox((int)(150-Math.random()*75));
             segments[0] = teebox;
             // randomize the hole location from where the teebox is
-            double holex = teebox.area.getBounds2D().getCenterX() + 700 + (int)(100-Math.random()*200);
-            double holey = teebox.area.getBounds2D().getCenterY() + (int)(100-Math.random()*200);
+            double holex = teebox.area.getBounds2D().getCenterX() + 800 + (int)(100-Math.random()*200);
+            double holey = teebox.area.getBounds2D().getCenterY() + (int)(150-Math.random()*300);
 
             // set the instance variables to our randomized location
             this.x = (int)holex;

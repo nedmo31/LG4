@@ -32,7 +32,7 @@ public class GraphicsStage {
     }
 
     public static GraphicsStage loginPage = new GraphicsStage("LoginPage", new Button[]{ 
-        new TextButton(new Rectangle(200,350,150,100), "Continue", Color.black){
+        new TextButtonWithMessage(new Rectangle(200,350,150,100), "Continue", Color.black, "Type your username first!"){
             public void clickAction() {
                 if (lg4.toName.contains("delete") || lg4.toName.length() > 15) {
                     return;
@@ -46,9 +46,9 @@ public class GraphicsStage {
                     e.printStackTrace();
                 }
             }
-        }, new TextButton(new Rectangle(450,350,150,100), "New Golfer", Color.black){
+        }, new TextButtonWithMessage(new Rectangle(450,350,150,100), "New Golfer", Color.black, "Type your username first!"){
             public void clickAction() {
-                if (lg4.toName.contains("delete") || lg4.toName.length() > 15) {
+                if (lg4.toName.contains("delete") || lg4.toName.length() > 15 || lg4.toName.length() == 0) {
                     return;
                 }
                 try {

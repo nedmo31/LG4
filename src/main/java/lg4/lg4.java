@@ -144,10 +144,21 @@ public class lg4 {
             e.printStackTrace();
         }
         //courseList = new CourseList();
-        course = courseList.courses.get(2);
+        course = courseList.courses.get(3);
         hole = course.holes[0];
-        course.name = "Littler Creek";
-        course.id = 3;
+
+        courseList.courses.get(1).id = 2;
+        courseList.courses.get(2).id = 3;
+        courseList.courses.get(3).id = 4;
+        try {
+            server.updateCourse(courseList.courses.get(1));
+            server.updateCourse(courseList.courses.get(2));
+            server.updateCourse(courseList.courses.get(3));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
 
         initGUI();
     }
