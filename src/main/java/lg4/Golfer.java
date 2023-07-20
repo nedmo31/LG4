@@ -38,15 +38,17 @@ public class Golfer {
     public Club[] clubs;
 
     public Golfer(boolean ugh) {
-        power = accuracy = putting = 4;
-        money = golfbag = 0;
+        power = accuracy = putting = 1;
+        money = 180;
+        golfbag = 0;
         name = "Anon";
         initClubs();
     }
 
     public Golfer(String n) {
-        power = accuracy = putting = 4;
-        money = golfbag = 0;
+        power = accuracy = putting = 1;
+        money = 180;
+        golfbag = 0;
         name = n; 
         initClubs();
     }

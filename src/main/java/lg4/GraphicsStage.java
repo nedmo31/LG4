@@ -32,7 +32,7 @@ public class GraphicsStage {
     }
 
     public static GraphicsStage loginPage = new GraphicsStage("LoginPage", new Button[]{ 
-        new TextButtonWithMessage(new Rectangle(200,350,150,100), "Continue", Color.black, "Type your username first!"){
+        new TextButtonWithMessage(new Rectangle(120,150,150,100), "Continue", Color.black, "Type your username first!"){
             public void clickAction() {
                 if (lg4.toName.contains("delete") || lg4.toName.length() > 15) {
                     return;
@@ -46,7 +46,7 @@ public class GraphicsStage {
                     e.printStackTrace();
                 }
             }
-        }, new TextButtonWithMessage(new Rectangle(450,350,150,100), "New Golfer", Color.black, "Type your username first!"){
+        }, new TextButtonWithMessage(new Rectangle(120,270,150,100), "New Golfer", Color.black, "Type your username first!"){
             public void clickAction() {
                 if (lg4.toName.contains("delete") || lg4.toName.length() > 15 || lg4.toName.length() == 0) {
                     return;
@@ -58,21 +58,54 @@ public class GraphicsStage {
                     System.out.println("Registered new golfer: "+lg4.toName);
                 }
                 lg4.gStage = GraphicsStage.mainMenu;
-            } }, new TextButton(new Rectangle(700, 350,150,100), "Anonymous", Color.black){
+            } }, new TextButton(new Rectangle(120, 390,150,100), "Anonymous", Color.black){
             public void clickAction() {
                 lg4.player = new Golfer(true);
                 lg4.gStage = GraphicsStage.mainMenu;
             } } }, 0) {
             
         void paintGraphicsStage(java.awt.Graphics g) {
-            g.setColor(new Color(80, 220, 80));
+            g.setColor(new Color(29, 153, 66));
             g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
+            for (HoleSegment hs : lg4.hole.segments) {
+                hs.paintArea(g);
+            }
+            g.setColor(Color.black);
             super.paintGraphicsStage(g);
             g.setColor(Color.black);
             g.setFont(Window.f1);
-            g.drawString("Welcome to Golf!", 300, 100);
-            g.setFont(Window.f4);
+            g.drawString("Welcome to Golf!", 100, 100);
+            g.setFont(Window.f2);
+            g.drawString(name, id, id);
+            g.setFont(Window.f3);
             g.drawString("Type username: "+lg4.toName, 300, 600);
+
+            g.drawString("Move mouse to aim", 800, 150);
+            g.drawString("Click to start hitting", 800, 175);
+
+            g.drawString("Use arrow keys to change", 800, 270);
+            g.drawString("spin and swing speed", 800, 295);
+
+            g.drawString("Press e to open inventory", 800, 390);
+            g.drawString("and upgrade your stats", 800, 415);
+
+            g.setColor(Color.RED);
+            g.drawOval(745, 125, 40, 40);
+            g.fillRect(764, 125, 2, 40);
+            g.fillRect(745, 144, 40, 2);
+
+            g.setColor(Color.lightGray);
+            g.fillRect(735, 250, 50, 50);
+            g.setColor(Color.black);
+            g.drawRect(735, 250, 50, 50);
+            g.fillPolygon(new int[]{740, 760, 780, 776, 760, 744}, new int[]{282, 262, 282, 282, 266, 282},6);
+
+            g.setColor(Color.lightGray);
+            g.fillRect(735, 370, 50, 50);
+            g.setColor(Color.black);
+            g.drawRect(735, 370, 50, 50);
+            g.setFont(Window.f2);
+            g.drawString("E", 747, 408);
         }
     };
 
@@ -330,21 +363,21 @@ public class GraphicsStage {
                 lg4.ball = lg4.balls[4];
                 lg4.ball.x = x; lg4.ball.y = y;
             }
-        }, new TextButtonWithMessage(new Rectangle(640,323,50,40), "++", Color.black, "$50"){ // 5
+        }, new TextButtonWithMessage(new Rectangle(640,323,50,40), "++", Color.black, "$10"){ // 5
             public void clickAction() {
                 if (lg4.player.money >= lg4.player.power*10 && lg4.player.power < 10) {
                     lg4.player.money -= lg4.player.power++*10;
                     lg4.player.fixShopCosts();
                 }
             }
-        }, new TextButtonWithMessage(new Rectangle(665,448,50,40), "++", Color.black, "$50"){ // 6
+        }, new TextButtonWithMessage(new Rectangle(665,448,50,40), "++", Color.black, "$10"){ // 6
             public void clickAction() {
                 if (lg4.player.money >= lg4.player.accuracy*10 && lg4.player.accuracy < 10) {
                     lg4.player.money -= lg4.player.accuracy++*10;
                     lg4.player.fixShopCosts();
                 }
             }
-        }, new TextButtonWithMessage(new Rectangle(645,573,50,40), "++", Color.black, "$50"){ // 7
+        }, new TextButtonWithMessage(new Rectangle(645,573,50,40), "++", Color.black, "$10"){ // 7
             public void clickAction() {
                 if (lg4.player.money >= lg4.player.putting*10 && lg4.player.putting < 10) {
                     lg4.player.money -= lg4.player.putting++*10;
