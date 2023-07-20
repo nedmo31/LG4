@@ -89,6 +89,9 @@ public class Ball {
         double spinLR = targetSpinLR * pow;
 
         xyAng += (.5 - Math.random())*((10-lg4.player.accuracy)/20.0);
+        if (xyAng < 0 && xyAng > -1) {
+            xyAng = -1*Math.PI + xyAng;
+        }
 
         // This keeps track of the direction of the spin in radians
         double spinLRdir = xyAng + Math.PI/2;
