@@ -104,7 +104,7 @@ public class lg4 {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(11);
+                        Thread.sleep(12);
                         win.repaint();
                     } catch (Exception e) { }
                 }

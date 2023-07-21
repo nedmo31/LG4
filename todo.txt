@@ -2,7 +2,7 @@ game
  - How to run jar without flags?
  
  - Main menu
-    - 
+    - Improve look and make it clearer what to do
  - Hitting
  - Graphics
     - Adding hole info

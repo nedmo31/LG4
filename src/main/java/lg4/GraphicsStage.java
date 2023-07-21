@@ -147,14 +147,15 @@ public class GraphicsStage {
 
     public static GraphicsStage play = new GraphicsStage("Play", new Button[0], 2) {
 
-        Polygon leftArrowSwing = arrow(2, 60, 560, 10),
-                rightArrowSwing = arrow(1, 80, 560, 10),
+        Polygon leftArrowSwing = arrow(2, 80, 620, 12),
+                rightArrowSwing = arrow(1, 120, 620, 12),
                 upArrowSpin =  arrow(3, 100, 472, 10),
                 downArrowSpin = arrow(4, 100, 487, 10),
-                windArrowUp = arrow(3, 500, 40, 14),
-                windArrowLeft = arrow(2, 500, 40, 14),
-                windArrowRight = arrow(1, 500, 40, 14), 
-                windArrowDown = arrow(4, 500, 40, 14); 
+                windArrowUp = arrow(3, 92, 200, 18),
+                windArrowLeft = arrow(2, 92, 200, 18),
+                windArrowRight = arrow(1, 92, 200, 18), 
+                windArrowDown = arrow(4, 92, 200, 18),
+                clubPointerArrow = arrow(1, 40, 350, 12);
 
         void paintGraphicsStage(java.awt.Graphics g) {
             
@@ -267,44 +268,67 @@ public class GraphicsStage {
 				g.fillPolygon(arrow(green.botRightSlope, midX+130, midY+25, 8));
 			}
 
-            // Show clubs on the top left of the frame
+            // Left panel background
 			g.setColor(Color.black);
-            g.setFont(Window.f4);
+            g.fillRect(199, 0, 3, lg4.screenHeight);
+            g.setColor(new Color(69, 122, 77));
+            g.fillRect(0, 0, 200, lg4.screenHeight);
+
+            g.setColor(Color.black);
+            g.fillRect(20, 50, 160, 624);
+
+            // Sections on the left panel
+            g.setColor(new Color(101, 181, 113));
+            g.fillRect(24, 54, 152, 80);
+            g.fillRect(24, 138, 152, 120);
+            g.fillRect(24, 262, 152, 160);
+            g.fillRect(24, 426, 152, 120);
+            g.fillRect(24, 550, 152, 120);
+
+            g.setColor(Color.black);
+            g.setFont(Window.f3);
+            g.drawString("Club:", 40, 295);
+            g.drawPolygon(clubPointerArrow);
 			for (int i = 0; i < lg4.player.clubs.length; i++) {
 				Club c = lg4.player.clubs[i];
 				if (c.name.equals(lg4.club.name)) {
-					g.setFont(Window.f4b);
-					g.drawRect(20, 110 + i * 30, 5, 5);
+					g.setFont(Window.f3b);
+                    g.drawString(c.name, 60, 370);
+
+                    g.setFont(Window.f5);
+                    if (i > 0) {
+                        g.drawString(lg4.player.clubs[i-1].name, 40, 330);
+                    }
+                    if (i < lg4.player.clubs.length - 1) {
+                        g.drawString(lg4.player.clubs[i+1].name, 40, 405);
+                    }
+                    break;
 				}
-				g.drawString(c.name, 35, 120 + i * 30);
-				g.setFont(Window.f4);
 			}
-            g.fillRect(160, 0, 2, lg4.screenHeight);
-            g.fillRect(0, 400, 160, 2);
 
             // Show swing speed and ball spin
-            g.setColor(Color.black);
-            g.drawOval(40, 460, 51, 51);
-            g.drawPolygon(upArrowSpin);
-            g.drawPolygon(downArrowSpin);
-
             g.setColor(Color.white);
             g.fillOval(40, 460, 50, 50);
             g.setColor(Color.red);
-            g.fillOval(62, 485 - (int)(15*lg4.hitSpinUpDown), 7, 7);
+            g.fillOval(62, 481 - (int)(16*lg4.hitSpinUpDown), 7, 7);
 
             g.setColor(Color.black);
-            g.setFont(Window.f5);
+            g.drawOval(40, 460, 50, 50);
+            g.fillPolygon(upArrowSpin);
+            g.fillPolygon(downArrowSpin);
+
+            g.setFont(Window.f4);
+            g.drawString("Spin:", 30, 450);
+
+            g.drawString("Swing Speed:", 30, 575);
+            g.fillPolygon(leftArrowSwing);
+            g.fillPolygon(rightArrowSwing);
             if (lg4.swingSpeed <= 3) {
-                g.drawString("Fast Swing", 15, 550);
-                g.drawPolygon(leftArrowSwing);
+                g.drawString("Fast", 120, 610);
             } else if (lg4.swingSpeed == 4) {
-                g.drawString("Medium Swing", 15, 550);
-                g.drawPolygon(leftArrowSwing);
-                g.drawPolygon(rightArrowSwing);
+                g.drawString("Medium", 60, 610);
             } else {
-                g.drawString("Slow Swing", 15, 550);
-                g.drawPolygon(rightArrowSwing);
+                g.drawString("Slow", 40, 610);
             }
             
 
@@ -325,10 +349,11 @@ public class GraphicsStage {
                     g.fillPolygon(windArrowLeft);
                     break; 
             }
-            g.drawString("Wind " +lg4.hole.windSpeed+"m/s", 530, 50);
+            g.setFont(Window.f3);
+            g.drawString("Wind " +lg4.hole.windSpeed+"m/s", 30, 180);
 
             g.setFont(Window.f2);
-            g.drawString("Hole #"+lg4.holeNum+1, 800, 50);
+            g.drawString("Hole #"+(lg4.holeNum+1), 32, 102);
         }
     };
 
