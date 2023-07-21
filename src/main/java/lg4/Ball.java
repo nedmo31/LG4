@@ -88,6 +88,10 @@ public class Ball {
         // This is just for left/right spin
         double spinLR = targetSpinLR * pow;
 
+        if (xyAng == -1 * Math.PI) {
+            xyAng = Math.PI;
+        }
+
         xyAng += (.5 - Math.random())*((10-lg4.player.accuracy)/20.0);
         if (xyAng < 0 && xyAng > -1) {
             xyAng = -1*Math.PI + xyAng;
