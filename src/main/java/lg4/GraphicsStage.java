@@ -145,7 +145,18 @@ public class GraphicsStage {
         }
     };
 
-    public static GraphicsStage play = new GraphicsStage("Play", new Button[0], 2) {
+    public static GraphicsStage play = new GraphicsStage("Play", new Button[]{
+        new TextButtonWithMessage(new Rectangle(lg4.screenWidth-100,50,30,30), "X", Color.black, "exit course?"){
+            public void clickAction() {
+                lg4.gStage = GraphicsStage.mainMenu;
+                try {
+                    lg4.server.saveGolfer(lg4.player);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }, 2) {
 
         Polygon leftArrowSwing = arrow(2, 80, 620, 12),
                 rightArrowSwing = arrow(1, 120, 620, 12),
@@ -354,6 +365,8 @@ public class GraphicsStage {
 
             g.setFont(Window.f2);
             g.drawString("Hole #"+(lg4.holeNum+1), 32, 102);
+
+            super.paintGraphicsStage(g);
         }
     };
 

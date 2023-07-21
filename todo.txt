@@ -17,6 +17,8 @@ game
       - show stats
       - show clubs + upgrades
       - ball selection
+   - Add more navigation
+      - exit course to main menu
 
 
 server
