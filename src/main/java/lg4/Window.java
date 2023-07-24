@@ -239,12 +239,20 @@ public class Window extends JPanel {
                     else if (keyCode == KeyEvent.VK_E) { // show inventory
                         lg4.gStage = GraphicsStage.playerCard;
                     }
+                     else if (keyCode == KeyEvent.VK_Q) { // show inventory
+                        lg4.gStage = GraphicsStage.scoreboard;
+                    }
                     
 				} else if (lg4.gStage == GraphicsStage.playerCard) {
                     if (keyCode == KeyEvent.VK_ESCAPE || keyCode == KeyEvent.VK_E) {
                         lg4.gStage = GraphicsStage.play;
                     }
-				}
+				} 
+                else if (lg4.gStage == GraphicsStage.scoreboard) {
+                    if (keyCode == KeyEvent.VK_Q) { // show inventory
+                        lg4.gStage = GraphicsStage.play;
+                    }
+				} 
 				else if (lg4.gStage == GraphicsStage.loginPage) {
 					if (keyCode == 8) { // BACKSPACE
 						if (lg4.toName.length() > 0)
@@ -314,13 +322,13 @@ public class Window extends JPanel {
         //super.paintComponent(g);
 
         lg4.gStage.paintGraphicsStage(g);
+        //g.drawString("("+mx+","+my+")", mx, my);
 
         if (lg4.editor) {
             g.setColor(Color.black);
             for (Point p : lg4.points) {
                 g.fillOval(p.x, p.y, 3, 3);
             }
-            g.drawString("Hole #"+lg4.holeNum, 100, 100);
         }
     }
 

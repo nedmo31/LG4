@@ -18,22 +18,13 @@ public class Forest extends HoleSegment {
         super(a, treetopColor, .3, "forest");
     }
 
-    public Forest(Rectangle a) {
-        super(a, treetopColor, .3, "forest");
-    }
-
     public void paintArea(Graphics g) {
         g.setColor(treetopColor);
-        if (area instanceof Polygon) {
-            Polygon p = (Polygon)area;
-            g.fillPolygon(p);
-            g.setColor(Color.white);
-            for (int i = 0; i < p.npoints; i++) {
-                g.fillRect(p.xpoints[i]-2, p.ypoints[i]-2, 4, 4);
-            }
-        } else {
-            Rectangle r = (Rectangle)area;
-            g.fillRect(r.x, r.y, r.width, r.height);
+        Polygon p = (Polygon)area;
+        g.fillPolygon(p);
+        g.setColor(Color.white);
+        for (int i = 0; i < p.npoints; i++) {
+            g.fillRect(p.xpoints[i]-2, p.ypoints[i]-2, 4, 4);
         }
     }
 

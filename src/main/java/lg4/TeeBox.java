@@ -19,17 +19,12 @@ public class TeeBox extends HoleSegment {
     }
 
     public void paintArea(Graphics g) {
-        if (area instanceof Rectangle) {
-            int x = ((Rectangle)area).x;
-            int y = ((Rectangle)area).y;
-            int width = ((Rectangle)area).width;
-            int height = ((Rectangle)area).height;
-            g.setColor(teeBoxColor);
-            g.fillRect(x, y, width, height);
-            g.setColor(Color.white);
-            g.fillRect(x + width/2 - 2, y + 4, 4, 4);
-            g.fillRect(x + width/2 - 2, y +height - 8, 4, 4);
-        }
+        Rectangle rect = (Rectangle)area;
+        g.setColor(teeBoxColor);
+        g.fillRect(rect.x, rect.y, rect.width, rect.height);
+        g.setColor(Color.white);
+        //g.fillRect(x + width/2 - 2, y + 4, 4, 4);
+        //g.fillRect(x + width/2 - 2, y +height - 8, 4, 4);
     }
 
 }

@@ -34,3 +34,7 @@ web
   Make basic holes without hazards randomly. Easy enough
   Add trees, water, and sand with mouse
   
+7/24
+Make scoreboard (shows how you did at end)
+Hide Anon results
+update results when finish a course

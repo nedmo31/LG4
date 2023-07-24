@@ -61,6 +61,13 @@ public class lg4 {
     static int holeNum = 0;
 
     /**
+     * A silly way of keeping track of the score on each hole of 
+     * the current course because I didn't want to change either
+     * the hole or the course class.
+     */
+    static int[] holeScores = new int[]{0,0,0,0,0,0}; 
+
+    /**
      * The list of courses for the player to play
      */
     static CourseList courseList;
@@ -104,7 +111,7 @@ public class lg4 {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(12);
+                        Thread.sleep(11);
                         win.repaint();
                     } catch (Exception e) { }
                 }

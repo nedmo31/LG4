@@ -23,6 +23,7 @@ lg4\TeeBox.class
 lg4\Course.class
 lg4\Fairway.class
 lg4\ServerConnect$1.class
+lg4\GraphicsStage$19.class
 lg4\Ball.class
 lg4\GraphicsStage$16.class
 lg4\lg4$1.class
@@ -43,6 +44,7 @@ lg4\Hole$MapCreationTree.class
 lg4\Window$2.class
 lg4\GraphicsStage$17.class
 lg4\GraphicsStage$2.class
+lg4\GraphicsStage$20.class
 lg4\TextButtonWithMessage.class
 lg4\Forest.class
 lg4\Sand.class

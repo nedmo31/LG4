@@ -245,10 +245,7 @@ public class GraphicsStage {
                 // g.setColor(new Color(240, 100, 100, 220));
                 // g.fillOval((int)(800), 610, 15, 15);
             }
-            
-
-            
-			if (lg4.hitStatus == lg4.PUTTING || lg4.hitStatus == lg4.PUTT_ROLL) {
+			else if (lg4.hitStatus == lg4.PUTTING || lg4.hitStatus == lg4.PUTT_ROLL) {
                 Green green = (Green)lg4.hole.segments[lg4.hole.segments.length-1];
 				g.setColor(Color.black);
                 int midX = lg4.screenWidth/2;
@@ -300,22 +297,16 @@ public class GraphicsStage {
             g.setFont(Window.f3);
             g.drawString("Club:", 40, 295);
             g.drawPolygon(clubPointerArrow);
-			for (int i = 0; i < lg4.player.clubs.length; i++) {
-				Club c = lg4.player.clubs[i];
-				if (c.name.equals(lg4.club.name)) {
-					g.setFont(Window.f3b);
-                    g.drawString(c.name, 60, 370);
+            g.setFont(Window.f3b);
+            g.drawString(lg4.club.name, 60, 370);
 
-                    g.setFont(Window.f5);
-                    if (i > 0) {
-                        g.drawString(lg4.player.clubs[i-1].name, 40, 330);
-                    }
-                    if (i < lg4.player.clubs.length - 1) {
-                        g.drawString(lg4.player.clubs[i+1].name, 40, 405);
-                    }
-                    break;
-				}
-			}
+            g.setFont(Window.f5);
+            if (lg4.player.clubIndex > 0) {
+                g.drawString(lg4.player.clubs[lg4.player.clubIndex-1].name, 40, 330);
+            }
+            if (lg4.player.clubIndex < lg4.player.clubs.length - 1) {
+                g.drawString(lg4.player.clubs[lg4.player.clubIndex+1].name, 40, 405);
+            }
 
             // Show swing speed and ball spin
             g.setColor(Color.white);
@@ -422,7 +413,7 @@ public class GraphicsStage {
                     lg4.player.fixShopCosts();
                 }
             }
-        }, }, 1) {
+        }, }, 3) {
         void paintGraphicsStage(java.awt.Graphics g) {
             g.setColor(new Color(29, 153, 66));
             g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
@@ -489,6 +480,69 @@ public class GraphicsStage {
 			for (int i = 0; i < lg4.player.clubs.length; i++) {
 				g.drawString(lg4.player.clubs[i].name, 360, 315 + i * 38);
 			}
+            super.paintGraphicsStage(g);
+        }
+    };
+
+    public static GraphicsStage scoreboard = new GraphicsStage("Scoreboard", new Button[] {
+        new TextButtonWithMessage(new Rectangle(1040,210,40,40), "X", Color.black, "return to menu"){
+            public void clickAction() {
+                lg4.gStage = GraphicsStage.mainMenu;
+            }
+        } }, 4) {
+        void paintGraphicsStage(java.awt.Graphics g) {
+            g.setColor(new Color(29, 153, 66));
+            g.fillRect(0, 0, lg4.screenWidth, lg4.screenHeight);
+            for (HoleSegment hs : lg4.hole.segments) {
+                hs.paintArea(g);
+            }
+            g.setColor(new Color(160, 160, 80));
+			g.fillRect(295, 145, 810, 510);
+			g.setColor(new Color(204, 204, 102));
+			g.fillRect(300, 150, 800, 500);
+
+            g.setColor(new Color(160, 160, 80));
+            // horizontal lines
+            g.fillRect(300, 300, 800, 8);
+            g.fillRect(300, 390, 800, 8);
+            g.fillRect(300, 480, 800, 8);
+            g.fillRect(300, 570, 800, 8);
+            // vertical lines
+            g.fillRect(450, 300, 8, 350);
+            g.fillRect(540, 300, 8, 350);
+            g.fillRect(630, 300, 8, 350);
+            g.fillRect(720, 300, 8, 350);
+            g.fillRect(810, 300, 8, 350);
+            g.fillRect(900, 300, 8, 350);
+            g.fillRect(990, 300, 8, 350);
+
+            g.setColor(Color.black);
+            g.setFont(Window.f1);
+            g.drawString(lg4.course.name, 325, 260);
+
+            g.setFont(Window.f2);
+            g.drawString("Hole", 325, 368);
+            g.drawString("Score", 325, 456);
+            g.drawString("Par", 325, 546);
+
+            g.drawString("1", 485, 368);
+            g.drawString("2", 575, 368);
+            g.drawString("3", 665, 368);
+            g.drawString("4", 755, 368);
+            g.drawString("5", 845, 368);
+            g.drawString("6", 935, 368);
+            g.drawString("Full", 1015, 368);
+            
+            int totalScore = 0, totalPar = 0;
+            for (int i = 0; i < lg4.holeScores.length; i++) {
+                g.drawString(""+lg4.holeScores[i], 485 + 90*i, 456);
+                g.drawString(""+lg4.course.holes[i].par, 485 + 90*i, 546);
+                totalScore += lg4.holeScores[i];
+                totalPar += lg4.course.holes[i].par;
+            }
+            g.drawString(""+totalScore, 1035, 456);
+            g.drawString(""+totalPar, 1028, 546);
+
             super.paintGraphicsStage(g);
         }
     };

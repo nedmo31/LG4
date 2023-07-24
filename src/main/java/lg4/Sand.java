@@ -23,7 +23,6 @@ public class Sand extends HoleSegment {
     public void paintArea(Graphics g) {
         g.setColor(color);
         
-        // Do this!
         // First block is for polygons
         if (area instanceof Polygon) {
             g.fillPolygon((Polygon)area);

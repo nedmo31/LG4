@@ -28,24 +28,33 @@ class Course {
 
     public int playCourse(int holesToPlay) {
         holesToPlay = holesToPlay > DEFAULT_HOLES ? DEFAULT_HOLES : holesToPlay;
+        for (int i = 0; i < DEFAULT_HOLES; i++) { lg4.holeScores[i] = 0; }
+        
         lg4.course = this;
         int strokes = 0;
         lg4.win.repaint();
         for (int i = 0; i < holesToPlay; i++) {
             lg4.hole = holes[i];
-            strokes += holes[i].playHole();
+            int holeStrokes = holes[i].playHole();
+            lg4.holeScores[i] = holeStrokes;
+            strokes += holeStrokes;
             lg4.holeNum++;
         }
         if (id == -1) { return strokes; }
         Score results = new Score(lg4.player.name, id, strokes);
         try {
+            if (lg4.player.name.equals("Anon")) { lg4.gStage = GraphicsStage.mainMenu; return strokes; }
             lg4.server.uploadScore(results);
             lg4.server.saveGolfer(lg4.player);
             System.out.println("Uploaded results to server.");
+            
+            // get new results to update the leaderboard
+            lg4.course = lg4.courseList.courses.get(0);
+            lg4.hole = lg4.course.holes[0];
         } catch(Exception e) {
             System.out.println("Couldn't upload results to server.");
         }
-        lg4.gStage = GraphicsStage.mainMenu;
+        lg4.gStage = GraphicsStage.scoreboard;
         return strokes;
     }
 

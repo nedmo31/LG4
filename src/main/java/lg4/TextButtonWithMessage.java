@@ -23,7 +23,7 @@ public class TextButtonWithMessage extends TextButton {
             
         } 
         g.setColor(c); 
-        g.drawString(text, area.x+10, area.y+area.height/2);
+        g.drawString(text, area.x+10, area.y+(area.height >> 1));
     }
     
 }
